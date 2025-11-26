@@ -11,7 +11,7 @@ interface InitialState {
     description: string,
     duration_minutes: number,
     created_by_id: string | undefined
-  ) => Promise<void>;
+  ) => Promise<{ message: string; exam: Exam }>;
   deleteExam: (id: string) => Promise<void>;
 }
 
@@ -46,6 +46,7 @@ export const useExamStore = create<InitialState>((set) => ({
         exams: [...state.exams, newExam],
         isLoading: false,
       }));
+      return newExam;
     } catch (error: unknown) {
       if (error instanceof Error) {
         set({ error: error.message, isLoading: false });

@@ -15,11 +15,13 @@ import {
 import { useAuthStore } from "@/stores/authStore";
 import { useRouter } from "next/navigation";
 import CreateExamModal from "../../../components/CreateExamModal";
+import { Toast } from "@/components/Toast";
 
 export default function TeacherDashboard() {
   const { logout } = useAuthStore();
   const router = useRouter();
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const [toastMessage, setToastMessage] = useState<string | null>(null);
 
   const handleLogout = async () => {
     await logout();
@@ -64,9 +66,13 @@ export default function TeacherDashboard() {
   return (
     <div className="min-h-screen bg-gray-100">
       <CreateExamModal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
+        isOpen={isOpen}
+        onClose={() => setIsOpen(false)}
+        onSuccess={(msg) => setToastMessage(msg)}
       />
+      {toastMessage && (
+        <Toast message={toastMessage} onClose={() => setToastMessage(null)} />
+      )}
       {/* Dashboard Header */}
       <header className="border-b border-gray-200 bg-white shadow-sm">
         <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -132,7 +138,7 @@ export default function TeacherDashboard() {
               Welcome back, Teacher!
             </h1>
             <button
-              onClick={() => setIsModalOpen(true)}
+              onClick={() => setIsOpen(true)}
               className="mt-4 flex items-center justify-center rounded-lg bg-blue-600 px-5 py-2.5 text-sm font-medium text-white shadow-md transition-all hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-300 sm:mt-0"
             >
               <PlusCircleIcon />

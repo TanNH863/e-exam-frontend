@@ -5,6 +5,7 @@ import { useAuthStore } from "@/stores/authStore";
 import { BookOpenIcon, XIcon } from "@/icons/icons";
 import { useExamStore } from "@/stores/examStore";
 import { ExamStatus } from "@/dto/exam.dto";
+import DateTimePicker from "@/components/DateTimePicker";
 
 interface CreateExamModalProps {
   isOpen: boolean;
@@ -99,43 +100,7 @@ export default function CreateExamModal({
               >
                 Start Time
               </label>
-              <div className="flex gap-2">
-                <input
-                  type="date"
-                  name="startDate"
-                  id="startDate"
-                  value={startTime.toISOString().split("T")[0]}
-                  onChange={(e) => {
-                    const newDate = new Date(startTime);
-                    const [year, month, day] = e.target.value
-                      .split("-")
-                      .map(Number);
-                    newDate.setFullYear(year);
-                    newDate.setMonth(month - 1);
-                    newDate.setDate(day);
-                    setStartTime(newDate);
-                  }}
-                  className="p-2 mt-1 block w-full rounded-md border-1 border-black focus:border-blue-500 focus:ring-blue-500 sm:text-sm text-black"
-                  required
-                />
-                <input
-                  type="time"
-                  name="startTime"
-                  id="startTime"
-                  value={startTime.toTimeString().slice(0, 5)}
-                  onChange={(e) => {
-                    const newDate = new Date(startTime);
-                    const [hours, minutes] = e.target.value
-                      .split(":")
-                      .map(Number);
-                    newDate.setHours(hours);
-                    newDate.setMinutes(minutes);
-                    setStartTime(newDate);
-                  }}
-                  className="p-2 mt-1 block w-full rounded-md border-1 border-black focus:border-blue-500 focus:ring-blue-500 sm:text-sm text-black"
-                  required
-                />
-              </div>
+              <DateTimePicker value={startTime} onChange={setStartTime} />
             </div>
             <div>
               <label

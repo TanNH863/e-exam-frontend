@@ -34,7 +34,11 @@ export default function Login() {
   }, [user, router]);
 
   if (user) {
-    return null;
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-gray-100">
+        <p className="text-gray-600">Loading...</p>
+      </div>
+    );
   }
 
   return (

@@ -16,6 +16,7 @@ import { useAuthStore } from "@/stores/authStore";
 import { useRouter } from "next/navigation";
 import CreateExamModal from "../../../components/CreateExamModal";
 import { Toast } from "@/components/Toast";
+import TopNavigationBar from "@/components/TopNavigationBar";
 
 export default function TeacherDashboard() {
   const { logout } = useAuthStore();
@@ -27,6 +28,13 @@ export default function TeacherDashboard() {
     await logout();
     router.replace("/login");
   };
+
+  const navLinks = [
+    { href: "/teacher/dashboard", label: "Dashboard", isActive: true },
+    { href: "/teacher/manage", label: "Manage Exams", isActive: false },
+    { href: "/teacher/question-bank", label: "Question Bank", isActive: false },
+    { href: "/teacher/grading", label: "Grading", isActive: false },
+  ];
 
   const mockTeacherStats = {
     activeExams: 5,
@@ -73,61 +81,7 @@ export default function TeacherDashboard() {
       {toastMessage && (
         <Toast message={toastMessage} onClose={() => setToastMessage(null)} />
       )}
-      {/* Dashboard Header */}
-      <header className="border-b border-gray-200 bg-white shadow-sm">
-        <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="flex h-16 items-center justify-between">
-            <div className="flex items-center">
-              <div className="flex flex-shrink-0 items-center font-bold text-2xl text-blue-600">
-                <BookOpenIcon />
-                <span>ExamPlatform</span>
-              </div>
-              <nav className="hidden md:ml-10 md:flex md:space-x-8">
-                <a
-                  href="#"
-                  className="inline-flex items-center border-b-2 border-blue-500 px-1 pt-1 text-sm font-medium text-gray-900"
-                >
-                  Dashboard
-                </a>
-                <a
-                  href="#"
-                  className="inline-flex items-center border-b-2 border-transparent px-1 pt-1 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700"
-                >
-                  Manage Exams
-                </a>
-                <a
-                  href="#"
-                  className="inline-flex items-center border-b-2 border-transparent px-1 pt-1 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700"
-                >
-                  Question Bank
-                </a>
-                <a
-                  href="#"
-                  className="inline-flex items-center border-b-2 border-transparent px-1 pt-1 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700"
-                >
-                  Grading
-                </a>
-              </nav>
-            </div>
-            <div className="flex items-center">
-              <button
-                type="button"
-                className="mr-4 rounded-full bg-white p-1 text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-              >
-                <span className="sr-only">View notifications</span>
-                <BellIcon />
-              </button>
-              <button
-                onClick={handleLogout}
-                className="flex items-center rounded-lg bg-gray-100 px-4 py-2 text-sm font-medium text-gray-700 transition-all hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-              >
-                <LogoutIcon />
-                Logout
-              </button>
-            </div>
-          </div>
-        </div>
-      </header>
+      <TopNavigationBar navLinks={navLinks} />
 
       {/* Main Content */}
       <main className="py-10">

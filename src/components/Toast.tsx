@@ -8,7 +8,7 @@ interface ToastProps {
   onClose: () => void;
 }
 
-export const Toast: React.FC<ToastProps> = ({ message, onClose }) => {
+export default function Toast({ message, onClose }: ToastProps) {
   const [visible, setVisible] = useState(true);
 
   useEffect(() => {
@@ -37,4 +37,4 @@ export const Toast: React.FC<ToastProps> = ({ message, onClose }) => {
       </button>
     </div>
   );
-};
+}

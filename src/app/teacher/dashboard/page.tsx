@@ -1,32 +1,47 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import {
-  BarChartIcon,
-  BookOpenIcon,
-  BellIcon,
   ClipboardCheckIcon,
-  EditIcon,
   FileTextIcon,
-  LogoutIcon,
   PlusCircleIcon,
   UsersIcon,
 } from "@/icons/icons";
 import { useAuthStore } from "@/stores/authStore";
-import { useRouter } from "next/navigation";
-import CreateExamModal from "../../../components/CreateExamModal";
-import { Toast } from "@/components/Toast";
+import { useExamStore } from "@/stores/examStore";
+import CreateExamModal from "@/components/CreateExamModal";
+import Toast from "@/components/Toast";
 import TopNavigationBar from "@/components/TopNavigationBar";
+import ExamsList from "@/components/ExamsList";
+import { Exam } from "@/dto/exam.dto";
+import { mockTeacherStats, mockGradingQueue } from "../../../../mock.data";
 
 export default function TeacherDashboard() {
-  const { logout } = useAuthStore();
+  // const { logout } = useAuthStore();
+  const { getAllExams } = useExamStore();
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
+  const [exams, setExams] = useState<Exam[]>([]);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 
-  const handleLogout = async () => {
-    await logout();
-    router.replace("/login");
+  useEffect(() => {
+    fetchExams();
+  }, []);
+
+  // const handleLogout = async () => {
+  //   await logout();
+  //   router.replace("/login");
+  // };
+
+  const fetchExams = async () => {
+    try {
+      const exams = await getAllExams();
+      setExams(exams);
+      console.log("Fetched exams:", exams);
+    } catch (error) {
+      console.error("Error fetching exams:", error);
+    }
   };
 
   const navLinks = [
@@ -34,41 +49,6 @@ export default function TeacherDashboard() {
     { href: "/teacher/manage", label: "Manage Exams", isActive: false },
     { href: "/teacher/question-bank", label: "Question Bank", isActive: false },
     { href: "/teacher/grading", label: "Grading", isActive: false },
-  ];
-
-  const mockTeacherStats = {
-    activeExams: 5,
-    needsGrading: 24,
-    totalStudents: 150,
-  };
-
-  const mockTeacherExams = [
-    {
-      id: 1,
-      title: "Mathematics 101 - Midterm",
-      status: "Active",
-      submissions: 30,
-      total: 35,
-    },
-    {
-      id: 2,
-      title: "History of Art - Final Exam",
-      status: "Draft",
-      submissions: 0,
-      total: 40,
-    },
-    {
-      id: 3,
-      title: "Physics 101 - Quiz 1",
-      status: "Graded",
-      submissions: 32,
-      total: 32,
-    },
-  ];
-
-  const mockGradingQueue = [
-    { id: 1, title: "English Literature - Essay", count: 9 },
-    { id: 2, title: "Physics 101 - Short Answers", count: 15 },
   ];
 
   return (
@@ -152,46 +132,7 @@ export default function TeacherDashboard() {
           <section className="mt-12">
             <h2 className="text-2xl font-semibold text-gray-900">My Exams</h2>
             <div className="mt-4 overflow-hidden rounded-xl bg-white shadow-lg">
-              <ul role="list" className="divide-y divide-gray-200">
-                {mockTeacherExams.map((exam) => (
-                  <li
-                    key={exam.id}
-                    className="flex flex-col items-start justify-between p-6 sm:flex-row sm:items-center"
-                  >
-                    <div className="flex min-w-0 flex-1 items-center">
-                      <div className="min-w-0 flex-1">
-                        <p className="truncate text-base font-medium text-gray-900">
-                          {exam.title}
-                        </p>
-                        <p className="flex items-center text-sm text-gray-500">
-                          <span
-                            className={`mr-2 inline-block h-2 w-2 rounded-full ${
-                              exam.status === "Active"
-                                ? "bg-green-500"
-                                : exam.status === "Draft"
-                                ? "bg-yellow-500"
-                                : "bg-gray-400"
-                            }`}
-                          ></span>
-                          {exam.status}
-                          <span className="mx-2">|</span>
-                          Submissions: {exam.submissions} / {exam.total}
-                        </p>
-                      </div>
-                    </div>
-                    <div className="mt-4 flex flex-shrink-0 space-x-3 sm:mt-0 sm:ml-5">
-                      <button className="flex items-center rounded-lg bg-white px-4 py-2 text-sm font-medium text-gray-700 ring-1 ring-inset ring-gray-300 transition-all hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                        <EditIcon />
-                        Edit
-                      </button>
-                      <button className="flex items-center rounded-lg bg-white px-4 py-2 text-sm font-medium text-blue-600 ring-1 ring-inset ring-blue-300 transition-all hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                        <BarChartIcon />
-                        Analytics
-                      </button>
-                    </div>
-                  </li>
-                ))}
-              </ul>
+              <ExamsList exams={exams} />
             </div>
           </section>
 

@@ -14,7 +14,7 @@ interface InitialState {
     status: ExamStatus,
     created_by_id: string | undefined
   ) => Promise<{ message: string; exam: Exam }>;
-  getAllExam: () => Promise<Exam[]>;
+  getAllExams: () => Promise<Exam[]>;
   deleteExam: (id: string) => Promise<void>;
 }
 
@@ -67,7 +67,7 @@ export const useExamStore = create<InitialState>((set) => ({
       }
     }
   },
-  getAllExam: async () => {
+  getAllExams: async () => {
     set({ isLoading: true, error: null });
     try {
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/exam`, {

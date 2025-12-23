@@ -9,7 +9,7 @@ export const BookOpenIcon = () => (
     strokeWidth="2"
     strokeLinecap="round"
     strokeLinejoin="round"
-    className="mr-2 h-5 w-5"
+    className="mr-2 h-5 w-5 text-gray-500"
   >
     <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
     <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
@@ -176,7 +176,7 @@ export const CheckCircleIcon = () => (
     strokeWidth="2"
     strokeLinecap="round"
     strokeLinejoin="round"
-    className="mr-1.5 h-4 w-4 text-green-600"
+    className="mr-1.5 h-4 w-4"
   >
     <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
     <polyline points="22 4 12 14.01 9 11.01"></polyline>

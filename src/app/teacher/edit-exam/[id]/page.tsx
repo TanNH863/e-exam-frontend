@@ -1,12 +1,16 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   PlusCircleIcon,
   BookOpenIcon,
   ClockIcon,
   CheckCircleIcon,
   XIcon,
-} from "../../../icons/icons";
+} from "@/icons/icons";
+import { useParams } from "next/navigation";
+import { useExamStore } from "@/stores/examStore";
+import { ExamInfo } from "@/dto/exam.dto";
+import TopNavigationBar from "@/components/TopNavigationBar";
 
 type Question = {
   text: string;
@@ -15,10 +19,31 @@ type Question = {
   correctAnswer: string;
 };
 
-export default function CreateExamPage() {
-  const [examTitle, setExamTitle] = useState("");
-  const [examDuration, setExamDuration] = useState(60);
+export default function EditExamPage() {
+  const params = useParams<{ id: string }>();
+  const { getExamInfo } = useExamStore();
+  const [exam, setExam] = useState<ExamInfo>();
   const [questions, setQuestions] = useState<Question[]>([]);
+
+  const navLinks = [
+    { href: "/teacher/dashboard", label: "Dashboard", isActive: false },
+    { href: "/teacher/manage", label: "Manage Exams", isActive: true },
+    { href: "/teacher/question-bank", label: "Question Bank", isActive: false },
+    { href: "/teacher/grading", label: "Grading", isActive: false },
+  ];
+  useEffect(() => {
+    fetchExamInfo();
+  }, []);
+
+  const fetchExamInfo = async () => {
+    try {
+      const examInfo = await getExamInfo(params.id);
+      setExam(examInfo);
+      console.log("Fetched exam info:", examInfo);
+    } catch (error) {
+      console.error("Error fetching exam info:", error);
+    }
+  };
 
   const addQuestion = () => {
     // For now, we'll add a placeholder question.
@@ -39,20 +64,21 @@ export default function CreateExamPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-100">
+      <TopNavigationBar navLinks={navLinks} />
       {/* Main Content */}
       <main className="py-10">
         <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           {/* Page Title & Actions */}
           <div className="flex flex-col items-start justify-between sm:flex-row sm:items-center">
             <h1 className="text-3xl font-bold tracking-tight text-gray-900">
-              Create New Exam
+              Exam Editor
             </h1>
             <div className="flex space-x-2">
               <button className="mt-4 flex items-center justify-center rounded-lg bg-gray-300 px-5 py-2.5 text-sm font-medium text-gray-800 shadow-md transition-all hover:bg-gray-400 focus:outline-none focus:ring-4 focus:ring-gray-200 sm:mt-0">
                 Save as draft
               </button>
-              <button className="mt-4 flex items-center justify-center rounded-lg bg-blue-600 px-5 py-2.5 text-sm font-medium text-white shadow-md transition-all hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-300 sm:mt-0">
+              <button className="mt-4 flex items-center justify-center rounded-lg bg-green-600 px-5 py-2.5 text-sm font-medium text-white shadow-md transition-all hover:bg-green-700 focus:outline-none focus:ring-4 focus:ring-blue-300 sm:mt-0">
                 <CheckCircleIcon />
                 Publish
               </button>
@@ -75,15 +101,19 @@ export default function CreateExamPage() {
                   </label>
                   <div className="mt-2 flex items-center">
                     <BookOpenIcon />
-                    <input
-                      type="text"
-                      name="exam-title"
-                      id="exam-title"
-                      className="ml-3 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm text-black"
-                      value={examTitle}
-                      onChange={(e) => setExamTitle(e.target.value)}
-                      placeholder="e.g., Mid-Term Chemistry Exam"
-                    />
+                    <p className="text-black">{exam?.title}</p>
+                  </div>
+                </div>
+                <div>
+                  <label
+                    htmlFor="exam-start-time"
+                    className="block text-sm font-medium text-gray-700"
+                  >
+                    Start time
+                  </label>
+                  <div className="mt-2 flex items-center">
+                    <ClockIcon />
+                    <p className="text-black">{exam?.start_time.toString()}</p>
                   </div>
                 </div>
                 <div>
@@ -95,16 +125,19 @@ export default function CreateExamPage() {
                   </label>
                   <div className="mt-2 flex items-center">
                     <ClockIcon />
-                    <input
-                      type="number"
-                      name="exam-duration"
-                      id="exam-duration"
-                      className="ml-3 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm text-black"
-                      value={examDuration}
-                      onChange={(e) =>
-                        setExamDuration(parseInt(e.target.value))
-                      }
-                    />
+                    <p className="text-black">{exam?.duration_minutes}</p>
+                  </div>
+                </div>
+                <div>
+                  <label
+                    htmlFor="exam-description"
+                    className="block text-sm font-medium text-gray-700"
+                  >
+                    Description
+                  </label>
+                  <div className="mt-2 flex items-center">
+                    <BookOpenIcon />
+                    <p className="text-black">{exam?.description}</p>
                   </div>
                 </div>
               </div>
@@ -117,7 +150,7 @@ export default function CreateExamPage() {
               <h2 className="text-xl font-semibold text-gray-800">Questions</h2>
               <button
                 onClick={addQuestion}
-                className="flex items-center justify-center rounded-lg bg-green-600 px-5 py-2.5 text-sm font-medium text-white shadow-md transition-all hover:bg-green-700 focus:outline-none focus:ring-4 focus:ring-green-300"
+                className="flex items-center justify-center rounded-lg bg-blue-600 px-5 py-2.5 text-sm font-medium text-white shadow-md transition-all hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-green-300"
               >
                 <PlusCircleIcon />
                 Add Question

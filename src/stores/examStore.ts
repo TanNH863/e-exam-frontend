@@ -1,4 +1,4 @@
-import { Exam, ExamStatus } from "@/dto/exam.dto";
+import { Exam, ExamInfo, ExamStatus } from "@/dto/exam.dto";
 import { create } from "zustand";
 
 interface InitialState {
@@ -15,6 +15,7 @@ interface InitialState {
     created_by_id: string | undefined
   ) => Promise<{ message: string; exam: Exam }>;
   getAllExams: () => Promise<Exam[]>;
+  getExamInfo: (id: string) => Promise<ExamInfo>;
   deleteExam: (id: string) => Promise<void>;
 }
 
@@ -73,6 +74,31 @@ export const useExamStore = create<InitialState>((set) => ({
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/exam`, {
         method: "GET",
       });
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Failed to fetch exams");
+      }
+      const exams = await response.json();
+      set({ exams, isLoading: false });
+      return exams;
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        set({ error: error.message, isLoading: false });
+      } else {
+        set({ error: "An unknown error occurred", isLoading: false });
+      }
+      return [];
+    }
+  },
+  getExamInfo: async (id) => {
+    set({ isLoading: true, error: null });
+    try {
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/exam/${id}`,
+        {
+          method: "GET",
+        }
+      );
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(errorData.message || "Failed to fetch exams");

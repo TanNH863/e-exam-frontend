@@ -12,10 +12,9 @@ import { useAuthStore } from "@/stores/authStore";
 import { useExamStore } from "@/stores/examStore";
 import CreateExamModal from "@/components/CreateExamModal";
 import Toast from "@/components/Toast";
-import TopNavigationBar from "@/components/TopNavigationBar";
 import ExamsList from "@/components/ExamsList";
 import { Exam } from "@/dto/exam.dto";
-import { mockTeacherStats, mockGradingQueue } from "../../../../mock.data";
+import { mockTeacherStats, mockGradingQueue } from "../../../../../mock.data";
 
 export default function TeacherDashboard() {
   // const { logout } = useAuthStore();
@@ -44,15 +43,8 @@ export default function TeacherDashboard() {
     }
   };
 
-  const navLinks = [
-    { href: "/teacher/dashboard", label: "Dashboard", isActive: true },
-    { href: "/teacher/manage", label: "Manage Exams", isActive: false },
-    { href: "/teacher/question-bank", label: "Question Bank", isActive: false },
-    { href: "/teacher/grading", label: "Grading", isActive: false },
-  ];
-
   return (
-    <div className="min-h-screen bg-gray-100">
+    <>
       <CreateExamModal
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
@@ -61,7 +53,6 @@ export default function TeacherDashboard() {
       {toastMessage && (
         <Toast message={toastMessage} onClose={() => setToastMessage(null)} />
       )}
-      <TopNavigationBar navLinks={navLinks} />
 
       {/* Main Content */}
       <main className="py-10">
@@ -164,6 +155,6 @@ export default function TeacherDashboard() {
           </section>
         </div>
       </main>
-    </div>
+    </>
   );
 }

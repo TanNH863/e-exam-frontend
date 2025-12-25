@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import { useExamStore } from "@/stores/examStore";
 import { Exam } from "@/dto/exam.dto";
 import ExamsList from "@/components/ExamsList";
-import TopNavigationBar from "@/components/TopNavigationBar";
 
 export default function ManageExams() {
   const { getAllExams } = useExamStore();
@@ -32,8 +31,7 @@ export default function ManageExams() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gray-100">
-      <TopNavigationBar navLinks={navLinks} />
+    <>
       <main className="py-10">
         <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <section>
@@ -44,6 +42,6 @@ export default function ManageExams() {
           </section>
         </div>
       </main>
-    </div>
+    </>
   );
 }

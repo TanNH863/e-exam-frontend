@@ -10,7 +10,6 @@ import {
 import { useParams } from "next/navigation";
 import { useExamStore } from "@/stores/examStore";
 import { ExamInfo } from "@/dto/exam.dto";
-import TopNavigationBar from "@/components/TopNavigationBar";
 
 type Question = {
   text: string;
@@ -25,12 +24,6 @@ export default function EditExamPage() {
   const [exam, setExam] = useState<ExamInfo>();
   const [questions, setQuestions] = useState<Question[]>([]);
 
-  const navLinks = [
-    { href: "/teacher/dashboard", label: "Dashboard", isActive: false },
-    { href: "/teacher/manage", label: "Manage Exams", isActive: true },
-    { href: "/teacher/question-bank", label: "Question Bank", isActive: false },
-    { href: "/teacher/grading", label: "Grading", isActive: false },
-  ];
   useEffect(() => {
     fetchExamInfo();
   }, []);
@@ -64,8 +57,7 @@ export default function EditExamPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100">
-      <TopNavigationBar navLinks={navLinks} />
+    <>
       {/* Main Content */}
       <main className="py-10">
         <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -209,6 +201,6 @@ export default function EditExamPage() {
           </section>
         </div>
       </main>
-    </div>
+    </>
   );
 }

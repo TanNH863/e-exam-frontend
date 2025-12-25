@@ -1,17 +1,13 @@
 "use client";
 
 import {
-  BookOpenIcon,
-  BellIcon,
   CalendarIcon,
   CheckCircleIcon,
   ClipboardListIcon,
   ClockIcon,
-  LogoutIcon,
 } from "@/icons/icons";
 import { useAuthStore } from "@/stores/authStore";
 import { useRouter } from "next/navigation";
-import TopNavigationBar from "@/components/TopNavigationBar";
 
 export default function StudentDashboard() {
   const { logout } = useAuthStore();
@@ -21,12 +17,6 @@ export default function StudentDashboard() {
     await logout();
     router.push("/login");
   };
-
-  const navLinks = [
-    { href: "/student/dashboard", label: "Dashboard", isActive: true },
-    { href: "/student/exams", label: "My Exams", isActive: false },
-    { href: "/student/profile", label: "Profile", isActive: false },
-  ];
 
   const mockUpcomingExams = [
     {
@@ -61,9 +51,7 @@ export default function StudentDashboard() {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-100">
-      <TopNavigationBar navLinks={navLinks} />
-
+    <>
       {/* Main Content */}
       <main className="py-10">
         <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -162,6 +150,6 @@ export default function StudentDashboard() {
           </section>
         </div>
       </main>
-    </div>
+    </>
   );
 }

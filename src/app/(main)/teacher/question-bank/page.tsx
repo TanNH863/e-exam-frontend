@@ -1,47 +1,35 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   PlusCircleIcon,
   TrashIcon,
   PencilIcon,
+  SearchIcon,
 } from "@/icons/icons";
-
-type Question = {
-  id: string;
-  text: string;
-  type: "multiple-choice" | "true-false" | "short-answer";
-  options?: string[];
-  correctAnswer: string;
-};
-
-const initialQuestions: Question[] = [
-  {
-    id: "1",
-    text: "What is the powerhouse of the cell?",
-    type: "multiple-choice",
-    options: ["Mitochondria", "Nucleus", "Ribosome", "Chloroplast"],
-    correctAnswer: "Mitochondria",
-  },
-  {
-    id: "2",
-    text: "The Earth is flat.",
-    type: "true-false",
-    correctAnswer: "False",
-  },
-  {
-    id: "3",
-    text: "What is the formula for water?",
-    type: "short-answer",
-    correctAnswer: "H2O",
-  },
-];
+import { useQuestionStore } from "@/stores/questionStore";
+import { Question } from "@/dto/question.dto";
 
 export default function QuestionBankPage() {
-  const [questions, setQuestions] = useState<Question[]>(initialQuestions);
+  const { getAllQuestions } = useQuestionStore();
+  const [questions, setQuestions] = useState<Question[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
 
+  useEffect(() => {
+    fetchQuestions();
+  }, []);
+
+  const fetchQuestions = async () => {
+    try {
+      const questionList = await getAllQuestions();
+      setQuestions(questionList);
+      console.log("Fetched questions:", questionList);
+    } catch (error) {
+      console.error("Error fetching exams:", error);
+    }
+  };
+
   const filteredQuestions = questions.filter((question) =>
-    question.text.toLowerCase().includes(searchTerm.toLowerCase())
+    question.question_text.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (
@@ -63,11 +51,14 @@ export default function QuestionBankPage() {
               <h2 className="text-xl font-semibold text-gray-800">
                 All Questions
               </h2>
-              <div className="w-1/3">
+              <div className="w-1/3 relative">
+                <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+                  <SearchIcon />
+                </div>
                 <input
                   type="text"
                   placeholder="Search questions..."
-                  className="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm text-black"
+                  className="p-2 pl-10 block w-full rounded-md border-black shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm text-black"
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                 />
@@ -82,24 +73,27 @@ export default function QuestionBankPage() {
                 >
                   <div className="flex items-start justify-between">
                     <p className="text-lg font-medium text-gray-800">
-                      {`Q${index + 1}: ${question.text}`}
+                      {`Q${index + 1}: ${question.question_text}`}
                     </p>
                     <div className="flex space-x-2">
-                      <button className="p-2 bg-blue-500 rounded-lg text-white hover:bg-blue-700">
+                      <button className="p-2 bg-blue-500 rounded-lg text-white hover:bg-blue-700 hover:cursor-pointer">
                         <PencilIcon />
                       </button>
-                      <button className="p-2 bg-red-500 rounded-lg text-white hover:bg-red-700">
+                      <button className="p-2 bg-red-500 rounded-lg text-white hover:bg-red-700 hover:cursor-pointer">
                         <TrashIcon />
                       </button>
                     </div>
                   </div>
                   <div className="mt-2 text-sm text-gray-600">
-                    <span className="font-semibold">Type:</span> {question.type}
+                    <span className="font-semibold">Type:</span>{" "}
+                    {question.question_type}
                   </div>
                   <div className="mt-4">
-                    {question.type === "multiple-choice" ? (
+                    {question.question_type === "MULTIPLE_CHOICE" ? (
                       <div className="space-y-2">
-                        <p className="text-sm font-semibold text-gray-600">Options:</p>
+                        <p className="text-sm font-semibold text-gray-600">
+                          Options:
+                        </p>
                         {question.options?.map((option, i) => (
                           <div key={i} className="flex items-center pl-4">
                             <input
@@ -107,14 +101,14 @@ export default function QuestionBankPage() {
                               name={`question-${question.id}`}
                               type="radio"
                               className="h-4 w-4 border-gray-300 text-blue-600 focus:ring-blue-500"
-                              checked={option === question.correctAnswer}
+                              checked={option.is_correct === true}
                               readOnly
                             />
                             <label
                               htmlFor={`option-${question.id}-${i}`}
                               className="ml-3 block text-sm text-gray-700"
                             >
-                              {option}
+                              {option.option_text}
                             </label>
                           </div>
                         ))}
@@ -122,7 +116,7 @@ export default function QuestionBankPage() {
                     ) : (
                       <div className="mt-2 text-sm text-gray-600">
                         <span className="font-semibold">Correct Answer:</span>{" "}
-                        {question.correctAnswer}
+                        {question.question_text}
                       </div>
                     )}
                   </div>

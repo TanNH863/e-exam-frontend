@@ -1,8 +1,8 @@
 "use client";
 
-import { useState } from "react";
-import { BookOpenIcon, XIcon } from "@/icons/icons";
-import { QuestionType } from "@/dto/question.dto";
+import { useState, useEffect } from "react";
+import { XIcon } from "@/icons/icons";
+import { QuestionType, QuestionTypeSelect } from "@/dto/question.dto";
 import { useQuestionStore } from "@/stores/questionStore";
 
 interface CreateQuestionModalProps {
@@ -28,17 +28,216 @@ export default function CreateQuestionModal({
     { option_text: "", is_correct: false },
   ]);
 
-  const handleOptionChange = (index, field, value) => {
+  useEffect(() => {
+    if (questionType === QuestionType.TRUE_FALSE) {
+      setOptions([
+        { option_text: "True", is_correct: true },
+        { option_text: "False", is_correct: false },
+      ]);
+    } else if (questionType === QuestionType.SHORT_ANSWER) {
+      setOptions([{ option_text: "", is_correct: true }]);
+    } else {
+      setOptions([
+        { option_text: "", is_correct: false },
+        { option_text: "", is_correct: false },
+        { option_text: "", is_correct: false },
+        { option_text: "", is_correct: false },
+      ]);
+    }
+  }, [questionType]);
+
+  const renderOptions = () => {
+    switch (questionType) {
+      case QuestionType.MULTIPLE_CHOICE:
+        return (
+          <>
+            <label className="block text-sm font-medium text-gray-700">
+              Options
+            </label>
+            {options.map((option, index) => (
+              <div key={index} className="flex items-center space-x-2 mt-2">
+                <input
+                  type="text"
+                  placeholder={`Option ${index + 1}`}
+                  value={option.option_text}
+                  onChange={(e) =>
+                    handleOptionChange(index, "option_text", e.target.value)
+                  }
+                  className="p-2 block w-full rounded-md border-1 border-black sm:text-sm text-black"
+                  required
+                />
+                <input
+                  type="checkbox"
+                  checked={option.is_correct}
+                  onChange={(e) =>
+                    handleOptionChange(index, "is_correct", e.target.checked)
+                  }
+                  className="h-5 w-5 text-blue-600 border-gray-300 rounded"
+                />
+                <label className="text-black">Correct</label>
+                <button
+                  type="button"
+                  onClick={() => removeOption(index)}
+                  className="p-2 rounded-lg bg-red-500 text-white hover:bg-red-700 hover:cursor-pointer"
+                >
+                  Remove
+                </button>
+              </div>
+            ))}
+            <button
+              type="button"
+              onClick={addOption}
+              className="mt-2 rounded-lg bg-blue-500 px-4 py-2 text-sm font-medium text-white hover:bg-blue-600 hover:cursor-pointer"
+            >
+              Add Option
+            </button>
+          </>
+        );
+      case QuestionType.MULTIPLE_ANSWER:
+        return (
+          <>
+            <label className="block text-sm font-medium text-gray-700">
+              Answers (students can select more than one option)
+            </label>
+            {options.map((option, index) => (
+              <div key={index} className="flex items-center space-x-2 mt-2">
+                <input
+                  type="text"
+                  placeholder={`Option ${index + 1}`}
+                  value={option.option_text}
+                  onChange={(e) =>
+                    handleOptionChange(index, "option_text", e.target.value)
+                  }
+                  className="p-2 block w-full rounded-md border-1 border-black sm:text-sm text-black"
+                  required
+                />
+                <input
+                  type="checkbox"
+                  checked={option.is_correct}
+                  onChange={(e) =>
+                    handleOptionChange(index, "is_correct", e.target.checked)
+                  }
+                  className="h-5 w-5 text-blue-600 border-gray-300 rounded"
+                />
+                <label className="text-black">Correct</label>
+                <button
+                  type="button"
+                  onClick={() => removeOption(index)}
+                  className="p-2 rounded-lg bg-red-500 text-white hover:bg-red-700 hover:cursor-pointer"
+                >
+                  Remove
+                </button>
+              </div>
+            ))}
+            <button
+              type="button"
+              onClick={addOption}
+              className="mt-2 rounded-lg bg-blue-500 px-4 py-2 text-sm font-medium text-white hover:bg-blue-600 hover:cursor-pointer"
+            >
+              Add Option
+            </button>
+          </>
+        );
+      case QuestionType.SHORT_ANSWER:
+        return (
+          <>
+            <label className="block text-sm font-medium text-gray-700">
+              Accepted Answers (students can type their own answer)
+            </label>
+            {options.map((option, index) => (
+              <div key={index} className="flex items-center space-x-2 mt-2">
+                <input
+                  type="text"
+                  placeholder={`Accepted Answer ${index + 1}`}
+                  value={option.option_text}
+                  onChange={(e) =>
+                    handleOptionChange(index, "option_text", e.target.value)
+                  }
+                  className="p-2 block w-full rounded-md border-1 border-black sm:text-sm text-black"
+                  required
+                />
+                <button
+                  type="button"
+                  onClick={() => removeOption(index)}
+                  className="p-2 rounded-lg bg-red-500 text-white hover:bg-red-700 hover:cursor-pointer"
+                >
+                  Remove
+                </button>
+              </div>
+            ))}
+            <button
+              type="button"
+              onClick={addOption}
+              className="mt-2 rounded-lg bg-blue-500 px-4 py-2 text-sm font-medium text-white hover:bg-blue-600 hover:cursor-pointer"
+            >
+              Add Accepted Answer
+            </button>
+          </>
+        );
+      case QuestionType.TRUE_FALSE:
+        return (
+          <>
+            <label className="block text-sm font-medium text-gray-700">
+              Answer
+            </label>
+            <div className="flex items-center space-x-2 mt-2">
+              <input
+                type="radio"
+                name="true_false_option"
+                checked={options[0]?.is_correct === true}
+                onChange={() =>
+                  setOptions([
+                    { option_text: "True", is_correct: true },
+                    { option_text: "False", is_correct: false },
+                  ])
+                }
+                className="h-5 w-5 text-blue-600 border-gray-300 rounded"
+              />
+              <label className="text-black">True</label>
+            </div>
+            <div className="flex items-center space-x-2 mt-2">
+              <input
+                type="radio"
+                name="true_false_option"
+                checked={options[1]?.is_correct === true}
+                onChange={() =>
+                  setOptions([
+                    { option_text: "True", is_correct: false },
+                    { option_text: "False", is_correct: true },
+                  ])
+                }
+                className="h-5 w-5 text-blue-600 border-gray-300 rounded"
+              />
+              <label className="text-black">False</label>
+            </div>
+          </>
+        );
+    }
+  };
+
+  const handleOptionChange = (
+    index: number,
+    field: "option_text" | "is_correct",
+    value: string | boolean
+  ) => {
     const newOptions = [...options];
-    newOptions[index][field] = value;
+    if (field === "option_text" && typeof value === "string") {
+      newOptions[index].option_text = value;
+    } else if (field === "is_correct" && typeof value === "boolean") {
+      newOptions[index].is_correct = value;
+    }
     setOptions(newOptions);
   };
 
   const addOption = () => {
-    setOptions([...options, { option_text: "", is_correct: false }]);
+    const newOption =
+      questionType === QuestionType.SHORT_ANSWER
+        ? { option_text: "", is_correct: true }
+        : { option_text: "", is_correct: false };
+    setOptions([...options, newOption]);
   };
 
-  const removeOption = (index) => {
+  const removeOption = (index: number) => {
     const newOptions = options.filter((_, i) => i !== index);
     setOptions(newOptions);
   };
@@ -100,55 +299,14 @@ export default function CreateQuestionModal({
               onChange={(e) => setQuestionType(e.target.value as QuestionType)}
               className="p-2 mt-1 block w-full rounded-md border-1 border-black focus:border-blue-500 focus:ring-blue-500 sm:text-sm text-black"
             >
-              {Object.values(QuestionType).map((type) => (
-                <option key={type} value={type}>
-                  {type}
+              {QuestionTypeSelect.map((type) => (
+                <option key={type.value} value={type.value}>
+                  {type.label}
                 </option>
               ))}
             </select>
           </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Options
-            </label>
-            {options.map((option, index) => (
-              <div key={index} className="flex items-center space-x-2 mt-2">
-                <input
-                  type="text"
-                  placeholder={`Option ${index + 1}`}
-                  value={option.option_text}
-                  onChange={(e) =>
-                    handleOptionChange(index, "option_text", e.target.value)
-                  }
-                  className="p-2 block w-full rounded-md border-1 border-black sm:text-sm text-black"
-                  required
-                />
-                <input
-                  type="checkbox"
-                  checked={option.is_correct}
-                  onChange={(e) =>
-                    handleOptionChange(index, "is_correct", e.target.checked)
-                  }
-                  className="h-5 w-5 text-blue-600 border-gray-300 rounded"
-                />
-                <label>Correct</label>
-                <button
-                  type="button"
-                  onClick={() => removeOption(index)}
-                  className="p-2 rounded-lg bg-red-500 text-white hover:bg-red-700 hover:cursor-pointer"
-                >
-                  Remove
-                </button>
-              </div>
-            ))}
-            <button
-              type="button"
-              onClick={addOption}
-              className="mt-2 rounded-lg bg-blue-500 px-4 py-2 text-sm font-medium text-white hover:bg-blue-600 hover:cursor-pointer"
-            >
-              Add Option
-            </button>
-          </div>
+          <div>{renderOptions()}</div>
           <div className="flex justify-end space-x-4">
             <button
               type="button"

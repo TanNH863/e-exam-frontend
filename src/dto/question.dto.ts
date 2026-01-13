@@ -5,6 +5,25 @@ export enum QuestionType {
   TRUE_FALSE = "TRUE_FALSE",
 }
 
+export const QuestionTypeSelect = [
+  {
+    value: QuestionType.MULTIPLE_CHOICE,
+    label: "Multiple Choice",
+  },
+  {
+    value: QuestionType.MULTIPLE_ANSWER,
+    label: "Multiple Answer",
+  },
+  {
+    value: QuestionType.SHORT_ANSWER,
+    label: "Short Answer",
+  },
+  {
+    value: QuestionType.TRUE_FALSE,
+    label: "True or False",
+  },
+];
+
 export interface Option {
   option_text: string;
   is_correct: boolean;

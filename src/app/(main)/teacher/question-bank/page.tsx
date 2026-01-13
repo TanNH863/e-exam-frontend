@@ -106,7 +106,8 @@ export default function QuestionBankPage() {
                       {question.question_type}
                     </div>
                     <div className="mt-4">
-                      {question.question_type === "MULTIPLE_CHOICE" ? (
+                      {question.question_type === "MULTIPLE_CHOICE" ||
+                      question.question_type === "TRUE_FALSE" ? (
                         <div className="space-y-2">
                           <p className="text-sm font-semibold text-gray-600">
                             Options:
@@ -123,12 +124,50 @@ export default function QuestionBankPage() {
                               />
                               <label
                                 htmlFor={`option-${question.id}-${i}`}
-                                className="ml-3 block text-sm text-gray-700"
+                                className={`ml-3 block text-sm text-gray-700 ${
+                                  option.is_correct === true ? "font-bold" : ""
+                                }`}
                               >
                                 {option.option_text}
                               </label>
                             </div>
                           ))}
+                        </div>
+                      ) : question.question_type === "MULTIPLE_ANSWER" ? (
+                        <div className="space-y-2">
+                          <p className="text-sm font-semibold text-gray-600">
+                            Answers:
+                          </p>
+                          {question.options?.map((option, i) => (
+                            <div key={i} className="flex items-center pl-4">
+                              <input
+                                id={`option-${question.id}-${i}`}
+                                name={`question-${question.id}`}
+                                type="checkbox"
+                                className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                                checked={option.is_correct === true}
+                                readOnly
+                              />
+                              <label
+                                htmlFor={`option-${question.id}-${i}`}
+                                className={`ml-3 block text-sm text-gray-700 ${
+                                  option.is_correct === true ? "font-bold" : ""
+                                }`}
+                              >
+                                {option.option_text}
+                              </label>
+                            </div>
+                          ))}
+                        </div>
+                      ) : question.question_type === "SHORT_ANSWER" ? (
+                        <div className="mt-2 text-sm text-gray-600">
+                          <span className="font-semibold">
+                            Accepted Answers:
+                          </span>{" "}
+                          {question.options
+                            ?.filter((o) => o.is_correct)
+                            .map((o) => o.option_text)
+                            .join(", ")}
                         </div>
                       ) : (
                         <div className="mt-2 text-sm text-gray-600">

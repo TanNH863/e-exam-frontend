@@ -10,13 +10,13 @@ interface InitialState {
     question_text: string,
     question_type: string,
     options?: Option[]
-  ) => Promise<{ message: string; question: Question }>;
+  ) => Promise<{ message: string; question: Question } | undefined>;
   getAllQuestions: () => Promise<Question[]>;
-  getQuestionInfo: (id: string) => Promise<Question>;
+  getQuestionInfo: (id: string) => Promise<Question | []>;
   deleteQuestion: (id: string) => Promise<void>;
 }
 
-export const useQuestionStore = create<InitialState>((set) => ({
+export const useQuestionStore = create<InitialState>((set, get) => ({
   question: null,
   questions: [],
   error: null,
@@ -45,10 +45,7 @@ export const useQuestionStore = create<InitialState>((set) => ({
       }
 
       const newQuestion = await response.json();
-      set((state) => ({
-        questions: [...state.questions, newQuestion],
-        isLoading: false,
-      }));
+      await get().getAllQuestions();
       return newQuestion;
     } catch (error: unknown) {
       if (error instanceof Error) {
@@ -111,9 +108,12 @@ export const useQuestionStore = create<InitialState>((set) => ({
   deleteQuestion: async (id) => {
     set({ isLoading: true, error: null });
     try {
-      const response = await fetch(`/questions/${id}`, {
-        method: "DELETE",
-      });
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/questions/${id}`,
+        {
+          method: "DELETE",
+        }
+      );
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(errorData.message || "Failed to delete exam");

@@ -1,52 +1,54 @@
-import { Option, Question } from "@/dto/question.dto";
+import { UserResponse, UserRole } from "@/dto/user.dto";
 import { create } from "zustand";
 
 interface InitialState {
-  question: Question | null;
-  questions: Question[];
+  user: UserResponse | null;
+  users: UserResponse[];
   error: string | null;
   isLoading: boolean;
-  createQuestion: (
-    question_text: string,
-    question_type: string,
-    options?: Option[]
-  ) => Promise<{ message: string; question: Question } | undefined>;
-  getAllQuestions: () => Promise<Question[]>;
-  getQuestionInfo: (id: string) => Promise<Question | []>;
-  deleteQuestion: (id: string) => Promise<void>;
+  createUser: (
+    email: string,
+    password: string,
+    full_name: string,
+    role: UserRole
+  ) => Promise<{ message: string; user: UserResponse } | undefined>;
+  getAllUsers: () => Promise<UserResponse[]>;
+  getUserInfo: (id: string) => Promise<UserResponse>;
+  deleteUser: (id: string) => Promise<void>;
 }
 
-export const useQuestionStore = create<InitialState>((set, get) => ({
-  question: null,
-  questions: [],
+export const useUserStore = create<InitialState>((set, get) => ({
+  user: null,
+  users: [],
   error: null,
   isLoading: false,
-  createQuestion: async (question_text, question_type, options) => {
+  createUser: async (email, password, full_name, role) => {
     set({ isLoading: true, error: null });
     try {
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/question`,
+        `${process.env.NEXT_PUBLIC_API_URL}/user`,
         {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            question_text,
-            question_type,
-            options,
+            email,
+            password,
+            full_name,
+            role
           }),
         }
       );
 
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.message || "Failed to create question");
+        throw new Error(errorData.message || "Failed to create user");
       }
 
-      const newQuestion = await response.json();
-      await get().getAllQuestions();
-      return newQuestion;
+      const newUser = await response.json();
+      await get().getAllUsers();
+      return newUser;
     } catch (error: unknown) {
       if (error instanceof Error) {
         set({ error: error.message, isLoading: false });
@@ -55,22 +57,22 @@ export const useQuestionStore = create<InitialState>((set, get) => ({
       }
     }
   },
-  getAllQuestions: async () => {
+  getAllUsers: async () => {
     set({ isLoading: true, error: null });
     try {
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/questions`,
+        `${process.env.NEXT_PUBLIC_API_URL}/users`,
         {
           method: "GET",
         }
       );
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.message || "Failed to fetch exams");
+        throw new Error(errorData.message || "Failed to fetch users");
       }
-      const questionList = await response.json();
-      set({ questions: questionList, isLoading: false });
-      return questionList;
+      const userList = await response.json();
+      set({ users: userList, isLoading: false });
+      return userList;
     } catch (error: unknown) {
       if (error instanceof Error) {
         set({ error: error.message, isLoading: false });
@@ -80,22 +82,22 @@ export const useQuestionStore = create<InitialState>((set, get) => ({
       return [];
     }
   },
-  getQuestionInfo: async (id) => {
+  getUserInfo: async (id) => {
     set({ isLoading: true, error: null });
     try {
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/question/${id}`,
+        `${process.env.NEXT_PUBLIC_API_URL}/user/${id}`,
         {
           method: "GET",
         }
       );
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.message || "Failed to fetch exams");
+        throw new Error(errorData.message || "Failed to fetch user");
       }
-      const questionList = await response.json();
-      set({ questions: questionList, isLoading: false });
-      return questionList;
+      const userList = await response.json();
+      set({ users: userList, isLoading: false });
+      return userList;
     } catch (error: unknown) {
       if (error instanceof Error) {
         set({ error: error.message, isLoading: false });
@@ -105,21 +107,21 @@ export const useQuestionStore = create<InitialState>((set, get) => ({
       return [];
     }
   },
-  deleteQuestion: async (id) => {
+  deleteUser: async (id) => {
     set({ isLoading: true, error: null });
     try {
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/question/${id}`,
+        `${process.env.NEXT_PUBLIC_API_URL}/user/${id}`,
         {
           method: "DELETE",
         }
       );
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.message || "Failed to delete exam");
+        throw new Error(errorData.message || "Failed to delete user");
       }
       set((state) => ({
-        questions: state.questions.filter((q) => q.id !== id),
+        users: state.users.filter((u) => u.id !== id),
         isLoading: false,
       }));
     } catch (error: unknown) {

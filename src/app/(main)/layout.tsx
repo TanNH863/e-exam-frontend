@@ -52,6 +52,14 @@ export default function MainLayout({
           isActive: pathname === "/student/results",
         },
       ];
+    } else if (pathname.startsWith("/admin")) {
+      return [
+        {
+          href: "/admin/dashboard",
+          label: "Dashboard",
+          isActive: pathname === "/admin/dashboard",
+        },
+      ];
     }
     return [];
   };

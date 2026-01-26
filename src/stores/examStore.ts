@@ -71,7 +71,7 @@ export const useExamStore = create<InitialState>((set) => ({
   getAllExams: async () => {
     set({ isLoading: true, error: null });
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/exam`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/exams`, {
         method: "GET",
       });
       if (!response.ok) {

@@ -26,6 +26,9 @@ export default function Login() {
         case "TEACHER":
           router.push("/teacher/dashboard");
           break;
+        case "ADMIN":
+          router.push("/admin/dashboard");
+          break;
         default:
           router.push("/dashboard");
           break;

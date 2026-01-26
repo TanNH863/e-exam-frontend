@@ -1,4 +1,4 @@
-import { UserResponse, UserRole } from "@/dto/user.dto";
+import { AuthResponse, UserRole } from "@/dto/user.dto";
 import { create } from "zustand";
 import { jwtDecode } from "jwt-decode";
 
@@ -9,7 +9,7 @@ interface DecodedToken {
 }
 
 interface AuthState {
-  user: UserResponse | null;
+  user: AuthResponse | null;
   error: string | null;
   isLoading: boolean;
   login: (email: string, password: string) => Promise<void>;
@@ -24,7 +24,7 @@ export const useAuthStore = create<AuthState>((set) => ({
     set({ isLoading: true, error: null });
     try {
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/auth/login`,
+        `${process.env.NEXT_PUBLIC_API_URL}/login`,
         {
           method: "POST",
           headers: {
@@ -43,7 +43,7 @@ export const useAuthStore = create<AuthState>((set) => ({
 
       const decodedToken: DecodedToken = jwtDecode(token);
 
-      const user: UserResponse = {
+      const user: AuthResponse = {
         id: decodedToken.sub,
         email: decodedToken.email,
         role: decodedToken.role,

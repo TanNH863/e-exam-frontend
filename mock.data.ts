@@ -148,4 +148,259 @@ export const questions = [
       },
     ],
   },
+  {
+    "id": "79ea3d73-1f87-479a-945e-0b5e509600e1",
+    "question_text": "What is the capital of France?",
+    "question_type": "MULTIPLE_CHOICE",
+    "options": [
+      {
+        "id": "7c87503d-f678-41e3-a616-31026601da68",
+        "question_id": "79ea3d73-1f87-479a-945e-0b5e509600e1",
+        "option_text": "Berlin",
+        "is_correct": false
+      },
+      {
+        "id": "bf479d24-58a3-41ae-871a-de15e4c4de26",
+        "question_id": "79ea3d73-1f87-479a-945e-0b5e509600e1",
+        "option_text": "Madrid",
+        "is_correct": false
+      },
+      {
+        "id": "7b509a84-59f7-4088-8715-99c67fc0be5c",
+        "question_id": "79ea3d73-1f87-479a-945e-0b5e509600e1",
+        "option_text": "Paris",
+        "is_correct": true
+      },
+      {
+        "id": "474692b5-089b-4277-a596-693ad4d8c3a0",
+        "question_id": "79ea3d73-1f87-479a-945e-0b5e509600e1",
+        "option_text": "Lisbon",
+        "is_correct": false
+      }
+    ]
+  },
+  {
+    "id": "2decbbb4-19d3-45ef-9e0b-89d736012110",
+    "question_text": "Is the Earth flat?",
+    "question_type": "TRUE_FALSE",
+    "options": [
+      {
+        "id": "93731c93-0e81-49d1-a5ea-a7f825e90247",
+        "question_id": "2decbbb4-19d3-45ef-9e0b-89d736012110",
+        "option_text": "True",
+        "is_correct": false
+      },
+      {
+        "id": "6a51ecad1-eba6-457f-aa58-af2a1cc3cc79f",
+        "question_id": "2decbbb4-19d3-45ef-9e0b-89d736012110",
+        "option_text": "False",
+        "is_correct": true
+      }
+    ]
+  },
+  {
+    "id": "c17dc810-b809-4612-ad99-004e2a4bec1e",
+    "question_text": "What is 2 + 2?",
+    "question_type": "SHORT_ANSWER",
+    "options": [
+      {
+        "id": "966ce98e-df1e-43a6-a97a-225eee694489",
+        "question_id": "c17dc810-b809-4612-ad99-004e2a4bec1e",
+        "option_text": "4",
+        "is_correct": true
+      },
+      {
+        "id": "b994ce1b-012b-4cc1-b6c0-364260700d1f",
+        "question_id": "c17dc810-b809-4612-ad99-004e2a4bec1e",
+        "option_text": "5",
+        "is_correct": false
+      }
+    ]
+  },
+  {
+    "id": "4d05fa12-fdc8-44ca-a8cc-eedc8512c106",
+    "question_text": "Select all prime numbers.",
+    "question_type": "MULTIPLE_ANSWER",
+    "options": [
+      {
+        "id": "848f5af2-050a-408b-9081-c030ce04d277",
+        "question_id": "4d05fa12-fdc8-44ca-a8cc-eedc8512c106",
+        "option_text": "2",
+        "is_correct": true
+      },
+      {
+        "id": "d7e36408-7db7-49f9-8359-910dd0eb67f6",
+        "question_id": "4d05fa12-fdc8-44ca-a8cc-eedc8512c106",
+        "option_text": "4",
+        "is_correct": false
+      },
+      {
+        "id": "132bfba0-595f-4991-9fa2-6ae8a263c70a",
+        "question_id": "4d05fa12-fdc8-44ca-a8cc-eedc8512c106",
+        "option_text": "5",
+        "is_correct": true
+      },
+      {
+        "id": "127b72ec5c-1ee2-4384-8fa8-1463484d5ca3l",
+        "question_id": "4d05fa12-fdc8-44ca-a8cc-eedc8512c106",
+        "option_text": "6",
+        "is_correct": false
+      }
+    ]
+  },
+  {
+    "id": "f3a2c9d4-7a1b-4c9d-9b3f-2a9a6f8e5d11",
+    "question_text": "Which planet is known as the Red Planet?",
+    "question_type": "MULTIPLE_CHOICE",
+    "options": [
+      {
+        "id": "a1b2c3d4-e5f6-7890-abcd-1234567890ab",
+        "question_id": "f3a2c9d4-7a1b-4c9d-9b3f-2a9a6f8e5d11",
+        "option_text": "Mars",
+        "is_correct": true
+      },
+      {
+        "id": "b2c3d4e5-f6a7-8901-bcde-2345678901bc",
+        "question_id": "f3a2c9d4-7a1b-4c9d-9b3f-2a9a6f8e5d11",
+        "option_text": "Venus",
+        "is_correct": false
+      },
+      {
+        "id": "c3d4e5f6-a7b8-9012-cdef-3456789012cd",
+        "question_id": "f3a2c9d4-7a1b-4c9d-9b3f-2a9a6f8e5d11",
+        "option_text": "Jupiter",
+        "is_correct": false
+      },
+      {
+        "id": "d4e5f6a7-b8c9-0123-def0-4567890123de",
+        "question_id": "f3a2c9d4-7a1b-4c9d-9b3f-2a9a6f8e5d11",
+        "option_text": "Saturn",
+        "is_correct": false
+      }
+    ]
+  },
+  {
+    "id": "a9b8c7d6-e5f4-3a2b-1c0d-9e8f7a6b5c44",
+    "question_text": "Is water composed of hydrogen and oxygen?",
+    "question_type": "TRUE_FALSE",
+    "options": [
+      {
+        "id": "e5f6a7b8-c9d0-1234-ef01-5678901234ef",
+        "question_id": "a9b8c7d6-e5f4-3a2b-1c0d-9e8f7a6b5c44",
+        "option_text": "True",
+        "is_correct": true
+      },
+      {
+        "id": "f6a7b8c9-d0e1-2345-f012-6789012345f0",
+        "question_id": "a9b8c7d6-e5f4-3a2b-1c0d-9e8f7a6b5c44",
+        "option_text": "False",
+        "is_correct": false
+      }
+    ]
+  },
+  {
+    "id": "b7c6d5e4-f3a2-1b0c-9d8e-7f6a5b4c3d22",
+    "question_text": "What is the square root of 16?",
+    "question_type": "SHORT_ANSWER",
+    "options": [
+      {
+        "id": "g7h8i9j0-k1l2-3456-gh78-90123456gh78",
+        "question_id": "b7c6d5e4-f3a2-1b0c-9d8e-7f6a5b4c3d22",
+        "option_text": "4",
+        "is_correct": true
+      },
+      {
+        "id": "h8i9j0k1-l2m3-4567-hi89-01234567hi89",
+        "question_id": "b7c6d5e4-f3a2-1b0c-9d8e-7f6a5b4c3d22",
+        "option_text": "5",
+        "is_correct": false
+      }
+    ]
+  },
+  {
+    "id": "c5d4e3f2-a1b0-9c8d-7e6f-5a4b3c2d1e33",
+    "question_text": "Select all programming languages.",
+    "question_type": "MULTIPLE_ANSWER",
+    "options": [
+      {
+        "id": "i9j0k1l2-m3n4-5678-ij90-12345678ij90",
+        "question_id": "c5d4e3f2-a1b0-9c8d-7e6f-5a4b3c2d1e33",
+        "option_text": "Python",
+        "is_correct": true
+      },
+      {
+        "id": "j0k1l2m3-n4o5-6789-jk01-23456789jk01",
+        "question_id": "c5d4e3f2-a1b0-9c8d-7e6f-5a4b3c2d1e33",
+        "option_text": "HTML",
+        "is_correct": false
+      },
+      {
+        "id": "k1l2m3n4-o5p6-7890-kl12-34567890kl12",
+        "question_id": "c5d4e3f2-a1b0-9c8d-7e6f-5a4b3c2d1e33",
+        "option_text": "Java",
+        "is_correct": true
+      },
+      {
+        "id": "l2m3n4o5-p6q7-8901-lm23-45678901lm23",
+        "question_id": "c5d4e3f2-a1b0-9c8d-7e6f-5a4b3c2d1e33",
+        "option_text": "CSS",
+        "is_correct": false
+      }
+    ]
+  },
+  {
+    "id": "d3e2f1a0-b9c8-7d6e-5f4a-3b2c1d0e4f55",
+    "question_text": "Which ocean is the largest?",
+    "question_type": "MULTIPLE_CHOICE",
+    "options": [
+      {
+        "id": "m3n4o5p6-q7r8-9012-mn34-56789012mn34",
+        "question_id": "d3e2f1a0-b9c8-7d6e-5f4a-3b2c1d0e4f55",
+        "option_text": "Atlantic Ocean",
+        "is_correct": false
+      },
+      {
+        "id": "n4o5p6q7-r8s9-0123-no45-67890123no45",
+        "question_id": "d3e2f1a0-b9c8-7d6e-5f4a-3b2c1d0e4f55",
+        "option_text": "Indian Ocean",
+        "is_correct": false
+      },
+      {
+        "id": "o5p6q7r8-s9t0-1234-op56-78901234op56",
+        "question_id": "d3e2f1a0-b9c8-7d6e-5f4a-3b2c1d0e4f55",
+        "option_text": "Pacific Ocean",
+        "is_correct": true
+      },
+      {
+        "id": "p6q7r8s9-t0u1-2345-pq67-89012345pq67",
+        "question_id": "d3e2f1a0-b9c8-7d6e-5f4a-3b2c1d0e4f55",
+        "option_text": "Arctic Ocean",
+        "is_correct": false
+      }
+    ]
+  }  
 ];
+
+export const mockUsers = [
+  {
+    "id": "10c94c3c-8a86-4a3b-a09f-610f507876c9",
+    "email": "user1@admin.gmail.com",
+    "full_name": "Full Name 1",
+    "role": "ADMIN",
+    "created_at": "2026-01-24T03:20:45.387Z"
+  },
+  {
+    "id": "4e32c49c-d9c2-465a-9a96-694a85dc309a",
+    "email": "user2@teacher.gmail.com",
+    "full_name": "Full Name 2",
+    "role": "TEACHER",
+    "created_at": "2026-01-24T06:17:13.166Z"
+  },
+  {
+    "id": "173e1958-4169-41cd-81c0-c82b2ef71ef7",
+    "email": "user3@student.gmail.com",
+    "full_name": "Full Name 3",
+    "role": "STUDENT",
+    "created_at": "2026-01-25T06:17:13.166Z"
+  }
+]

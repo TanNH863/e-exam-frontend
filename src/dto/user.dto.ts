@@ -5,6 +5,13 @@ export enum UserRole {
   GUEST = "GUEST",
 }
 
+export interface CreateUserDto {
+  email: string;
+  password: string;
+  full_name: string;
+  role: UserRole;
+}
+
 export interface User {
   id: string;
   email: string;
@@ -15,6 +22,14 @@ export interface User {
 }
 
 export interface UserResponse {
+  id: string;
+  email: string;
+  full_name: string;
+  role: UserRole;
+  created_at: Date;
+}
+
+export interface AuthResponse {
   id: string;
   email: string;
   role: UserRole;

@@ -40,8 +40,7 @@ export default function ManageExams() {
               <h2 className="text-2xl font-semibold text-gray-900">My Exams</h2>
               <button
                 onClick={() => setIsOpen(true)}
-                className="flex items-center rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700"
-              >
+                className="flex items-center rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700">
                 <PlusCircleIcon />
                 Create Exam
               </button>

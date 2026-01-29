@@ -41,8 +41,7 @@ export default function TopNavigationBar({ navLinks }: TopNavigationBarProps) {
                     link.isActive
                       ? "border-blue-500 text-gray-900"
                       : "border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700"
-                  }`}
-                >
+                  }`}>
                   {link.label}
                 </a>
               ))}
@@ -51,15 +50,13 @@ export default function TopNavigationBar({ navLinks }: TopNavigationBarProps) {
           <div className="flex items-center">
             <button
               type="button"
-              className="mr-4 rounded-full bg-white p-1 text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-            >
+              className="mr-4 rounded-full bg-white p-1 text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
               <span className="sr-only">View notifications</span>
               <BellIcon />
             </button>
             <button
               onClick={handleLogout}
-              className="flex items-center rounded-lg bg-gray-100 px-4 py-2 text-sm font-medium text-gray-700 transition-all hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-            >
+              className="flex items-center rounded-lg bg-gray-100 px-4 py-2 text-sm font-medium text-gray-700 transition-all hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
               <LogoutIcon />
               Logout
             </button>

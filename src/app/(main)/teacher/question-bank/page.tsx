@@ -33,7 +33,7 @@ export default function QuestionBankPage() {
   };
 
   const filteredQuestions = questions.filter((question) =>
-    question.question_text.toLowerCase().includes(searchTerm.toLowerCase())
+    question.question_text.toLowerCase().includes(searchTerm.toLowerCase()),
   );
 
   return (
@@ -55,8 +55,7 @@ export default function QuestionBankPage() {
             </h1>
             <button
               onClick={() => setIsOpen(true)}
-              className="mt-4 flex items-center justify-center rounded-lg bg-blue-600 px-5 py-2.5 text-sm font-medium text-white shadow-md transition-all hover:bg-blue-700 hover:cursor-pointer focus:outline-none focus:ring-4 focus:ring-blue-300 sm:mt-0"
-            >
+              className="mt-4 flex items-center justify-center rounded-lg bg-blue-600 px-5 py-2.5 text-sm font-medium text-white shadow-md transition-all hover:bg-blue-700 hover:cursor-pointer focus:outline-none focus:ring-4 focus:ring-blue-300 sm:mt-0">
               <PlusCircleIcon />
               Add New Question
             </button>
@@ -86,8 +85,7 @@ export default function QuestionBankPage() {
                 {filteredQuestions.map((question, index) => (
                   <div
                     key={question.id}
-                    className="rounded-lg border border-gray-200 p-4"
-                  >
+                    className="rounded-lg border border-gray-200 p-4">
                     <div className="flex items-start justify-between">
                       <p className="text-lg font-medium text-gray-800">
                         {`Q${index + 1}: ${question.question_text}`}
@@ -126,8 +124,7 @@ export default function QuestionBankPage() {
                                 htmlFor={`option-${question.id}-${i}`}
                                 className={`ml-3 block text-sm text-gray-700 ${
                                   option.is_correct === true ? "font-bold" : ""
-                                }`}
-                              >
+                                }`}>
                                 {option.option_text}
                               </label>
                             </div>
@@ -152,8 +149,7 @@ export default function QuestionBankPage() {
                                 htmlFor={`option-${question.id}-${i}`}
                                 className={`ml-3 block text-sm text-gray-700 ${
                                   option.is_correct === true ? "font-bold" : ""
-                                }`}
-                              >
+                                }`}>
                                 {option.option_text}
                               </label>
                             </div>

@@ -10,7 +10,7 @@ interface InitialState {
     email: string,
     password: string,
     full_name: string,
-    role: UserRole
+    role: UserRole,
   ) => Promise<{ message: string; user: UserResponse } | undefined>;
   getAllUsers: () => Promise<UserResponse[]>;
   getUserInfo: (id: string) => Promise<UserResponse>;
@@ -25,21 +25,18 @@ export const useUserStore = create<InitialState>((set, get) => ({
   createUser: async (email, password, full_name, role) => {
     set({ isLoading: true, error: null });
     try {
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/user`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            email,
-            password,
-            full_name,
-            role
-          }),
-        }
-      );
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/user`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email,
+          password,
+          full_name,
+          role,
+        }),
+      });
 
       if (!response.ok) {
         const errorData = await response.json();
@@ -60,12 +57,9 @@ export const useUserStore = create<InitialState>((set, get) => ({
   getAllUsers: async () => {
     set({ isLoading: true, error: null });
     try {
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/users`,
-        {
-          method: "GET",
-        }
-      );
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users`, {
+        method: "GET",
+      });
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(errorData.message || "Failed to fetch users");
@@ -89,7 +83,7 @@ export const useUserStore = create<InitialState>((set, get) => ({
         `${process.env.NEXT_PUBLIC_API_URL}/user/${id}`,
         {
           method: "GET",
-        }
+        },
       );
       if (!response.ok) {
         const errorData = await response.json();
@@ -114,7 +108,7 @@ export const useUserStore = create<InitialState>((set, get) => ({
         `${process.env.NEXT_PUBLIC_API_URL}/user/${id}`,
         {
           method: "DELETE",
-        }
+        },
       );
       if (!response.ok) {
         const errorData = await response.json();

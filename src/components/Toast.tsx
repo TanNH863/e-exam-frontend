@@ -28,8 +28,7 @@ export default function Toast({ message, onClose }: ToastProps) {
     <div
       className={`fixed bottom-5 right-5 flex items-center gap-4 rounded-lg bg-gray-800 p-4 text-white shadow-lg transition-opacity duration-300 ${
         visible ? "opacity-100" : "opacity-0"
-      }`}
-    >
+      }`}>
       <SuccessIcon />
       <span>{message}</span>
       <button onClick={handleClose} className="text-gray-400 hover:text-white">

@@ -69,8 +69,7 @@ export default function CreateExamPage() {
                 <div>
                   <label
                     htmlFor="exam-title"
-                    className="block text-sm font-medium text-gray-700"
-                  >
+                    className="block text-sm font-medium text-gray-700">
                     Exam Title
                   </label>
                   <div className="mt-2 flex items-center">
@@ -89,8 +88,7 @@ export default function CreateExamPage() {
                 <div>
                   <label
                     htmlFor="exam-duration"
-                    className="block text-sm font-medium text-gray-700"
-                  >
+                    className="block text-sm font-medium text-gray-700">
                     Duration (in minutes)
                   </label>
                   <div className="mt-2 flex items-center">
@@ -117,8 +115,7 @@ export default function CreateExamPage() {
               <h2 className="text-xl font-semibold text-gray-800">Questions</h2>
               <button
                 onClick={addQuestion}
-                className="flex items-center justify-center rounded-lg bg-green-600 px-5 py-2.5 text-sm font-medium text-white shadow-md transition-all hover:bg-green-700 focus:outline-none focus:ring-4 focus:ring-green-300"
-              >
+                className="flex items-center justify-center rounded-lg bg-green-600 px-5 py-2.5 text-sm font-medium text-white shadow-md transition-all hover:bg-green-700 focus:outline-none focus:ring-4 focus:ring-green-300">
                 <PlusCircleIcon />
                 Add Question
               </button>
@@ -136,8 +133,7 @@ export default function CreateExamPage() {
                     </div>
                     <button
                       onClick={() => removeQuestion(index)}
-                      className="text-red-500 hover:text-red-700"
-                    >
+                      className="text-red-500 hover:text-red-700">
                       <XIcon />
                     </button>
                   </div>
@@ -156,8 +152,7 @@ export default function CreateExamPage() {
                             />
                             <label
                               htmlFor={`option-${index}-${i}`}
-                              className="ml-3 block text-sm text-gray-700"
-                            >
+                              className="ml-3 block text-sm text-gray-700">
                               {option}
                             </label>
                           </div>

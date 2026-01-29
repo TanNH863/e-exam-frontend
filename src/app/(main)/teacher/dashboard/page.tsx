@@ -64,8 +64,7 @@ export default function TeacherDashboard() {
             </h1>
             <button
               onClick={() => setIsOpen(true)}
-              className="mt-4 flex items-center justify-center rounded-lg bg-blue-600 px-5 py-2.5 text-sm font-medium text-white shadow-md transition-all hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-300 sm:mt-0"
-            >
+              className="mt-4 flex items-center justify-center rounded-lg bg-blue-600 px-5 py-2.5 text-sm font-medium text-white shadow-md transition-all hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-300 sm:mt-0">
               <PlusCircleIcon />
               Create New Exam
             </button>
@@ -136,8 +135,7 @@ export default function TeacherDashboard() {
               {mockGradingQueue.map((item) => (
                 <div
                   key={item.id}
-                  className="overflow-hidden rounded-xl bg-white shadow-lg"
-                >
+                  className="overflow-hidden rounded-xl bg-white shadow-lg">
                   <div className="p-6">
                     <h3 className="text-lg font-semibold text-gray-900">
                       {item.title}

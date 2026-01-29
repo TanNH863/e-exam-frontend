@@ -19,7 +19,7 @@ export default function CreateQuestionModal({
   const { createQuestion } = useQuestionStore();
   const [questionText, setQuestionText] = useState("");
   const [questionType, setQuestionType] = useState<QuestionType>(
-    QuestionType.MULTIPLE_CHOICE
+    QuestionType.MULTIPLE_CHOICE,
   );
   const [options, setOptions] = useState([
     { option_text: "", is_correct: false },
@@ -78,8 +78,7 @@ export default function CreateQuestionModal({
                 <button
                   type="button"
                   onClick={() => removeOption(index)}
-                  className="p-2 rounded-lg bg-red-500 text-white hover:bg-red-700 hover:cursor-pointer"
-                >
+                  className="p-2 rounded-lg bg-red-500 text-white hover:bg-red-700 hover:cursor-pointer">
                   Remove
                 </button>
               </div>
@@ -87,8 +86,7 @@ export default function CreateQuestionModal({
             <button
               type="button"
               onClick={addOption}
-              className="mt-2 rounded-lg bg-blue-500 px-4 py-2 text-sm font-medium text-white hover:bg-blue-600 hover:cursor-pointer"
-            >
+              className="mt-2 rounded-lg bg-blue-500 px-4 py-2 text-sm font-medium text-white hover:bg-blue-600 hover:cursor-pointer">
               Add Option
             </button>
           </>
@@ -123,8 +121,7 @@ export default function CreateQuestionModal({
                 <button
                   type="button"
                   onClick={() => removeOption(index)}
-                  className="p-2 rounded-lg bg-red-500 text-white hover:bg-red-700 hover:cursor-pointer"
-                >
+                  className="p-2 rounded-lg bg-red-500 text-white hover:bg-red-700 hover:cursor-pointer">
                   Remove
                 </button>
               </div>
@@ -132,8 +129,7 @@ export default function CreateQuestionModal({
             <button
               type="button"
               onClick={addOption}
-              className="mt-2 rounded-lg bg-blue-500 px-4 py-2 text-sm font-medium text-white hover:bg-blue-600 hover:cursor-pointer"
-            >
+              className="mt-2 rounded-lg bg-blue-500 px-4 py-2 text-sm font-medium text-white hover:bg-blue-600 hover:cursor-pointer">
               Add Option
             </button>
           </>
@@ -159,8 +155,7 @@ export default function CreateQuestionModal({
                 <button
                   type="button"
                   onClick={() => removeOption(index)}
-                  className="p-2 rounded-lg bg-red-500 text-white hover:bg-red-700 hover:cursor-pointer"
-                >
+                  className="p-2 rounded-lg bg-red-500 text-white hover:bg-red-700 hover:cursor-pointer">
                   Remove
                 </button>
               </div>
@@ -168,8 +163,7 @@ export default function CreateQuestionModal({
             <button
               type="button"
               onClick={addOption}
-              className="mt-2 rounded-lg bg-blue-500 px-4 py-2 text-sm font-medium text-white hover:bg-blue-600 hover:cursor-pointer"
-            >
+              className="mt-2 rounded-lg bg-blue-500 px-4 py-2 text-sm font-medium text-white hover:bg-blue-600 hover:cursor-pointer">
               Add Accepted Answer
             </button>
           </>
@@ -218,7 +212,7 @@ export default function CreateQuestionModal({
   const handleOptionChange = (
     index: number,
     field: "option_text" | "is_correct",
-    value: string | boolean
+    value: string | boolean,
   ) => {
     const newOptions = [...options];
     if (field === "option_text" && typeof value === "string") {
@@ -263,8 +257,7 @@ export default function CreateQuestionModal({
           <h2 className="text-2xl font-bold text-gray-900">Add New Question</h2>
           <button
             onClick={onClose}
-            className="text-gray-500 hover:text-gray-700 hover:cursor-pointer"
-          >
+            className="text-gray-500 hover:text-gray-700 hover:cursor-pointer">
             <XIcon />
           </button>
         </div>
@@ -272,8 +265,7 @@ export default function CreateQuestionModal({
           <div>
             <label
               htmlFor="questionText"
-              className="block text-sm font-medium text-gray-700"
-            >
+              className="block text-sm font-medium text-gray-700">
               Question Text
             </label>
             <textarea
@@ -283,22 +275,19 @@ export default function CreateQuestionModal({
               onChange={(e) => setQuestionText(e.target.value)}
               rows={3}
               className="p-2 mt-1 block w-full rounded-md border-1 border-black focus:border-blue-500 focus:ring-blue-500 sm:text-sm text-black"
-              required
-            ></textarea>
+              required></textarea>
           </div>
           <div>
             <label
               htmlFor="questionType"
-              className="block text-sm font-medium text-gray-700"
-            >
+              className="block text-sm font-medium text-gray-700">
               Question Type
             </label>
             <select
               id="questionType"
               value={questionType}
               onChange={(e) => setQuestionType(e.target.value as QuestionType)}
-              className="p-2 mt-1 block w-full rounded-md border-1 border-black focus:border-blue-500 focus:ring-blue-500 sm:text-sm text-black"
-            >
+              className="p-2 mt-1 block w-full rounded-md border-1 border-black focus:border-blue-500 focus:ring-blue-500 sm:text-sm text-black">
               {QuestionTypeSelect.map((type) => (
                 <option key={type.value} value={type.value}>
                   {type.label}
@@ -311,14 +300,12 @@ export default function CreateQuestionModal({
             <button
               type="button"
               onClick={onClose}
-              className="rounded-lg bg-gray-300 px-4 py-2 text-sm font-medium text-gray-800 hover:bg-gray-400 hover:cursor-pointer"
-            >
+              className="rounded-lg bg-gray-300 px-4 py-2 text-sm font-medium text-gray-800 hover:bg-gray-400 hover:cursor-pointer">
               Cancel
             </button>
             <button
               type="submit"
-              className="flex items-center rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 hover:cursor-pointer"
-            >
+              className="flex items-center rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 hover:cursor-pointer">
               Create Question
             </button>
           </div>

@@ -22,10 +22,10 @@ export default function AdminDashboard() {
     } catch (error) {
       console.error("Error fetching users:", error);
     }
-  }
+  };
 
-  const filteredUsers = users.filter(
-    (user) => user.email.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredUsers = users.filter((user) =>
+    user.email.toLowerCase().includes(searchTerm.toLowerCase()),
   );
 
   return (
@@ -62,8 +62,7 @@ export default function AdminDashboard() {
                 {filteredUsers.map((user) => (
                   <div
                     key={user.id}
-                    className="rounded-lg border border-gray-200 p-4 flex justify-between items-center"
-                  >
+                    className="rounded-lg border border-gray-200 p-4 flex justify-between items-center">
                     <div>
                       <p className="text-gray-600">{user.email}</p>
                       <p className="text-gray-600">{user.full_name}</p>

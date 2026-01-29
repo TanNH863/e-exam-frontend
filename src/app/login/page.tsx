@@ -61,8 +61,7 @@ export default function Login() {
             <div className="relative">
               <label
                 htmlFor="email"
-                className="block text-sm font-medium text-gray-700"
-              >
+                className="block text-sm font-medium text-gray-700">
                 Email address
               </label>
               <div className="relative mt-1">
@@ -84,8 +83,7 @@ export default function Login() {
             <div className="relative">
               <label
                 htmlFor="password"
-                className="block text-sm font-medium text-gray-700"
-              >
+                className="block text-sm font-medium text-gray-700">
                 Password
               </label>
               <div className="relative mt-1">
@@ -116,8 +114,7 @@ export default function Login() {
                 />
                 <label
                   htmlFor="remember-me"
-                  className="ml-2 block text-sm text-gray-900"
-                >
+                  className="ml-2 block text-sm text-gray-900">
                   Remember me
                 </label>
               </div>
@@ -125,8 +122,7 @@ export default function Login() {
               <div className="text-sm">
                 <a
                   href="#"
-                  className="font-medium text-blue-600 hover:text-blue-500"
-                >
+                  className="font-medium text-blue-600 hover:text-blue-500">
                   Forgot your password?
                 </a>
               </div>
@@ -136,8 +132,7 @@ export default function Login() {
               <button
                 type="submit"
                 disabled={isLoading}
-                className="flex w-full justify-center rounded-lg bg-blue-600 px-4 py-3 text-sm font-medium text-white shadow-md transition-all hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-300"
-              >
+                className="flex w-full justify-center rounded-lg bg-blue-600 px-4 py-3 text-sm font-medium text-white shadow-md transition-all hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-300">
                 {isLoading ? "Signing in..." : "Sign in"}
               </button>
             </div>
@@ -147,8 +142,7 @@ export default function Login() {
             Not a member?{" "}
             <a
               href="#"
-              className="font-medium text-blue-600 hover:text-blue-500"
-            >
+              className="font-medium text-blue-600 hover:text-blue-500">
               Start your 14-day free trial
             </a>
           </p>
@@ -156,8 +150,7 @@ export default function Login() {
 
         <Link
           href="/"
-          className="group flex w-full items-center justify-center rounded-lg py-2 text-sm font-medium text-gray-600 transition-all hover:bg-gray-200 hover:text-gray-900"
-        >
+          className="group flex w-full items-center justify-center rounded-lg py-2 text-sm font-medium text-gray-600 transition-all hover:bg-gray-200 hover:text-gray-900">
           <ArrowLeftIcon />
           Back to Home
         </Link>

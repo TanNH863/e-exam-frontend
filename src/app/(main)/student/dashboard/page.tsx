@@ -69,8 +69,7 @@ export default function StudentDashboard() {
               {mockUpcomingExams.map((exam) => (
                 <div
                   key={exam.id}
-                  className="overflow-hidden rounded-xl bg-white shadow-lg transition-all hover:shadow-xl"
-                >
+                  className="overflow-hidden rounded-xl bg-white shadow-lg transition-all hover:shadow-xl">
                   <div className="p-6">
                     <div className="flex items-start">
                       <ClipboardListIcon />
@@ -114,8 +113,7 @@ export default function StudentDashboard() {
                 {mockCompletedExams.map((exam) => (
                   <li
                     key={exam.id}
-                    className="flex flex-col items-start justify-between p-6 sm:flex-row sm:items-center"
-                  >
+                    className="flex flex-col items-start justify-between p-6 sm:flex-row sm:items-center">
                     <div className="flex min-w-0 flex-1 items-center">
                       <CheckCircleIcon />
                       <div className="min-w-0 flex-1 px-4">
@@ -138,8 +136,7 @@ export default function StudentDashboard() {
                       </div>
                       <a
                         href="#"
-                        className="ml-6 flex items-center rounded-lg bg-white px-4 py-2 text-sm font-medium text-blue-600 ring-1 ring-inset ring-blue-300 transition-all hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                      >
+                        className="ml-6 flex items-center rounded-lg bg-white px-4 py-2 text-sm font-medium text-blue-600 ring-1 ring-inset ring-blue-300 transition-all hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-blue-500">
                         Review
                       </a>
                     </div>

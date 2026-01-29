@@ -12,7 +12,7 @@ interface InitialState {
     start_time: Date,
     duration_minutes: number,
     status: ExamStatus,
-    created_by_id: string | undefined
+    created_by_id: string | undefined,
   ) => Promise<{ message: string; exam: Exam }>;
   getAllExams: () => Promise<Exam[]>;
   getExamInfo: (id: string) => Promise<ExamInfo>;
@@ -30,7 +30,7 @@ export const useExamStore = create<InitialState>((set) => ({
     start_time,
     duration_minutes,
     status,
-    created_by_id
+    created_by_id,
   ) => {
     set({ isLoading: true, error: null });
     try {
@@ -97,7 +97,7 @@ export const useExamStore = create<InitialState>((set) => ({
         `${process.env.NEXT_PUBLIC_API_URL}/exam/${id}`,
         {
           method: "GET",
-        }
+        },
       );
       if (!response.ok) {
         const errorData = await response.json();

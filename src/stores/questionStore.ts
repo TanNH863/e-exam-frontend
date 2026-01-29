@@ -9,7 +9,7 @@ interface InitialState {
   createQuestion: (
     question_text: string,
     question_type: string,
-    options?: Option[]
+    options?: Option[],
   ) => Promise<{ message: string; question: Question } | undefined>;
   getAllQuestions: () => Promise<Question[]>;
   getQuestionInfo: (id: string) => Promise<Question | []>;
@@ -36,7 +36,7 @@ export const useQuestionStore = create<InitialState>((set, get) => ({
             question_type,
             options,
           }),
-        }
+        },
       );
 
       if (!response.ok) {
@@ -62,7 +62,7 @@ export const useQuestionStore = create<InitialState>((set, get) => ({
         `${process.env.NEXT_PUBLIC_API_URL}/questions`,
         {
           method: "GET",
-        }
+        },
       );
       if (!response.ok) {
         const errorData = await response.json();
@@ -87,7 +87,7 @@ export const useQuestionStore = create<InitialState>((set, get) => ({
         `${process.env.NEXT_PUBLIC_API_URL}/question/${id}`,
         {
           method: "GET",
-        }
+        },
       );
       if (!response.ok) {
         const errorData = await response.json();
@@ -112,7 +112,7 @@ export const useQuestionStore = create<InitialState>((set, get) => ({
         `${process.env.NEXT_PUBLIC_API_URL}/question/${id}`,
         {
           method: "DELETE",
-        }
+        },
       );
       if (!response.ok) {
         const errorData = await response.json();

@@ -1,6 +1,6 @@
 "use client";
 
-import { BarChartIcon, EditIcon } from "@/icons/icons";
+import { ChartBarIcon, EditIcon } from "@/icons/icons";
 import { Exam } from "@/dto/exam.dto";
 import { useRouter } from "next/navigation";
 
@@ -48,7 +48,7 @@ export default function ExamsList({ exams }: ExamsListProps) {
               Edit
             </button>
             <button className="flex items-center rounded-lg bg-white px-4 py-2 text-sm font-medium text-blue-600 ring-1 ring-inset ring-blue-300 transition-all hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-blue-500">
-              <BarChartIcon />
+              <ChartBarIcon />
               Analytics
             </button>
           </div>

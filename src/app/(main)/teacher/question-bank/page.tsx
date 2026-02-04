@@ -5,6 +5,7 @@ import {
   TrashIcon,
   PencilIcon,
   SearchIcon,
+  UploadIcon
 } from "@/icons/icons";
 import { useQuestionStore } from "@/stores/questionStore";
 import { Question } from "@/dto/question.dto";
@@ -53,12 +54,22 @@ export default function QuestionBankPage() {
             <h1 className="text-3xl font-bold tracking-tight text-gray-900">
               Question Bank
             </h1>
-            <button
-              onClick={() => setIsOpen(true)}
-              className="mt-4 flex items-center justify-center rounded-lg bg-blue-600 px-5 py-2.5 text-sm font-medium text-white shadow-md transition-all hover:bg-blue-700 hover:cursor-pointer focus:outline-none focus:ring-4 focus:ring-blue-300 sm:mt-0">
-              <PlusCircleIcon />
-              Add New Question
-            </button>
+            <div className="flex gap-2">
+              <button
+                onClick={() => setIsOpen(true)}
+                className="mt-4 flex items-center justify-center rounded-lg bg-blue-600 px-5 py-2.5 text-sm font-medium text-white shadow-md transition-all hover:bg-blue-700 hover:cursor-pointer focus:outline-none focus:ring-4 focus:ring-blue-300 sm:mt-0">
+                <PlusCircleIcon />
+                Add New Question
+              </button>
+              <label
+                htmlFor="file-upload"
+                className="mt-4 flex items-center justify-center rounded-lg bg-[#1D6F42] px-5 py-2.5 text-sm font-medium text-white shadow-md transition-all hover:bg-blue-700 hover:cursor-pointer focus:outline-none focus:ring-4 focus:ring-blue-300 sm:mt-0"
+              >
+                <UploadIcon />
+                Upload from Excel
+              </label>
+              <input id="file-upload" type="file" className="hidden" />
+            </div>
           </div>
 
           <section className="mt-8">

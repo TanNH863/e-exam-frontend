@@ -21,6 +21,7 @@ import {
   Trash,
   Pencil,
   Search,
+  Upload
 } from "lucide-react";
 
 type SVGProps = React.SVGProps<SVGSVGElement>;
@@ -117,4 +118,8 @@ export const PencilIcon = (props: SVGProps) => (
 
 export const SearchIcon = (props: SVGProps) => (
   <Search {...props} className={props.className ?? "h-5 w-5 text-gray-400"} />
+);
+
+export const UploadIcon = (props: SVGProps) => (
+  <Upload {...props} className={props.className ?? "mr-2 h-5 w-5"} />
 );

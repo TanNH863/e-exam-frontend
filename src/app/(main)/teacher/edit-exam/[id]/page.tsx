@@ -9,20 +9,20 @@ import {
 } from "@/icons/icons";
 import { useParams } from "next/navigation";
 import { useExamStore } from "@/stores/examStore";
+import { useQuestionStore } from "@/stores/questionStore";
 import { ExamInfo } from "@/dto/exam.dto";
-
-type Question = {
-  text: string;
-  type: "multiple-choice" | "true-false" | "short-answer";
-  options?: string[];
-  correctAnswer: string;
-};
+import { Question as QuestionDTO } from "@/dto/question.dto";
+import SelectQuestionsModal from "@/components/SelectQuestionsModal";
+import Toast from "@/components/Toast";
 
 export default function EditExamPage() {
   const params = useParams<{ id: string }>();
   const { getExamInfo } = useExamStore();
   const [exam, setExam] = useState<ExamInfo>();
-  const [questions, setQuestions] = useState<Question[]>([]);
+  const [questions, setQuestions] = useState<QuestionDTO[]>([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [toastMessage, setToastMessage] = useState<string | null>(null);
+  const [toastType, setToastType] = useState<"success" | "error">("success");
 
   useEffect(() => {
     fetchExamInfo();
@@ -35,29 +35,36 @@ export default function EditExamPage() {
       console.log("Fetched exam info:", examInfo);
     } catch (error) {
       console.error("Error fetching exam info:", error);
+      setToastMessage("Failed to load exam information");
+      setToastType("error");
     }
   };
 
-  const addQuestion = () => {
-    // For now, we'll add a placeholder question.
-    // In a real application, this would likely open a modal or a new form to add a question.
-    setQuestions([
-      ...questions,
-      {
-        text: "What is the capital of France?",
-        type: "multiple-choice",
-        options: ["London", "Berlin", "Paris", "Madrid"],
-        correctAnswer: "Paris",
-      },
-    ]);
+  const handleSelectQuestions = (selectedQuestions: QuestionDTO[]) => {
+    setQuestions([...questions, ...selectedQuestions]);
+    setToastMessage(
+      `${selectedQuestions.length} question(s) added successfully`,
+    );
+    setToastType("success");
   };
 
-  const removeQuestion = (index: number) => {
-    setQuestions(questions.filter((_, i) => i !== index));
+  const removeQuestion = (questionId: string) => {
+    setQuestions(questions.filter((q) => q.id !== questionId));
+    setToastMessage("Question removed");
+    setToastType("success");
   };
 
   return (
     <>
+      <SelectQuestionsModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onSelectQuestions={handleSelectQuestions}
+        existingQuestionIds={questions.map((q) => q.id)}
+      />
+      {toastMessage && (
+        <Toast message={toastMessage} onClose={() => setToastMessage(null)} />
+      )}
       {/* Main Content */}
       <main className="py-10">
         <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -137,7 +144,7 @@ export default function EditExamPage() {
             <div className="flex items-center justify-between">
               <h2 className="text-xl font-semibold text-gray-800">Questions</h2>
               <button
-                onClick={addQuestion}
+                onClick={() => setIsModalOpen(true)}
                 className="flex items-center justify-center rounded-lg bg-blue-600 px-5 py-2.5 text-sm font-medium text-white shadow-md transition-all hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-green-300">
                 <PlusCircleIcon />
                 Add Question
@@ -146,42 +153,81 @@ export default function EditExamPage() {
 
             <div className="mt-6 space-y-6">
               {questions.map((question, index) => (
-                <div key={index} className="rounded-lg bg-white p-6 shadow-md">
+                <div key={question.id} className="rounded-lg bg-white p-6 shadow-md">
                   <div className="flex items-start justify-between">
                     <div className="flex">
                       <p className="mr-2 text-lg font-semibold text-gray-800">{`Q${
                         index + 1
                       }:`}</p>
-                      <p className="text-lg text-gray-700">{question.text}</p>
+                      <p className="text-lg text-gray-700">
+                        {question.question_text}
+                      </p>
                     </div>
                     <button
-                      onClick={() => removeQuestion(index)}
+                      onClick={() => removeQuestion(question.id)}
                       className="text-red-500 hover:text-red-700">
                       <XIcon />
                     </button>
                   </div>
+                  <div className="mt-2 text-sm text-gray-600">
+                    <span className="font-semibold">Type:</span>{" "}
+                    {question.question_type}
+                  </div>
                   <div className="mt-4">
-                    {question.type === "multiple-choice" && (
+                    {question.question_type === "MULTIPLE_CHOICE" ||
+                    question.question_type === "TRUE_FALSE" ? (
                       <div className="space-y-2">
                         {question.options?.map((option, i) => (
                           <div key={i} className="flex items-center">
                             <input
-                              id={`option-${index}-${i}`}
-                              name={`question-${index}`}
+                              id={`option-${question.id}-${i}`}
+                              name={`question-${question.id}`}
                               type="radio"
                               className="h-4 w-4 border-gray-300 text-blue-600 focus:ring-blue-500"
-                              checked={option === question.correctAnswer}
+                              checked={option.is_correct === true}
                               readOnly
                             />
                             <label
-                              htmlFor={`option-${index}-${i}`}
-                              className="ml-3 block text-sm text-gray-700">
-                              {option}
+                              htmlFor={`option-${question.id}-${i}`}
+                              className={`ml-3 block text-sm text-gray-700 ${
+                                option.is_correct === true ? "font-bold" : ""
+                              }`}>
+                              {option.option_text}
                             </label>
                           </div>
                         ))}
                       </div>
-                    )}
+                    ) : question.question_type === "MULTIPLE_ANSWER" ? (
+                      <div className="space-y-2">
+                        {question.options?.map((option, i) => (
+                          <div key={i} className="flex items-center">
+                            <input
+                              id={`option-${question.id}-${i}`}
+                              name={`question-${question.id}`}
+                              type="checkbox"
+                              className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                              checked={option.is_correct === true}
+                              readOnly
+                            />
+                            <label
+                              htmlFor={`option-${question.id}-${i}`}
+                              className={`ml-3 block text-sm text-gray-700 ${
+                                option.is_correct === true ? "font-bold" : ""
+                              }`}>
+                              {option.option_text}
+                            </label>
+                          </div>
+                        ))}
+                      </div>
+                    ) : question.question_type === "SHORT_ANSWER" ? (
+                      <div className="mt-2 text-sm text-gray-600">
+                        <span className="font-semibold">Accepted Answers:</span>{" "}
+                        {question.options
+                          ?.filter((o) => o.is_correct)
+                          .map((o) => o.option_text)
+                          .join(", ")}
+                      </div>
+                    ) : null}
                   </div>
                 </div>
               ))}

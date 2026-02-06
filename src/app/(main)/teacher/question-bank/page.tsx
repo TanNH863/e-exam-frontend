@@ -1,23 +1,25 @@
 "use client";
 import { useEffect, useState } from "react";
+import ExcelJS from "exceljs";
 import {
   PlusCircleIcon,
   TrashIcon,
   PencilIcon,
   SearchIcon,
-  UploadIcon
+  UploadIcon,
 } from "@/icons/icons";
 import { useQuestionStore } from "@/stores/questionStore";
-import { Question } from "@/dto/question.dto";
+import { Question, Option } from "@/dto/question.dto";
 import Toast from "@/components/Toast";
 import CreateQuestionModal from "@/components/CreateQuestionModal";
 
 export default function QuestionBankPage() {
-  const { getAllQuestions } = useQuestionStore();
+  const { createQuestion, getAllQuestions } = useQuestionStore();
   const [isOpen, setIsOpen] = useState(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
   const [questions, setQuestions] = useState<Question[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
+  const [file, setFile] = useState<File | null>(null);
 
   useEffect(() => {
     fetchQuestions();
@@ -36,6 +38,121 @@ export default function QuestionBankPage() {
   const filteredQuestions = questions.filter((question) =>
     question.question_text.toLowerCase().includes(searchTerm.toLowerCase()),
   );
+
+  const handleFileUpload = async (uploadFile: File) => {
+    const fileToProcess = uploadFile ?? file;
+
+    if (!fileToProcess) {
+      setToastMessage("No file selected!");
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = async (e) => {
+      try {
+        const workbook = new ExcelJS.Workbook();
+        await workbook.xlsx.load(e.target?.result as ArrayBuffer);
+        const worksheet = workbook.worksheets[0];
+
+        if (!worksheet) {
+          setToastMessage("No worksheet found in the file!");
+          return;
+        }
+
+        const { successCount, errorCount } = await processWorksheet(worksheet);
+        await fetchQuestions();
+
+        const message =
+          successCount > 0
+            ? `Successfully uploaded ${successCount} question${successCount > 1 ? "s" : ""}${errorCount > 0 ? ` (${errorCount} failed)` : ""}`
+            : "Failed to upload questions. Please check the file format.";
+        setToastMessage(message);
+
+        resetFileInput();
+      } catch (error) {
+        console.error("Error processing file:", error);
+        setToastMessage("Failed to process the file. Please check the format.");
+      }
+    };
+
+    reader.readAsArrayBuffer(fileToProcess);
+  };
+
+  const processWorksheet = async (worksheet: ExcelJS.Worksheet) => {
+    let successCount = 0;
+    let errorCount = 0;
+
+    for (let row = 2; row <= worksheet.rowCount; row++) {
+      const cells = worksheet.getRow(row);
+      const questionText = cells.getCell(1).value?.toString().trim();
+      const questionType = cells.getCell(2).value?.toString().trim();
+
+      if (!questionText || !questionType) continue;
+
+      try {
+        const options = getOptions(cells, questionType);
+        await createQuestion(questionText, questionType, options);
+        successCount++;
+      } catch (error) {
+        console.error(`Error creating question at row ${row}:`, error);
+        errorCount++;
+      }
+    }
+
+    return { successCount, errorCount };
+  };
+
+  const getOptions = (cells: ExcelJS.Row, questionType: string) => {
+    const options: Option[] = [];
+
+    if (
+      ["MULTIPLE_CHOICE", "TRUE_FALSE", "MULTIPLE_ANSWER"].includes(
+        questionType,
+      )
+    ) {
+      const optionColumns = [
+        [3, "A"],
+        [4, "B"],
+        [5, "C"],
+        [6, "D"],
+      ];
+      const correctAnswer = cells.getCell(7).value?.toString().trim();
+
+      optionColumns.forEach(([colIndex, label]) => {
+        const optionText = cells.getCell(colIndex).value?.toString().trim();
+        if (optionText) {
+          options.push({
+            option_text: optionText,
+            is_correct: label === correctAnswer,
+          });
+        }
+      });
+
+      if (!options.some((opt) => opt.is_correct)) {
+        throw new Error(
+          `No correct answer found for question at row ${cells.number}`,
+        );
+      }
+    } else if (questionType === "SHORT_ANSWER") {
+      const acceptedAnswers = cells.getCell(7).value?.toString().split(";");
+      acceptedAnswers?.forEach((answer) => {
+        options.push({
+          option_text: answer.trim(),
+          is_correct: true,
+        });
+      });
+    }
+
+    return options;
+  };
+
+  const resetFileInput = () => {
+    setFile(null);
+    const fileInput = document.getElementById(
+      "file-upload",
+    ) as HTMLInputElement;
+    if (fileInput) fileInput.value = "";
+  };
 
   return (
     <>
@@ -63,12 +180,24 @@ export default function QuestionBankPage() {
               </button>
               <label
                 htmlFor="file-upload"
-                className="mt-4 flex items-center justify-center rounded-lg bg-[#1D6F42] px-5 py-2.5 text-sm font-medium text-white shadow-md transition-all hover:bg-blue-700 hover:cursor-pointer focus:outline-none focus:ring-4 focus:ring-blue-300 sm:mt-0"
-              >
+                className="mt-4 flex items-center justify-center rounded-lg bg-[#1D6F42] px-5 py-2.5 text-sm font-medium text-white shadow-md transition-all hover:bg-green-800 hover:cursor-pointer focus:outline-none focus:ring-4 focus:ring-blue-300 sm:mt-0">
                 <UploadIcon />
                 Upload from Excel
               </label>
-              <input id="file-upload" type="file" className="hidden" />
+              <input
+                id="file-upload"
+                type="file"
+                className="hidden"
+                accept=".xlsx,.xls"
+                onChange={(e) => {
+                  const selectedFile = e.target.files?.[0];
+                  console.log("selectedFile: ", selectedFile);
+                  if (selectedFile) {
+                    setFile(selectedFile);
+                    handleFileUpload(selectedFile);
+                  }
+                }}
+              />
             </div>
           </div>
 

@@ -37,7 +37,7 @@ export default function Table<T extends { id: string | number }>({
 
   const searchableColumns = useMemo(
     () => columns.filter((col) => col.searchable !== false),
-    [columns]
+    [columns],
   );
 
   const filteredData = useMemo(() => {
@@ -47,7 +47,7 @@ export default function Table<T extends { id: string | number }>({
       searchableColumns.some((col) => {
         const value = row[col.key];
         return String(value).toLowerCase().includes(searchTerm.toLowerCase());
-      })
+      }),
     );
   }, [data, searchTerm, searchableColumns]);
 

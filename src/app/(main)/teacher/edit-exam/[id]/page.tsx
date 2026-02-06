@@ -153,7 +153,9 @@ export default function EditExamPage() {
 
             <div className="mt-6 space-y-6">
               {questions.map((question, index) => (
-                <div key={question.id} className="rounded-lg bg-white p-6 shadow-md">
+                <div
+                  key={question.id}
+                  className="rounded-lg bg-white p-6 shadow-md">
                   <div className="flex items-start justify-between">
                     <div className="flex">
                       <p className="mr-2 text-lg font-semibold text-gray-800">{`Q${

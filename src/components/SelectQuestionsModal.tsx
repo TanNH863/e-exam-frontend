@@ -168,7 +168,8 @@ export default function SelectQuestionsModal({
             onClick={handleAddQuestions}
             disabled={selectedQuestions.size === 0 || isLoading}
             className="rounded-lg bg-blue-600 px-5 py-2.5 text-sm font-medium text-white shadow-md transition-all hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-gray-400 focus:outline-none focus:ring-4 focus:ring-blue-300">
-            Add {selectedQuestions.size > 0 ? `(${selectedQuestions.size})` : ""}{" "}
+            Add{" "}
+            {selectedQuestions.size > 0 ? `(${selectedQuestions.size})` : ""}{" "}
             Questions
           </button>
         </div>

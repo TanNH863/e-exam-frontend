@@ -21,26 +21,35 @@ import {
   Trash,
   Pencil,
   Search,
-  Upload
+  Upload,
 } from "lucide-react";
 
 type SVGProps = React.SVGProps<SVGSVGElement>;
 
 export const BookOpenIcon = (props: SVGProps) => (
-  <BookOpen {...props} className={props.className ?? "mr-2 h-5 w-5 text-gray-500"} />
+  <BookOpen
+    {...props}
+    className={props.className ?? "mr-2 h-5 w-5 text-gray-500"}
+  />
 );
 
 export const UserIcon = (props: SVGProps) => (
   <User
     {...props}
-    className={props.className ?? "absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-400"}
+    className={
+      props.className ??
+      "absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-400"
+    }
   />
 );
 
 export const LockIcon = (props: SVGProps) => (
   <Lock
     {...props}
-    className={props.className ?? "absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-400"}
+    className={
+      props.className ??
+      "absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-400"
+    }
   />
 );
 
@@ -57,15 +66,24 @@ export const BellIcon = (props: SVGProps) => (
 );
 
 export const ClipboardListIcon = (props: SVGProps) => (
-  <ClipboardList {...props} className={props.className ?? "mr-3 h-6 w-6 text-blue-500"} />
+  <ClipboardList
+    {...props}
+    className={props.className ?? "mr-3 h-6 w-6 text-blue-500"}
+  />
 );
 
 export const CalendarIcon = (props: SVGProps) => (
-  <Calendar {...props} className={props.className ?? "mr-1.5 h-4 w-4 text-gray-500"} />
+  <Calendar
+    {...props}
+    className={props.className ?? "mr-1.5 h-4 w-4 text-gray-500"}
+  />
 );
 
 export const ClockIcon = (props: SVGProps) => (
-  <Clock {...props} className={props.className ?? "mr-1.5 h-4 w-4 text-gray-500"} />
+  <Clock
+    {...props}
+    className={props.className ?? "mr-1.5 h-4 w-4 text-gray-500"}
+  />
 );
 
 export const CheckCircleIcon = (props: SVGProps) => (
@@ -81,7 +99,10 @@ export const FileTextIcon = (props: SVGProps) => (
 );
 
 export const ClipboardCheckIcon = (props: SVGProps) => (
-  <ClipboardCheck {...props} className={props.className ?? "h-8 w-8 text-green-500"} />
+  <ClipboardCheck
+    {...props}
+    className={props.className ?? "h-8 w-8 text-green-500"}
+  />
 );
 
 export const UsersIcon = (props: SVGProps) => (
@@ -105,7 +126,10 @@ export const XIcon = (props: SVGProps) => (
 );
 
 export const SuccessIcon = (props: SVGProps) => (
-  <CheckCircle {...props} className={props.className ?? "h-6 w-6 text-green-500"} />
+  <CheckCircle
+    {...props}
+    className={props.className ?? "h-6 w-6 text-green-500"}
+  />
 );
 
 export const TrashIcon = (props: SVGProps) => (

@@ -13,6 +13,7 @@ import { useExamStore } from "@/stores/examStore";
 import CreateExamModal from "@/components/CreateExamModal";
 import Toast from "@/components/Toast";
 import ExamsList from "@/components/ExamsList";
+import Spinner from "@/components/Spinner";
 import { Exam } from "@/dto/exam.dto";
 import { mockTeacherStats, mockGradingQueue } from "../../../../../mock.data";
 
@@ -23,6 +24,7 @@ export default function TeacherDashboard() {
   const [isOpen, setIsOpen] = useState(false);
   const [exams, setExams] = useState<Exam[]>([]);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     fetchExams();
@@ -34,12 +36,15 @@ export default function TeacherDashboard() {
   // };
 
   const fetchExams = async () => {
+    setLoading(true);
     try {
       const exams = await getAllExams();
       setExams(exams);
       console.log("Fetched exams:", exams);
     } catch (error) {
       console.error("Error fetching exams:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -121,9 +126,17 @@ export default function TeacherDashboard() {
           {/* Teacher's Exam List */}
           <section className="mt-12">
             <h2 className="text-2xl font-semibold text-gray-900">My Exams</h2>
-            <div className="mt-4 overflow-hidden rounded-xl bg-white shadow-lg">
+            {loading ? (
+              <div className="mt-4 overflow-hidden rounded-xl bg-white shadow-lg">
+                <Spinner />
+              </div>
+            ) : exams.length !== 0 ? (
               <ExamsList exams={exams} />
-            </div>
+            ) : (
+              <div className="flex items-center justify-center mt-4 pt-2 pb-2 overflow-hidden rounded-xl bg-white shadow-lg">
+                <p className="text-black">No exams found</p>
+              </div>
+            )}
           </section>
 
           {/* Grading Queue */}

@@ -6,33 +6,44 @@ import { Exam } from "@/dto/exam.dto";
 import { PlusCircleIcon } from "@/icons/icons";
 import ExamsList from "@/components/ExamsList";
 import CreateExamModal from "@/components/CreateExamModal";
+import Spinner from "@/components/Spinner";
+import Toast from "@/components/Toast";
 
 export default function ManageExams() {
   const { getAllExams } = useExamStore();
   const [exams, setExams] = useState<Exam[]>([]);
   const [isOpen, setIsOpen] = useState(false);
+  const [toastMessage, setToastMessage] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     fetchExams();
   }, []);
 
   const fetchExams = async () => {
+    setLoading(true);
     try {
       const exams = await getAllExams();
       setExams(exams);
       console.log("Fetched exams:", exams);
     } catch (error) {
       console.error("Error fetching exams:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
   const handleCreateSuccess = (message: string) => {
+    setToastMessage(message);
     console.log(message);
     fetchExams();
   };
 
   return (
     <>
+      {toastMessage && (
+        <Toast message={toastMessage} onClose={() => setToastMessage(null)} />
+      )}
       <main className="py-10">
         <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <section>
@@ -45,9 +56,17 @@ export default function ManageExams() {
                 Create Exam
               </button>
             </div>
-            <div className="mt-4 overflow-hidden rounded-xl bg-white shadow-lg">
+            {loading ? (
+              <div className="mt-4 overflow-hidden rounded-xl bg-white shadow-lg">
+                <Spinner />
+              </div>
+            ) : exams.length !== 0 ? (
               <ExamsList exams={exams} />
-            </div>
+            ) : (
+              <div className="flex items-center justify-center mt-4 pt-2 pb-2 overflow-hidden rounded-xl bg-white shadow-lg">
+                <p className="text-black">No exams found</p>
+              </div>
+            )}
           </section>
         </div>
       </main>

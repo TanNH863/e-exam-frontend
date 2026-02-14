@@ -69,21 +69,21 @@ export default function SelectQuestionsModal({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-      <div className="max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-lg bg-white shadow-xl">
+      <div className="flex flex-col max-h-[90vh] w-full max-w-2xl rounded-lg bg-white shadow-xl">
         {/* Modal Header */}
-        <div className="sticky top-0 flex items-center justify-between border-b border-gray-200 bg-white px-6 py-4">
+        <div className="flex-shrink-0 flex items-center justify-between border-b border-gray-200 bg-white px-6 py-4">
           <h2 className="text-xl font-semibold text-gray-900">
             Add Questions from Question Bank
           </h2>
           <button
             onClick={onClose}
-            className="text-gray-400 hover:text-gray-600">
+            className="text-gray-400 hover:text-gray-600 hover:cursor-pointer">
             <XIcon />
           </button>
         </div>
 
         {/* Modal Body */}
-        <div className="px-6 py-4">
+        <div className="overflow-y-auto px-6 py-4">
           {/* Search Bar */}
           <div className="mb-6">
             <div className="relative">
@@ -135,11 +135,8 @@ export default function SelectQuestionsModal({
                       <div className="mt-2 space-y-1">
                         {question.options.map((option, idx) => (
                           <div key={idx} className="text-sm text-gray-600">
-                            <span
-                              className={
-                                option.is_correct ? "font-semibold" : ""
-                              }>
-                              {option.option_text}
+                            <span className={option.is_correct ? "font-semibold" : ""}>
+                              {idx === 0 ? "A" : idx === 1 ? "B" : idx === 2 ? "C" : idx === 3 ? "D" : "Default"}. {option.option_text}
                             </span>
                             {option.is_correct && (
                               <span className="ml-2 text-xs font-semibold text-green-600">
@@ -158,7 +155,7 @@ export default function SelectQuestionsModal({
         </div>
 
         {/* Modal Footer */}
-        <div className="flex justify-end space-x-3 border-t border-gray-200 bg-gray-50 px-6 py-4">
+        <div className="flex-shrink-0 flex justify-end space-x-3 border-t border-gray-200 bg-gray-50 px-6 py-4">
           <button
             onClick={onClose}
             className="rounded-lg bg-gray-300 px-5 py-2.5 text-sm font-medium text-gray-800 shadow-md transition-all hover:bg-gray-400 focus:outline-none focus:ring-4 focus:ring-gray-200">

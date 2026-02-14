@@ -265,7 +265,7 @@ export default function QuestionBankPage() {
                                 className={`ml-3 block text-sm text-gray-700 ${
                                   option.is_correct === true ? "font-bold" : ""
                                 }`}>
-                                {option.option_text}
+                                {i === 0 ? "A" : i === 1 ? "B" : i === 2 ? "C" : i === 3 ? "D" : "Default"}. {option.option_text}
                               </label>
                             </div>
                           ))}

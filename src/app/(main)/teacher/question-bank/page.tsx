@@ -20,6 +20,7 @@ export default function QuestionBankPage() {
   const [questions, setQuestions] = useState<Question[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [file, setFile] = useState<File | null>(null);
+  const [toastType, setToastType] = useState<"success" | "error">("success");
 
   useEffect(() => {
     fetchQuestions();
@@ -43,6 +44,7 @@ export default function QuestionBankPage() {
     const fileToProcess = uploadFile ?? file;
 
     if (!fileToProcess) {
+      setToastType("error");
       setToastMessage("No file selected!");
       return;
     }
@@ -55,6 +57,7 @@ export default function QuestionBankPage() {
         const worksheet = workbook.worksheets[0];
 
         if (!worksheet) {
+          setToastType("error");
           setToastMessage("No worksheet found in the file!");
           return;
         }
@@ -66,11 +69,13 @@ export default function QuestionBankPage() {
           successCount > 0
             ? `Successfully uploaded ${successCount} question${successCount > 1 ? "s" : ""}${errorCount > 0 ? ` (${errorCount} failed)` : ""}`
             : "Failed to upload questions. Please check the file format.";
-        setToastMessage(message);
 
+        setToastType(successCount > 0 ? "success" : "error");
+        setToastMessage(message);
         resetFileInput();
       } catch (error) {
         console.error("Error processing file:", error);
+        setToastType("error");
         setToastMessage("Failed to process the file. Please check the format.");
       }
     };
@@ -162,7 +167,7 @@ export default function QuestionBankPage() {
         onSuccess={(msg) => setToastMessage(msg)}
       />
       {toastMessage && (
-        <Toast message={toastMessage} onClose={() => setToastMessage(null)} />
+        <Toast type={toastType} message={toastMessage} onClose={() => setToastMessage(null)} />
       )}
 
       <main className="py-10">

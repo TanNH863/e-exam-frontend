@@ -10,7 +10,7 @@ import {
 import { useParams } from "next/navigation";
 import { useExamStore } from "@/stores/examStore";
 import { useQuestionStore } from "@/stores/questionStore";
-import { ExamInfo } from "@/dto/exam.dto";
+import { ExamInfo, ExamStatus } from "@/dto/exam.dto";
 import { Question as QuestionDTO } from "@/dto/question.dto";
 import SelectQuestionsModal from "@/components/SelectQuestionsModal";
 import Toast from "@/components/Toast";
@@ -23,6 +23,7 @@ export default function EditExamPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
   const [toastType, setToastType] = useState<"success" | "error">("success");
+  const [submitType, setSubmitType] = useState<ExamStatus>(ExamStatus.DRAFT);
 
   useEffect(() => {
     fetchExamInfo();
@@ -63,7 +64,7 @@ export default function EditExamPage() {
         existingQuestionIds={questions.map((q) => q.id)}
       />
       {toastMessage && (
-        <Toast message={toastMessage} onClose={() => setToastMessage(null)} />
+        <Toast type={toastType} message={toastMessage} onClose={() => setToastMessage(null)} />
       )}
       {/* Main Content */}
       <main className="py-10">

@@ -19,6 +19,7 @@ import {
   ChartBar,
   X,
   Trash,
+  OctagonX,
   Pencil,
   Search,
   Upload,
@@ -129,6 +130,13 @@ export const SuccessIcon = (props: SVGProps) => (
   <CheckCircle
     {...props}
     className={props.className ?? "h-6 w-6 text-green-500"}
+  />
+);
+
+export const ErrorIcon = (props: SVGProps) => (
+  <OctagonX
+    {...props}
+    className={props.className ?? "h-6 w-6 text-red-500"}
   />
 );
 

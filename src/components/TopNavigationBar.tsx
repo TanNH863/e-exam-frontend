@@ -3,6 +3,7 @@
 import { BellIcon, BookOpenIcon, LogoutIcon } from "@/icons/icons";
 import { useAuthStore } from "@/stores/authStore";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 interface NavLink {
   href: string;
@@ -14,14 +15,30 @@ interface TopNavigationBarProps {
   navLinks: NavLink[];
 }
 
+const notifications = [
+    { id: 1, text: "New exam assigned: Math 101" },
+    { id: 2, text: "Your exam results are in for Physics." },
+    { id: 3, text: "Reminder: Exam on Friday." },
+];
+
+
 export default function TopNavigationBar({ navLinks }: TopNavigationBarProps) {
   const { logout } = useAuthStore();
   const router = useRouter();
+  const [hasNotification, setHasNotification] = useState(true);
+  const [showNotifications, setShowNotifications] = useState(false);
+
 
   const handleLogout = async () => {
     await logout();
     router.replace("/login");
   };
+
+  const handleNotificationClick = () => {
+    setHasNotification(false);
+    setShowNotifications(!showNotifications);
+  };
+
 
   return (
     <header className="border-b border-gray-200 bg-white shadow-sm">
@@ -41,22 +58,48 @@ export default function TopNavigationBar({ navLinks }: TopNavigationBarProps) {
                     link.isActive
                       ? "border-blue-500 text-gray-900"
                       : "border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700"
-                  }`}>
+                  }`}
+                >
                   {link.label}
                 </a>
               ))}
             </nav>
           </div>
           <div className="flex items-center">
-            <button
-              type="button"
-              className="mr-4 rounded-full bg-white p-1 text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
-              <span className="sr-only">View notifications</span>
-              <BellIcon />
-            </button>
+            <div className="relative">
+              <button
+                type="button"
+                className={`relative mr-4 rounded-full p-1 hover:cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 ${
+                  showNotifications
+                    ? "bg-gray-200 text-gray-500"
+                    : "bg-white text-gray-400 hover:text-gray-500"
+                }`}
+                onClick={handleNotificationClick}
+              >
+                <span className="sr-only">View notifications</span>
+                <BellIcon />
+                {hasNotification && (
+                  <span className="absolute top-0 right-0 block h-2 w-2 rounded-full bg-red-500 ring-2 ring-white" />
+                )}
+              </button>
+              {showNotifications && (
+                <div className="absolute right-0 mt-2 w-80 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none z-10">
+                  <div className="py-1">
+                    <div className="px-4 py-2 text-sm text-gray-700 font-bold">Notifications</div>
+                    <div className="border-t border-gray-100"></div>
+                    {notifications.map((notification) => (
+                      <a href="#" key={notification.id} className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                        {notification.text}
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
             <button
               onClick={handleLogout}
-              className="flex items-center rounded-lg bg-gray-100 px-4 py-2 text-sm font-medium text-gray-700 transition-all hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+              className="flex items-center rounded-lg bg-gray-100 px-4 py-2 text-sm hover:cursor-pointer font-medium text-gray-700 transition-all hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+            >
               <LogoutIcon />
               Logout
             </button>

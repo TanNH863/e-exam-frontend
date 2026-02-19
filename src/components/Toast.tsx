@@ -1,14 +1,15 @@
 "use client";
 
-import { SuccessIcon, XIcon } from "@/icons/icons";
+import { ErrorIcon, SuccessIcon, XIcon } from "@/icons/icons";
 import { useEffect, useState } from "react";
 
 interface ToastProps {
+  type: string;
   message: string;
   onClose: () => void;
 }
 
-export default function Toast({ message, onClose }: ToastProps) {
+export default function Toast({ type, message, onClose }: ToastProps) {
   const [visible, setVisible] = useState(true);
 
   useEffect(() => {
@@ -29,7 +30,7 @@ export default function Toast({ message, onClose }: ToastProps) {
       className={`fixed bottom-5 right-5 flex items-center gap-4 rounded-lg bg-gray-800 p-4 text-white shadow-lg transition-opacity duration-300 ${
         visible ? "opacity-100" : "opacity-0"
       }`}>
-      <SuccessIcon />
+      {type === 'error' ? <ErrorIcon /> : <SuccessIcon /> }
       <span>{message}</span>
       <button onClick={handleClose} className="text-gray-400 hover:text-white">
         <XIcon />

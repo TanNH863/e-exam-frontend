@@ -17,6 +17,7 @@ interface InitialState {
   getAllExams: () => Promise<Exam[]>;
   getExamInfo: (id: string) => Promise<ExamInfo>;
   deleteExam: (id: string) => Promise<void>;
+  updateExamQuestions: (id: string, questionIds: string[]) => Promise<{ message: string }>;
 }
 
 export const useExamStore = create<InitialState>((set) => ({
@@ -101,24 +102,24 @@ export const useExamStore = create<InitialState>((set) => ({
       );
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.message || "Failed to fetch exams");
+        throw new Error(errorData.message || "Failed to fetch exam info");
       }
-      const exams = await response.json();
-      set({ exams, isLoading: false });
-      return exams;
+      const examInfo = await response.json();
+      set({ exam: examInfo, isLoading: false });
+      return examInfo;
     } catch (error: unknown) {
       if (error instanceof Error) {
         set({ error: error.message, isLoading: false });
       } else {
         set({ error: "An unknown error occurred", isLoading: false });
       }
-      return [];
+      throw error;
     }
   },
   deleteExam: async (id) => {
     set({ isLoading: true, error: null });
     try {
-      const response = await fetch(`/exam/${id}`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/exam/${id}`, {
         method: "DELETE",
       });
       if (!response.ok) {
@@ -135,6 +136,34 @@ export const useExamStore = create<InitialState>((set) => ({
       } else {
         set({ error: "An unknown error occurred", isLoading: false });
       }
+    }
+  },
+  updateExamQuestions: async (id, questionIds) => {
+    set({ isLoading: true, error: null });
+    try {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/exam/${id}/questions`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ questionIds }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Failed to update exam questions');
+      }
+      
+      const result = await response.json();
+      set({ isLoading: false });
+      return result;
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        set({ error: error.message, isLoading: false });
+      } else {
+        set({ error: 'An unknown error occurred', isLoading: false });
+      }
+      throw error;
     }
   },
 }));

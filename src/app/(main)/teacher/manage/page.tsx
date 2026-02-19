@@ -15,6 +15,7 @@ export default function ManageExams() {
   const [isOpen, setIsOpen] = useState(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const [toastType, setToastType] = useState<"success" | "error">("success");
 
   useEffect(() => {
     fetchExams();
@@ -28,6 +29,8 @@ export default function ManageExams() {
       console.log("Fetched exams:", exams);
     } catch (error) {
       console.error("Error fetching exams:", error);
+      setToastType("error");
+      setToastMessage("Failed to fetch exams.");
     } finally {
       setLoading(false);
     }
@@ -35,6 +38,7 @@ export default function ManageExams() {
 
   const handleCreateSuccess = (message: string) => {
     setToastMessage(message);
+    setToastType("success")
     console.log(message);
     fetchExams();
   };
@@ -42,7 +46,7 @@ export default function ManageExams() {
   return (
     <>
       {toastMessage && (
-        <Toast message={toastMessage} onClose={() => setToastMessage(null)} />
+        <Toast type={toastType} message={toastMessage} onClose={() => setToastMessage(null)} />
       )}
       <main className="py-10">
         <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">

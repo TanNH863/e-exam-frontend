@@ -25,6 +25,7 @@ export default function TeacherDashboard() {
   const [exams, setExams] = useState<Exam[]>([]);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const [toastType, setToastType] = useState<"success" | "error">("success");
 
   useEffect(() => {
     fetchExams();
@@ -43,6 +44,8 @@ export default function TeacherDashboard() {
       console.log("Fetched exams:", exams);
     } catch (error) {
       console.error("Error fetching exams:", error);
+      setToastType("error");
+      setToastMessage("Failed to fetch exams.");
     } finally {
       setLoading(false);
     }
@@ -56,7 +59,7 @@ export default function TeacherDashboard() {
         onSuccess={(msg) => setToastMessage(msg)}
       />
       {toastMessage && (
-        <Toast message={toastMessage} onClose={() => setToastMessage(null)} />
+        <Toast type={"success"} message={toastMessage} onClose={() => setToastMessage(null)} />
       )}
 
       {/* Main Content */}
@@ -128,10 +131,8 @@ export default function TeacherDashboard() {
             <h2 className="text-2xl font-semibold text-gray-900">My Exams</h2>
             {loading ? (
               <div className="mt-4 overflow-hidden rounded-xl bg-white shadow-lg">
-                <Spinner />
+                {exams.length === 0 ? <Spinner /> : <ExamsList exams={exams} />}
               </div>
-            ) : exams.length !== 0 ? (
-              <ExamsList exams={exams} />
             ) : (
               <div className="flex items-center justify-center mt-4 pt-2 pb-2 overflow-hidden rounded-xl bg-white shadow-lg">
                 <p className="text-black">No exams found</p>

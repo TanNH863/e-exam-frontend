@@ -1,3 +1,5 @@
+import { Question } from "./question.dto";
+
 export interface Exam {
   id: string;
   title: string;
@@ -18,7 +20,7 @@ export interface ExamInfo {
   status: ExamStatus;
   created_by_id: string;
   created_at: Date;
-  questions: Exam[];
+  questions: Question[];
 }
 
 export enum ExamStatus {

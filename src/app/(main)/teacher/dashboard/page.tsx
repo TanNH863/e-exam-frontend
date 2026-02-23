@@ -131,7 +131,11 @@ export default function TeacherDashboard() {
             <h2 className="text-2xl font-semibold text-gray-900">My Exams</h2>
             {loading ? (
               <div className="mt-4 overflow-hidden rounded-xl bg-white shadow-lg">
-                {exams.length === 0 ? <Spinner /> : <ExamsList exams={exams} />}
+                <Spinner />
+              </div>
+            ) : exams.length !== 0 ? (
+              <div className="mt-4 overflow-hidden rounded-xl bg-white shadow-lg">
+                <ExamsList exams={exams} />
               </div>
             ) : (
               <div className="flex items-center justify-center mt-4 pt-2 pb-2 overflow-hidden rounded-xl bg-white shadow-lg">

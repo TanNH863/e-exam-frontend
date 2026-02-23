@@ -17,7 +17,7 @@ interface InitialState {
   getAllExams: () => Promise<Exam[]>;
   getExamInfo: (id: string) => Promise<ExamInfo>;
   deleteExam: (id: string) => Promise<void>;
-  updateExamQuestions: (id: string, questionIds: string[]) => Promise<{ message: string }>;
+  updateExamQuestions: (id: string, question_ids: string[], status: ExamStatus) => Promise<{ message: string }>;
 }
 
 export const useExamStore = create<InitialState>((set) => ({
@@ -138,7 +138,7 @@ export const useExamStore = create<InitialState>((set) => ({
       }
     }
   },
-  updateExamQuestions: async (id, questionIds) => {
+  updateExamQuestions: async (id, question_ids, status) => {
     set({ isLoading: true, error: null });
     try {
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/exam/${id}/questions`, {
@@ -146,7 +146,7 @@ export const useExamStore = create<InitialState>((set) => ({
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ questionIds }),
+        body: JSON.stringify({ question_ids, status }),
       });
 
       if (!response.ok) {

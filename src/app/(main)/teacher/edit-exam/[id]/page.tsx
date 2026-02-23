@@ -17,16 +17,20 @@ import Toast from "@/components/Toast";
 
 export default function EditExamPage() {
   const params = useParams<{ id: string }>();
-  const { getExamInfo } = useExamStore();
+  const { getExamInfo, updateExamQuestions } = useExamStore();
+  const { getAllQuestions } = useQuestionStore();
   const [exam, setExam] = useState<ExamInfo>();
   const [questions, setQuestions] = useState<QuestionDTO[]>([]);
+  const [allQuestions, setAllQuestions] = useState<QuestionDTO[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
   const [toastType, setToastType] = useState<"success" | "error">("success");
-  const [submitType, setSubmitType] = useState<ExamStatus>(ExamStatus.DRAFT);
+
+  const questionList = exam?.questions;
 
   useEffect(() => {
     fetchExamInfo();
+    fetchAllQuestions();
   }, []);
 
   const fetchExamInfo = async () => {
@@ -41,12 +45,45 @@ export default function EditExamPage() {
     }
   };
 
-  const handleSelectQuestions = (selectedQuestions: QuestionDTO[]) => {
-    setQuestions([...questions, ...selectedQuestions]);
+  const fetchAllQuestions = async () => {
+    try {
+      const allQuestions = await getAllQuestions();
+      setAllQuestions(allQuestions);
+    } catch (error) {
+      console.error("Error fetching all questions:", error);
+      setToastMessage("Failed to load question bank");
+      setToastType("error");
+    }
+  };
+
+  const handleSelectQuestions = (selectedQuestionIds: string[]) => {
+    const newQuestions = allQuestions.filter((q) =>
+      selectedQuestionIds.includes(q.id),
+    );
+    setQuestions([...questions, ...newQuestions]);
     setToastMessage(
-      `${selectedQuestions.length} question(s) added successfully`,
+      `${newQuestions.length} question(s) added successfully`,
     );
     setToastType("success");
+  };
+
+  const handleSubmit = async (submitType: ExamStatus) => {
+    try {
+      const questionIds = questions.map((q) => q.id);
+      const examInfo = await updateExamQuestions(
+        params.id,
+        questionIds,
+        submitType,
+      );
+      setToastMessage(examInfo.message);
+      setToastType("success");
+      fetchExamInfo();
+      console.log("Fetched exam info:", examInfo);
+    } catch (error) {
+      console.error("Error fetching exam info:", error);
+      setToastMessage("Failed to load exam information");
+      setToastType("error");
+    }
   };
 
   const removeQuestion = (questionId: string) => {
@@ -75,10 +112,16 @@ export default function EditExamPage() {
               Exam Editor
             </h1>
             <div className="flex space-x-2">
-              <button className="mt-4 flex items-center justify-center rounded-lg bg-gray-300 px-5 py-2.5 text-sm font-medium text-gray-800 shadow-md transition-all hover:bg-gray-400 focus:outline-none focus:ring-4 focus:ring-gray-200 sm:mt-0">
+              <button
+                className="mt-4 flex items-center justify-center rounded-lg bg-gray-300 px-5 py-2.5 text-sm font-medium text-gray-800 shadow-md transition-all hover:bg-gray-400 hover:cursor-pointer focus:outline-none focus:ring-4 focus:ring-gray-200 sm:mt-0"
+                onClick={() => { handleSubmit(ExamStatus.DRAFT) }}
+              >
                 Save as draft
               </button>
-              <button className="mt-4 flex items-center justify-center rounded-lg bg-green-600 px-5 py-2.5 text-sm font-medium text-white shadow-md transition-all hover:bg-green-700 focus:outline-none focus:ring-4 focus:ring-blue-300 sm:mt-0">
+              <button
+                className="mt-4 flex items-center justify-center rounded-lg bg-green-600 px-5 py-2.5 text-sm font-medium text-white shadow-md transition-all hover:bg-green-700 hover:cursor-pointer focus:outline-none focus:ring-4 focus:ring-blue-300 sm:mt-0"
+                onClick={() => { handleSubmit(ExamStatus.PUBLISHED) }}
+              >
                 <CheckCircleIcon />
                 Publish
               </button>
@@ -153,7 +196,7 @@ export default function EditExamPage() {
             </div>
 
             <div className="mt-6 space-y-6">
-              {questions.map((question, index) => (
+              {questionList?.map((question, index) => (
                 <div
                   key={question.id}
                   className="rounded-lg bg-white p-6 shadow-md">
@@ -163,7 +206,7 @@ export default function EditExamPage() {
                         index + 1
                       }:`}</p>
                       <p className="text-lg text-gray-700">
-                        {question.question_text}
+                        {question?.question_text}
                       </p>
                     </div>
                     <button
@@ -234,7 +277,7 @@ export default function EditExamPage() {
                   </div>
                 </div>
               ))}
-              {questions.length === 0 && (
+              {questionList?.length === 0 && (
                 <div className="text-center text-gray-500">
                   <p>No questions added yet.</p>
                 </div>

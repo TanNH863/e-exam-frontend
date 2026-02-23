@@ -7,7 +7,7 @@ import { Question } from "@/dto/question.dto";
 interface SelectQuestionsModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onSelectQuestions: (selectedQuestions: Question[]) => void;
+  onSelectQuestions: (selectedQuestions: string[]) => void;
   existingQuestionIds?: string[];
 }
 
@@ -58,8 +58,7 @@ export default function SelectQuestionsModal({
   };
 
   const handleAddQuestions = () => {
-    const selected = questions.filter((q) => selectedQuestions.has(q.id));
-    onSelectQuestions(selected);
+    onSelectQuestions(Array.from(selectedQuestions));
     setSelectedQuestions(new Set());
     setSearchTerm("");
     onClose();

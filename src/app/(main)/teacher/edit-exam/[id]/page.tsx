@@ -13,6 +13,7 @@ import { useQuestionStore } from "@/stores/questionStore";
 import { ExamInfo, ExamStatus } from "@/dto/exam.dto";
 import { Question as QuestionDTO } from "@/dto/question.dto";
 import SelectQuestionsModal from "@/components/SelectQuestionsModal";
+import MessageModal from "@/components/MessageModal";
 import Toast from "@/components/Toast";
 
 export default function EditExamPage() {
@@ -22,11 +23,11 @@ export default function EditExamPage() {
   const [exam, setExam] = useState<ExamInfo>();
   const [questions, setQuestions] = useState<QuestionDTO[]>([]);
   const [allQuestions, setAllQuestions] = useState<QuestionDTO[]>([]);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const [modalType, setModalType] = useState<"select" | "info">();
   const [toastMessage, setToastMessage] = useState<string | null>(null);
   const [toastType, setToastType] = useState<"success" | "error">("success");
-
-  const questionList = exam?.questions;
+  const [pendingStatus, setPendingStatus] = useState<ExamStatus | null>(null);
 
   useEffect(() => {
     fetchExamInfo();
@@ -37,6 +38,7 @@ export default function EditExamPage() {
     try {
       const examInfo = await getExamInfo(params.id);
       setExam(examInfo);
+      setQuestions(examInfo.questions || []);
       console.log("Fetched exam info:", examInfo);
     } catch (error) {
       console.error("Error fetching exam info:", error);
@@ -60,11 +62,22 @@ export default function EditExamPage() {
     const newQuestions = allQuestions.filter((q) =>
       selectedQuestionIds.includes(q.id),
     );
-    setQuestions([...questions, ...newQuestions]);
-    setToastMessage(
-      `${newQuestions.length} question(s) added successfully`,
+    const questionsToAdd = newQuestions.filter(
+      (newQ) => !questions.some((currentQ) => currentQ.id === newQ.id),
     );
-    setToastType("success");
+
+    if (questionsToAdd.length > 0) {
+      setQuestions([...questions, ...questionsToAdd]);
+      setToastMessage(
+        `${questionsToAdd.length} question(s) added successfully`,
+      );
+      setToastType("success");
+    } else {
+      setToastMessage(
+        "No new questions were added. The selected questions are already in the exam.",
+      );
+      setToastType("success");
+    }
   };
 
   const handleSubmit = async (submitType: ExamStatus) => {
@@ -95,13 +108,27 @@ export default function EditExamPage() {
   return (
     <>
       <SelectQuestionsModal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
+        isOpen={isOpen && modalType === "select"}
+        onClose={() => setIsOpen(false)}
         onSelectQuestions={handleSelectQuestions}
         existingQuestionIds={questions.map((q) => q.id)}
       />
+      <MessageModal
+        isOpen={isOpen && modalType === "info"}
+        onClose={() => setIsOpen(false)}
+        onOk={async (status) => {
+          if (status) {
+            await handleSubmit(status);
+          }
+        }}
+        submitType={pendingStatus}
+      />
       {toastMessage && (
-        <Toast type={toastType} message={toastMessage} onClose={() => setToastMessage(null)} />
+        <Toast
+          type={toastType}
+          message={toastMessage}
+          onClose={() => setToastMessage(null)}
+        />
       )}
       {/* Main Content */}
       <main className="py-10">
@@ -114,14 +141,20 @@ export default function EditExamPage() {
             <div className="flex space-x-2">
               <button
                 className="mt-4 flex items-center justify-center rounded-lg bg-gray-300 px-5 py-2.5 text-sm font-medium text-gray-800 shadow-md transition-all hover:bg-gray-400 hover:cursor-pointer focus:outline-none focus:ring-4 focus:ring-gray-200 sm:mt-0"
-                onClick={() => { handleSubmit(ExamStatus.DRAFT) }}
-              >
+                onClick={() => {
+                  setPendingStatus(ExamStatus.DRAFT);
+                  setModalType("info");
+                  setIsOpen(true);
+                }}>
                 Save as draft
               </button>
               <button
                 className="mt-4 flex items-center justify-center rounded-lg bg-green-600 px-5 py-2.5 text-sm font-medium text-white shadow-md transition-all hover:bg-green-700 hover:cursor-pointer focus:outline-none focus:ring-4 focus:ring-blue-300 sm:mt-0"
-                onClick={() => { handleSubmit(ExamStatus.PUBLISHED) }}
-              >
+                onClick={() => {
+                  setPendingStatus(ExamStatus.PUBLISHED);
+                  setModalType("info");
+                  setIsOpen(true);
+                }}>
                 <CheckCircleIcon />
                 Publish
               </button>
@@ -186,9 +219,14 @@ export default function EditExamPage() {
           {/* Questions Section */}
           <section className="mt-8">
             <div className="flex items-center justify-between">
-              <h2 className="text-xl font-semibold text-gray-800">Questions</h2>
+              <h2 className="text-xl font-semibold text-gray-800">
+                Questions
+              </h2>
               <button
-                onClick={() => setIsModalOpen(true)}
+                onClick={() => {
+                  setModalType("select");
+                  setIsOpen(true)
+                }}
                 className="flex items-center justify-center rounded-lg bg-blue-600 px-5 py-2.5 text-sm font-medium text-white shadow-md transition-all hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-green-300">
                 <PlusCircleIcon />
                 Add Question
@@ -196,7 +234,7 @@ export default function EditExamPage() {
             </div>
 
             <div className="mt-6 space-y-6">
-              {questionList?.map((question, index) => (
+              {questions.map((question, index) => (
                 <div
                   key={question.id}
                   className="rounded-lg bg-white p-6 shadow-md">
@@ -267,7 +305,9 @@ export default function EditExamPage() {
                       </div>
                     ) : question.question_type === "SHORT_ANSWER" ? (
                       <div className="mt-2 text-sm text-gray-600">
-                        <span className="font-semibold">Accepted Answers:</span>{" "}
+                        <span className="font-semibold">
+                          Accepted Answers:
+                        </span>{" "}
                         {question.options
                           ?.filter((o) => o.is_correct)
                           .map((o) => o.option_text)
@@ -277,7 +317,7 @@ export default function EditExamPage() {
                   </div>
                 </div>
               ))}
-              {questionList?.length === 0 && (
+              {questions.length === 0 && (
                 <div className="text-center text-gray-500">
                   <p>No questions added yet.</p>
                 </div>

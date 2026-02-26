@@ -48,7 +48,7 @@ export default function CreateExamModal({
       <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
         <div className="w-full max-w-md rounded-lg bg-white p-8 shadow-2xl">
           <div className="flex items-center justify-between">
-            <h2 className="text-2xl font-bold text-gray-900 hover:cursor-pointer">
+            <h2 className="text-2xl font-bold text-gray-900">
               Create New Exam
             </h2>
             <button
@@ -117,7 +117,8 @@ export default function CreateExamModal({
               <button
                 type="button"
                 onClick={onClose}
-                className="rounded-lg bg-gray-300 px-4 py-2 text-sm font-medium text-gray-800 hover:bg-gray-300 hover:cursor-pointer">
+                className="rounded-lg bg-gray-300 px-4 py-2 text-sm font-medium text-gray-800 hover:bg-gray-400 hover:cursor-pointer"
+              >
                 Cancel
               </button>
               <button

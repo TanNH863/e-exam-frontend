@@ -14,52 +14,37 @@ import CreateExamModal from "@/components/CreateExamModal";
 import Toast from "@/components/Toast";
 import ExamsList from "@/components/ExamsList";
 import Spinner from "@/components/Spinner";
-import { Exam } from "@/dto/exam.dto";
 import { mockTeacherStats, mockGradingQueue } from "../../../../../mock.data";
 
 export default function TeacherDashboard() {
   // const { logout } = useAuthStore();
-  const { getAllExams } = useExamStore();
+  const { exams, isLoading, getAllExams } = useExamStore();
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
-  const [exams, setExams] = useState<Exam[]>([]);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
-  const [loading, setLoading] = useState(false);
   const [toastType, setToastType] = useState<"success" | "error">("success");
 
   useEffect(() => {
-    fetchExams();
-  }, []);
+    getAllExams();
+  }, [getAllExams]);
 
   // const handleLogout = async () => {
   //   await logout();
   //   router.replace("/login");
   // };
 
-  const fetchExams = async () => {
-    setLoading(true);
-    try {
-      const exams = await getAllExams();
-      setExams(exams);
-      console.log("Fetched exams:", exams);
-    } catch (error) {
-      console.error("Error fetching exams:", error);
-      setToastType("error");
-      setToastMessage("Failed to fetch exams.");
-    } finally {
-      setLoading(false);
-    }
-  };
-
   return (
     <>
       <CreateExamModal
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
-        onSuccess={(msg) => setToastMessage(msg)}
+        onSuccess={(msg) => {
+          setToastType("success");
+          setToastMessage(msg)
+        }}
       />
       {toastMessage && (
-        <Toast type={"success"} message={toastMessage} onClose={() => setToastMessage(null)} />
+        <Toast type={toastType} message={toastMessage} onClose={() => setToastMessage(null)} />
       )}
 
       {/* Main Content */}
@@ -72,7 +57,7 @@ export default function TeacherDashboard() {
             </h1>
             <button
               onClick={() => setIsOpen(true)}
-              className="mt-4 flex items-center justify-center rounded-lg bg-blue-600 px-5 py-2.5 text-sm font-medium text-white shadow-md transition-all hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-300 sm:mt-0">
+              className="mt-4 flex items-center justify-center rounded-lg bg-blue-600 px-5 py-2.5 text-sm font-medium text-white shadow-md transition-all hover:bg-blue-700 hover:cursor-pointer focus:outline-none focus:ring-4 focus:ring-blue-300 sm:mt-0">
               <PlusCircleIcon />
               Create New Exam
             </button>
@@ -129,7 +114,7 @@ export default function TeacherDashboard() {
           {/* Teacher's Exam List */}
           <section className="mt-12">
             <h2 className="text-2xl font-semibold text-gray-900">My Exams</h2>
-            {loading ? (
+            {isLoading ? (
               <div className="mt-4 overflow-hidden rounded-xl bg-white shadow-lg">
                 <Spinner />
               </div>

@@ -1,5 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import {
   PlusCircleIcon,
   BookOpenIcon,
@@ -18,6 +19,7 @@ import Toast from "@/components/Toast";
 
 export default function EditExamPage() {
   const params = useParams<{ id: string }>();
+  const router = useRouter();
   const { getExamInfo, updateExamQuestions } = useExamStore();
   const { getAllQuestions } = useQuestionStore();
   const [exam, setExam] = useState<ExamInfo>();
@@ -116,12 +118,24 @@ export default function EditExamPage() {
       <MessageModal
         isOpen={isOpen && modalType === "info"}
         onClose={() => setIsOpen(false)}
-        onOk={async (status) => {
-          if (status) {
-            await handleSubmit(status);
-          }
+        title={
+          pendingStatus === ExamStatus.DRAFT
+            ? "Save as Draft"
+            : "Publish Exam"
+        }
+        message={
+          pendingStatus === ExamStatus.DRAFT
+            ? "Are you sure you want to save the exam as draft?"
+            : "Are you sure you want to publish the exam?"
+        }
+        onOk={async () => {
+          if (!pendingStatus) return;
+          
+          await handleSubmit(pendingStatus);
+          
+          const hasHistory = window.history.length > 1;
+          hasHistory ? router.back() : router.push("/manage");
         }}
-        submitType={pendingStatus}
       />
       {toastMessage && (
         <Toast
@@ -145,7 +159,8 @@ export default function EditExamPage() {
                   setPendingStatus(ExamStatus.DRAFT);
                   setModalType("info");
                   setIsOpen(true);
-                }}>
+                }}
+              >
                 Save as draft
               </button>
               <button
@@ -154,7 +169,8 @@ export default function EditExamPage() {
                   setPendingStatus(ExamStatus.PUBLISHED);
                   setModalType("info");
                   setIsOpen(true);
-                }}>
+                }}
+              >
                 <CheckCircleIcon />
                 Publish
               </button>
@@ -171,7 +187,8 @@ export default function EditExamPage() {
                 <div>
                   <label
                     htmlFor="exam-title"
-                    className="block text-sm font-medium text-gray-700">
+                    className="block text-sm font-medium text-gray-700"
+                  >
                     Exam Title
                   </label>
                   <div className="mt-2 flex items-center">
@@ -182,7 +199,8 @@ export default function EditExamPage() {
                 <div>
                   <label
                     htmlFor="exam-start-time"
-                    className="block text-sm font-medium text-gray-700">
+                    className="block text-sm font-medium text-gray-700"
+                  >
                     Start time
                   </label>
                   <div className="mt-2 flex items-center">
@@ -193,7 +211,8 @@ export default function EditExamPage() {
                 <div>
                   <label
                     htmlFor="exam-duration"
-                    className="block text-sm font-medium text-gray-700">
+                    className="block text-sm font-medium text-gray-700"
+                  >
                     Duration (in minutes)
                   </label>
                   <div className="mt-2 flex items-center">
@@ -204,7 +223,8 @@ export default function EditExamPage() {
                 <div>
                   <label
                     htmlFor="exam-description"
-                    className="block text-sm font-medium text-gray-700">
+                    className="block text-sm font-medium text-gray-700"
+                  >
                     Description
                   </label>
                   <div className="mt-2 flex items-center">
@@ -225,9 +245,10 @@ export default function EditExamPage() {
               <button
                 onClick={() => {
                   setModalType("select");
-                  setIsOpen(true)
+                  setIsOpen(true);
                 }}
-                className="flex items-center justify-center rounded-lg bg-blue-600 px-5 py-2.5 text-sm font-medium text-white shadow-md transition-all hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-green-300">
+                className="flex items-center justify-center rounded-lg bg-blue-600 px-5 py-2.5 text-sm font-medium text-white shadow-md transition-all hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-green-300"
+              >
                 <PlusCircleIcon />
                 Add Question
               </button>
@@ -237,7 +258,8 @@ export default function EditExamPage() {
               {questions.map((question, index) => (
                 <div
                   key={question.id}
-                  className="rounded-lg bg-white p-6 shadow-md">
+                  className="rounded-lg bg-white p-6 shadow-md"
+                >
                   <div className="flex items-start justify-between">
                     <div className="flex">
                       <p className="mr-2 text-lg font-semibold text-gray-800">{`Q${
@@ -249,7 +271,8 @@ export default function EditExamPage() {
                     </div>
                     <button
                       onClick={() => removeQuestion(question.id)}
-                      className="text-red-500 hover:text-red-700">
+                      className="text-red-500 hover:text-red-700"
+                    >
                       <XIcon />
                     </button>
                   </div>
@@ -275,7 +298,8 @@ export default function EditExamPage() {
                               htmlFor={`option-${question.id}-${i}`}
                               className={`ml-3 block text-sm text-gray-700 ${
                                 option.is_correct === true ? "font-bold" : ""
-                              }`}>
+                              }`}
+                            >
                               {option.option_text}
                             </label>
                           </div>
@@ -297,7 +321,8 @@ export default function EditExamPage() {
                               htmlFor={`option-${question.id}-${i}`}
                               className={`ml-3 block text-sm text-gray-700 ${
                                 option.is_correct === true ? "font-bold" : ""
-                              }`}>
+                              }`}
+                            >
                               {option.option_text}
                             </label>
                           </div>

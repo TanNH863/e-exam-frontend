@@ -151,6 +151,7 @@ export const useQuestionStore = create<InitialState>((set, get) => ({
       }
 
       const result = await response.json();
+      set({ isLoading: false });
       return result;
     } catch (error: unknown) {
       if (error instanceof Error) {

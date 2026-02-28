@@ -43,11 +43,11 @@ export default function ExamsList({ exams }: ExamsListProps) {
                 router.push("/teacher/edit-exam/" + exam.id);
                 console.log("Edit button clicked for exam:", exam.id);
               }}
-              className="flex items-center rounded-lg bg-white px-4 py-2 text-sm font-medium text-gray-700 ring-1 ring-inset ring-gray-300 transition-all hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500">
+              className="flex items-center rounded-lg bg-white px-4 py-2 text-sm font-medium text-gray-700 ring-1 ring-inset ring-gray-300 transition-all hover:bg-gray-50 hover:cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-500">
               <EditIcon />
               Edit
             </button>
-            <button className="flex items-center rounded-lg bg-white px-4 py-2 text-sm font-medium text-blue-600 ring-1 ring-inset ring-blue-300 transition-all hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <button className="flex items-center rounded-lg bg-white px-4 py-2 text-sm font-medium text-blue-600 ring-1 ring-inset ring-blue-300 transition-all hover:bg-blue-50 hover:cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-500">
               <ChartBarIcon />
               Analytics
             </button>

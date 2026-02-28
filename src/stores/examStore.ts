@@ -55,12 +55,12 @@ export const useExamStore = create<InitialState>((set) => ({
         throw new Error(errorData.message || "Failed to create exam");
       }
 
-      const newExam = await response.json();
+      const responseData = await response.json();
       set((state) => ({
-        exams: [...state.exams, newExam],
+        exams: [...state.exams, responseData.exam],
         isLoading: false,
       }));
-      return newExam;
+      return responseData;
     } catch (error: unknown) {
       if (error instanceof Error) {
         set({ error: error.message, isLoading: false });

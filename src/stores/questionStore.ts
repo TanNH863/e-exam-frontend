@@ -1,5 +1,6 @@
 import { Option, Question } from "@/dto/question.dto";
 import { create } from "zustand";
+import { apiFetch } from "@/utils/fetcher";
 
 interface InitialState {
   question: Question | null;
@@ -25,20 +26,14 @@ export const useQuestionStore = create<InitialState>((set, get) => ({
   createQuestion: async (question_text, question_type, options) => {
     set({ isLoading: true, error: null });
     try {
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/question`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            question_text,
-            question_type,
-            options,
-          }),
-        },
-      );
+      const response = await apiFetch("/question", {
+        method: "POST",
+        body: JSON.stringify({
+          question_text,
+          question_type,
+          options,
+        }),
+      });
 
       if (!response.ok) {
         const errorData = await response.json();
@@ -49,22 +44,15 @@ export const useQuestionStore = create<InitialState>((set, get) => ({
       await get().getAllQuestions();
       return newQuestion;
     } catch (error: unknown) {
-      if (error instanceof Error) {
-        set({ error: error.message, isLoading: false });
-      } else {
-        set({ error: "An unknown error occurred", isLoading: false });
-      }
+      const msg = error instanceof Error ? error.message : "An unknown error occurred";
+      set({ error: msg, isLoading: false });
+      throw error;
     }
   },
   getAllQuestions: async () => {
     set({ isLoading: true, error: null });
     try {
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/questions`,
-        {
-          method: "GET",
-        },
-      );
+      const response = await apiFetch("/questions");
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(errorData.message || "Failed to fetch exams");
@@ -73,23 +61,15 @@ export const useQuestionStore = create<InitialState>((set, get) => ({
       set({ questions: questionList, isLoading: false });
       return questionList;
     } catch (error: unknown) {
-      if (error instanceof Error) {
-        set({ error: error.message, isLoading: false });
-      } else {
-        set({ error: "An unknown error occurred", isLoading: false });
-      }
+      const msg = error instanceof Error ? error.message : "An unknown error occurred";
+      set({ error: msg, isLoading: false });
       return [];
     }
   },
   getQuestionInfo: async (id) => {
     set({ isLoading: true, error: null });
     try {
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/question/${id}`,
-        {
-          method: "GET",
-        },
-      );
+      const response = await apiFetch(`/question/${id}`);
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(errorData.message || "Failed to fetch exams");
@@ -98,23 +78,17 @@ export const useQuestionStore = create<InitialState>((set, get) => ({
       set({ questions: questionList, isLoading: false });
       return questionList;
     } catch (error: unknown) {
-      if (error instanceof Error) {
-        set({ error: error.message, isLoading: false });
-      } else {
-        set({ error: "An unknown error occurred", isLoading: false });
-      }
-      return [];
+      const msg = error instanceof Error ? error.message : "An unknown error occurred";
+      set({ error: msg, isLoading: false });
+      throw error;
     }
   },
   deleteQuestion: async (id) => {
     set({ isLoading: true, error: null });
     try {
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/question/${id}`,
-        {
-          method: "DELETE",
-        },
-      );
+      const response = await apiFetch(`/question/${id}`, {
+        method: "DELETE",
+      });
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(errorData.message || "Failed to delete exam");
@@ -124,11 +98,8 @@ export const useQuestionStore = create<InitialState>((set, get) => ({
         isLoading: false,
       }));
     } catch (error: unknown) {
-      if (error instanceof Error) {
-        set({ error: error.message, isLoading: false });
-      } else {
-        set({ error: "An unknown error occurred", isLoading: false });
-      }
+      const msg = error instanceof Error ? error.message : "An unknown error occurred";
+      set({ error: msg, isLoading: false });
     }
   },
   uploadFile: async (file) => {
@@ -137,13 +108,10 @@ export const useQuestionStore = create<InitialState>((set, get) => ({
       const formData = new FormData();
       formData.append("file", file);
 
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/upload`,
-        {
-          method: "POST",
-          body: formData,
-        },
-      );
+      const response = await apiFetch("/upload", {
+        method: "POST",
+        body: formData,
+      });
 
       if (!response.ok) {
         const errorData = await response.json();
@@ -154,11 +122,8 @@ export const useQuestionStore = create<InitialState>((set, get) => ({
       set({ isLoading: false });
       return result;
     } catch (error: unknown) {
-      if (error instanceof Error) {
-        set({ error: error.message, isLoading: false });
-      } else {
-        set({ error: "An unknown error occurred", isLoading: false });
-      }
+      const msg = error instanceof Error ? error.message : "An unknown error occurred";
+      set({ error: msg, isLoading: false });
     }
   },
 }));

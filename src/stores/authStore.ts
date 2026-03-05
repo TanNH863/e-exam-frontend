@@ -1,74 +1,65 @@
-import { AuthResponse, UserRole } from "@/dto/user.dto";
+import { AuthResponse } from "@/dto/user.dto";
 import { create } from "zustand";
-import { jwtDecode } from "jwt-decode";
-
-interface DecodedToken {
-  sub: string;
-  email: string;
-  role: UserRole;
-}
+import { apiFetch } from "@/utils/fetcher";
 
 interface AuthState {
   user: AuthResponse | null;
   error: string | null;
   isLoading: boolean;
+  isCheckingAuth: boolean;
   login: (email: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
+  checkAuth: () => Promise<void>;
 }
 
 export const useAuthStore = create<AuthState>((set) => ({
   user: null,
   error: null,
   isLoading: false,
+  isCheckingAuth: true,
   login: async (email, password) => {
     set({ isLoading: true, error: null });
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/login`, {
+      const response = await apiFetch("/login", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
         body: JSON.stringify({ email, password }),
-        credentials: "include",
       });
 
-      if (!response.ok) {
-        throw new Error("Invalid credentials");
-      }
+      if (!response.ok) throw new Error("Invalid credentials");
 
-      const { token } = await response.json();
-
-      const decodedToken: DecodedToken = jwtDecode(token);
-
-      const user: AuthResponse = {
-        id: decodedToken.sub,
-        email: decodedToken.email,
-        role: decodedToken.role,
-      };
-
-      set({ user, isLoading: false });
+      const data = await response.json(); 
+      set({ user: data.user, isLoading: false });
     } catch (error: unknown) {
-      if (error instanceof Error) {
-        set({ error: error.message, isLoading: false });
-      } else {
-        set({ error: "An unknown error occurred", isLoading: false });
-      }
+      const msg = error instanceof Error ? error.message : "An unknown error occurred";
+      set({ error: msg, isLoading: false });
     }
   },
   logout: async () => {
     set({ isLoading: true, error: null });
     try {
-      await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/logout`, {
-        method: "POST",
-        credentials: "include",
-      });
+      await apiFetch("/logout", { method: "POST" });
       set({ user: null, isLoading: false });
     } catch (error: unknown) {
-      if (error instanceof Error) {
-        set({ error: error.message, isLoading: false });
-      } else {
-        set({ error: "An unknown error occurred", isLoading: false });
-      }
+      const msg = error instanceof Error ? error.message : "An unknown error occurred";
+      set({ error: msg, isLoading: false });
+    }
+  },
+  checkAuth: async () => {
+    set({ isCheckingAuth: true, error: null });
+    try {
+      const response = await apiFetch("/profile");
+
+      if (!response.ok) throw new Error("Not authenticated");
+
+      const data = await response.json();
+      const user = {
+        id: data.sub,
+        email: data.email,
+        role: data.role,
+      };
+      set({ user, isCheckingAuth: false });
+    } catch (error) {
+      set({ user: null, isCheckingAuth: false });
     }
   },
 }));

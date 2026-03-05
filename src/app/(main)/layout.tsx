@@ -1,5 +1,6 @@
 "use client";
 
+import AuthProvider from "@/components/AuthProvider";
 import TopNavigationBar from "@/components/TopNavigationBar";
 import { usePathname } from "next/navigation";
 
@@ -67,7 +68,7 @@ export default function MainLayout({
   return (
     <div className="min-h-screen bg-gray-100">
       <TopNavigationBar navLinks={getNavLinks()} />
-      {children}
+      <AuthProvider>{children}</AuthProvider>
     </div>
   );
 }

@@ -1,5 +1,6 @@
 import { Exam, ExamInfo, ExamStatus } from "@/dto/exam.dto";
 import { create } from "zustand";
+import { apiFetch } from "@/utils/fetcher";
 
 interface InitialState {
   exam: Exam | null;
@@ -35,11 +36,8 @@ export const useExamStore = create<InitialState>((set) => ({
   ) => {
     set({ isLoading: true, error: null });
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/exam`, {
+      const response = await apiFetch("/exam", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
         body: JSON.stringify({
           title,
           description,
@@ -62,19 +60,15 @@ export const useExamStore = create<InitialState>((set) => ({
       }));
       return responseData;
     } catch (error: unknown) {
-      if (error instanceof Error) {
-        set({ error: error.message, isLoading: false });
-      } else {
-        set({ error: "An unknown error occurred", isLoading: false });
-      }
+      const msg = error instanceof Error ? error.message : "An unknown error occurred";
+      set({ error: msg, isLoading: false });
+      throw error;
     }
   },
   getAllExams: async () => {
     set({ isLoading: true, error: null });
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/exams`, {
-        method: "GET",
-      });
+      const response = await apiFetch("/exams");
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(errorData.message || "Failed to fetch exams");
@@ -83,23 +77,15 @@ export const useExamStore = create<InitialState>((set) => ({
       set({ exams, isLoading: false });
       return exams;
     } catch (error: unknown) {
-      if (error instanceof Error) {
-        set({ error: error.message, isLoading: false });
-      } else {
-        set({ error: "An unknown error occurred", isLoading: false });
-      }
+      const msg = error instanceof Error ? error.message : "An unknown error occurred";
+      set({ error: msg, isLoading: false });
       return [];
     }
   },
   getExamInfo: async (id) => {
     set({ isLoading: true, error: null });
     try {
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/exam/${id}`,
-        {
-          method: "GET",
-        },
-      );
+      const response = await apiFetch(`/exam/${id}`);
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(errorData.message || "Failed to fetch exam info");
@@ -108,18 +94,15 @@ export const useExamStore = create<InitialState>((set) => ({
       set({ exam: examInfo, isLoading: false });
       return examInfo;
     } catch (error: unknown) {
-      if (error instanceof Error) {
-        set({ error: error.message, isLoading: false });
-      } else {
-        set({ error: "An unknown error occurred", isLoading: false });
-      }
+      const msg = error instanceof Error ? error.message : "An unknown error occurred";
+      set({ error: msg, isLoading: false });
       throw error;
     }
   },
   deleteExam: async (id) => {
     set({ isLoading: true, error: null });
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/exam/${id}`, {
+      const response = await apiFetch(`/exam/${id}`, {
         method: "DELETE",
       });
       if (!response.ok) {
@@ -131,21 +114,15 @@ export const useExamStore = create<InitialState>((set) => ({
         isLoading: false,
       }));
     } catch (error: unknown) {
-      if (error instanceof Error) {
-        set({ error: error.message, isLoading: false });
-      } else {
-        set({ error: "An unknown error occurred", isLoading: false });
-      }
+      const msg = error instanceof Error ? error.message : "An unknown error occurred";
+      set({ error: msg, isLoading: false });
     }
   },
   updateExamQuestions: async (id, question_ids, status) => {
     set({ isLoading: true, error: null });
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/exam/${id}/questions`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+      const response = await apiFetch(`/exam/${id}/questions`, {
+        method: "PUT",
         body: JSON.stringify({ question_ids, status }),
       });
 
@@ -158,11 +135,8 @@ export const useExamStore = create<InitialState>((set) => ({
       set({ isLoading: false });
       return result;
     } catch (error: unknown) {
-      if (error instanceof Error) {
-        set({ error: error.message, isLoading: false });
-      } else {
-        set({ error: 'An unknown error occurred', isLoading: false });
-      }
+      const msg = error instanceof Error ? error.message : "An unknown error occurred";
+      set({ error: msg, isLoading: false });
       throw error;
     }
   },

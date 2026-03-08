@@ -404,3 +404,13 @@ export const mockUsers = [
     created_at: "2026-01-25T06:17:13.166Z",
   },
 ];
+
+export const notifications = [
+  { id: 1, text: "New exam assigned: Math 101" },
+  { id: 2, text: "Your exam results are in for Physics." },
+  { id: 3, text: "Reminder: Exam on Friday." },
+];
+
+export const profileItems = [
+  { id: 1, text: "My Profile" },
+];

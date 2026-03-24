@@ -44,7 +44,7 @@ export default function SelectQuestionsModal({
   };
 
   const filteredQuestions = questions.filter((question) =>
-    question.question_text.toLowerCase().includes(searchTerm.toLowerCase()),
+    question.questionText.toLowerCase().includes(searchTerm.toLowerCase()),
   );
 
   const toggleQuestion = (questionId: string) => {
@@ -125,19 +125,19 @@ export default function SelectQuestionsModal({
                     htmlFor={`question-${question.id}`}
                     className="flex-1 cursor-pointer">
                     <p className="text-sm font-medium text-gray-900">
-                      {question.question_text}
+                      {question.questionText}
                     </p>
                     <p className="mt-1 text-sm text-gray-500">
-                      Type: {question.question_type}
+                      Type: {question.questionType}
                     </p>
                     {question.options && question.options.length > 0 && (
                       <div className="mt-2 space-y-1">
                         {question.options.map((option, idx) => (
                           <div key={idx} className="text-sm text-gray-600">
-                            <span className={option.is_correct ? "font-semibold" : ""}>
-                              {idx === 0 ? "A" : idx === 1 ? "B" : idx === 2 ? "C" : idx === 3 ? "D" : "Default"}. {option.option_text}
+                            <span className={option.isCorrect ? "font-semibold" : ""}>
+                              {idx === 0 ? "A" : idx === 1 ? "B" : idx === 2 ? "C" : idx === 3 ? "D" : "Default"}. {option.optionText}
                             </span>
-                            {option.is_correct && (
+                            {option.isCorrect && (
                               <span className="ml-2 text-xs font-semibold text-green-600">
                                 (Correct)
                               </span>

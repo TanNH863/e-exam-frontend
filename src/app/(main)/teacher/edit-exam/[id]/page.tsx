@@ -205,7 +205,7 @@ export default function EditExamPage() {
                   </label>
                   <div className="mt-2 flex items-center">
                     <ClockIcon />
-                    <p className="text-black">{exam?.start_time.toString()}</p>
+                    <p className="text-black">{exam?.startTime.toString()}</p>
                   </div>
                 </div>
                 <div>
@@ -217,7 +217,7 @@ export default function EditExamPage() {
                   </label>
                   <div className="mt-2 flex items-center">
                     <ClockIcon />
-                    <p className="text-black">{exam?.duration_minutes}</p>
+                    <p className="text-black">{exam?.durationMinutes}</p>
                   </div>
                 </div>
                 <div>
@@ -266,7 +266,7 @@ export default function EditExamPage() {
                         index + 1
                       }:`}</p>
                       <p className="text-lg text-gray-700">
-                        {question?.question_text}
+                        {question?.questionText}
                       </p>
                     </div>
                     <button
@@ -278,11 +278,11 @@ export default function EditExamPage() {
                   </div>
                   <div className="mt-2 text-sm text-gray-600">
                     <span className="font-semibold">Type:</span>{" "}
-                    {question.question_type}
+                    {question.questionType}
                   </div>
                   <div className="mt-4">
-                    {question.question_type === "MULTIPLE_CHOICE" ||
-                    question.question_type === "TRUE_FALSE" ? (
+                    {question.questionType === "MULTIPLE_CHOICE" ||
+                    question.questionType === "TRUE_FALSE" ? (
                       <div className="space-y-2">
                         {question.options?.map((option, i) => (
                           <div key={i} className="flex items-center">
@@ -291,21 +291,21 @@ export default function EditExamPage() {
                               name={`question-${question.id}`}
                               type="radio"
                               className="h-4 w-4 border-gray-300 text-blue-600 focus:ring-blue-500"
-                              checked={option.is_correct === true}
+                              checked={option.isCorrect === true}
                               readOnly
                             />
                             <label
                               htmlFor={`option-${question.id}-${i}`}
                               className={`ml-3 block text-sm text-gray-700 ${
-                                option.is_correct === true ? "font-bold" : ""
+                                option.isCorrect === true ? "font-bold" : ""
                               }`}
                             >
-                              {option.option_text}
+                              {option.optionText}
                             </label>
                           </div>
                         ))}
                       </div>
-                    ) : question.question_type === "MULTIPLE_ANSWER" ? (
+                    ) : question.questionType === "MULTIPLE_ANSWER" ? (
                       <div className="space-y-2">
                         {question.options?.map((option, i) => (
                           <div key={i} className="flex items-center">
@@ -314,28 +314,28 @@ export default function EditExamPage() {
                               name={`question-${question.id}`}
                               type="checkbox"
                               className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
-                              checked={option.is_correct === true}
+                              checked={option.isCorrect === true}
                               readOnly
                             />
                             <label
                               htmlFor={`option-${question.id}-${i}`}
                               className={`ml-3 block text-sm text-gray-700 ${
-                                option.is_correct === true ? "font-bold" : ""
+                                option.isCorrect === true ? "font-bold" : ""
                               }`}
                             >
-                              {option.option_text}
+                              {option.optionText}
                             </label>
                           </div>
                         ))}
                       </div>
-                    ) : question.question_type === "SHORT_ANSWER" ? (
+                    ) : question.questionType === "SHORT_ANSWER" ? (
                       <div className="mt-2 text-sm text-gray-600">
                         <span className="font-semibold">
                           Accepted Answers:
                         </span>{" "}
                         {question.options
-                          ?.filter((o) => o.is_correct)
-                          .map((o) => o.option_text)
+                          ?.filter((o) => o.isCorrect)
+                          .map((o) => o.optionText)
                           .join(", ")}
                       </div>
                     ) : null}

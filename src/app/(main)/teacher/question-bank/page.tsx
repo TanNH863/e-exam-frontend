@@ -25,7 +25,7 @@ export default function QuestionBankPage() {
   }, [getAllQuestions]);
 
   const filteredQuestions = questions.filter((question) =>
-    question.question_text.toLowerCase().includes(searchTerm.toLowerCase()),
+    question.questionText.toLowerCase().includes(searchTerm.toLowerCase()),
   );
 
   const handleFileUpload = async (file: File) => {
@@ -136,7 +136,7 @@ export default function QuestionBankPage() {
                     className="rounded-lg border border-gray-200 p-4">
                     <div className="flex items-start justify-between">
                       <p className="text-lg font-medium text-gray-800">
-                        {`Q${index + 1}: ${question.question_text}`}
+                        {`Q${index + 1}: ${question.questionText}`}
                       </p>
                       <div className="flex space-x-2">
                         <button className="p-2 bg-blue-500 rounded-lg text-white hover:bg-blue-700 hover:cursor-pointer">
@@ -149,11 +149,11 @@ export default function QuestionBankPage() {
                     </div>
                     <div className="mt-2 text-sm text-gray-600">
                       <span className="font-semibold">Type:</span>{" "}
-                      {question.question_type}
+                      {question.questionType}
                     </div>
                     <div className="mt-4">
-                      {question.question_type === "MULTIPLE_CHOICE" ||
-                      question.question_type === "TRUE_FALSE" ? (
+                      {question.questionType === "MULTIPLE_CHOICE" ||
+                      question.questionType === "TRUE_FALSE" ? (
                         <div className="space-y-2">
                           <p className="text-sm font-semibold text-gray-600">
                             Options:
@@ -165,20 +165,20 @@ export default function QuestionBankPage() {
                                 name={`question-${question.id}`}
                                 type="radio"
                                 className="h-4 w-4 border-gray-300 text-blue-600 focus:ring-blue-500"
-                                checked={option.is_correct === true}
+                                checked={option.isCorrect === true}
                                 readOnly
                               />
                               <label
                                 htmlFor={`option-${question.id}-${i}`}
                                 className={`ml-3 block text-sm text-gray-700 ${
-                                  option.is_correct === true ? "font-bold" : ""
+                                  option.isCorrect === true ? "font-bold" : ""
                                 }`}>
-                                {i === 0 ? "A" : i === 1 ? "B" : i === 2 ? "C" : i === 3 ? "D" : "Default"}. {option.option_text}
+                                {i === 0 ? "A" : i === 1 ? "B" : i === 2 ? "C" : i === 3 ? "D" : "Default"}. {option.optionText}
                               </label>
                             </div>
                           ))}
                         </div>
-                      ) : question.question_type === "MULTIPLE_ANSWER" ? (
+                      ) : question.questionType === "MULTIPLE_ANSWER" ? (
                         <div className="space-y-2">
                           <p className="text-sm font-semibold text-gray-600">
                             Answers:
@@ -190,33 +190,33 @@ export default function QuestionBankPage() {
                                 name={`question-${question.id}`}
                                 type="checkbox"
                                 className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
-                                checked={option.is_correct === true}
+                                checked={option.isCorrect === true}
                                 readOnly
                               />
                               <label
                                 htmlFor={`option-${question.id}-${i}`}
                                 className={`ml-3 block text-sm text-gray-700 ${
-                                  option.is_correct === true ? "font-bold" : ""
+                                  option.isCorrect === true ? "font-bold" : ""
                                 }`}>
-                                {option.option_text}
+                                {option.optionText}
                               </label>
                             </div>
                           ))}
                         </div>
-                      ) : question.question_type === "SHORT_ANSWER" ? (
+                      ) : question.questionType === "SHORT_ANSWER" ? (
                         <div className="mt-2 text-sm text-gray-600">
                           <span className="font-semibold">
                             Accepted Answers:
                           </span>{" "}
                           {question.options
-                            ?.filter((o) => o.is_correct)
-                            .map((o) => o.option_text)
+                            ?.filter((o) => o.isCorrect)
+                            .map((o) => o.optionText)
                             .join(", ")}
                         </div>
                       ) : (
                         <div className="mt-2 text-sm text-gray-600">
                           <span className="font-semibold">Correct Answer:</span>{" "}
-                          {question.question_text}
+                          {question.questionText}
                         </div>
                       )}
                     </div>

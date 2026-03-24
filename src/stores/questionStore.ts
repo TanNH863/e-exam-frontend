@@ -8,8 +8,8 @@ interface InitialState {
   error: string | null;
   isLoading: boolean;
   createQuestion: (
-    question_text: string,
-    question_type: string,
+    questionText: string,
+    questionType: string,
     options?: Option[],
   ) => Promise<{ message: string; question: Question } | undefined>;
   getAllQuestions: () => Promise<Question[]>;
@@ -23,14 +23,14 @@ export const useQuestionStore = create<InitialState>((set, get) => ({
   questions: [],
   error: null,
   isLoading: false,
-  createQuestion: async (question_text, question_type, options) => {
+  createQuestion: async (questionText, questionType, options) => {
     set({ isLoading: true, error: null });
     try {
       const response = await apiFetch("/question", {
         method: "POST",
         body: JSON.stringify({
-          question_text,
-          question_type,
+          questionText,
+          questionType,
           options,
         }),
       });

@@ -7,7 +7,7 @@ import Table, { TableColumn } from "@/components/Table";
 
 const userColumns: TableColumn<UserResponse>[] = [
   {
-    key: "full_name",
+    key: "fullName",
     label: "Name",
     searchable: true,
   },

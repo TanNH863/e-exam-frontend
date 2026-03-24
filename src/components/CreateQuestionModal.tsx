@@ -22,26 +22,26 @@ export default function CreateQuestionModal({
     QuestionType.MULTIPLE_CHOICE,
   );
   const [options, setOptions] = useState([
-    { option_text: "", is_correct: false },
-    { option_text: "", is_correct: false },
-    { option_text: "", is_correct: false },
-    { option_text: "", is_correct: false },
+    { optionText: "", isCorrect: false },
+    { optionText: "", isCorrect: false },
+    { optionText: "", isCorrect: false },
+    { optionText: "", isCorrect: false },
   ]);
 
   useEffect(() => {
     if (questionType === QuestionType.TRUE_FALSE) {
       setOptions([
-        { option_text: "True", is_correct: true },
-        { option_text: "False", is_correct: false },
+        { optionText: "True", isCorrect: true },
+        { optionText: "False", isCorrect: false },
       ]);
     } else if (questionType === QuestionType.SHORT_ANSWER) {
-      setOptions([{ option_text: "", is_correct: true }]);
+      setOptions([{ optionText: "", isCorrect: true }]);
     } else {
       setOptions([
-        { option_text: "", is_correct: false },
-        { option_text: "", is_correct: false },
-        { option_text: "", is_correct: false },
-        { option_text: "", is_correct: false },
+        { optionText: "", isCorrect: false },
+        { optionText: "", isCorrect: false },
+        { optionText: "", isCorrect: false },
+        { optionText: "", isCorrect: false },
       ]);
     }
   }, [questionType]);
@@ -59,18 +59,18 @@ export default function CreateQuestionModal({
                 <input
                   type="text"
                   placeholder={`Option ${index + 1}`}
-                  value={option.option_text}
+                  value={option.optionText}
                   onChange={(e) =>
-                    handleOptionChange(index, "option_text", e.target.value)
+                    handleOptionChange(index, "optionText", e.target.value)
                   }
                   className="p-2 block w-full rounded-md border-1 border-black sm:text-sm text-black"
                   required
                 />
                 <input
                   type="checkbox"
-                  checked={option.is_correct}
+                  checked={option.isCorrect}
                   onChange={(e) =>
-                    handleOptionChange(index, "is_correct", e.target.checked)
+                    handleOptionChange(index, "isCorrect", e.target.checked)
                   }
                   className="h-5 w-5 text-blue-600 border-gray-300 rounded"
                 />
@@ -102,18 +102,18 @@ export default function CreateQuestionModal({
                 <input
                   type="text"
                   placeholder={`Option ${index + 1}`}
-                  value={option.option_text}
+                  value={option.optionText}
                   onChange={(e) =>
-                    handleOptionChange(index, "option_text", e.target.value)
+                    handleOptionChange(index, "optionText", e.target.value)
                   }
                   className="p-2 block w-full rounded-md border-1 border-black sm:text-sm text-black"
                   required
                 />
                 <input
                   type="checkbox"
-                  checked={option.is_correct}
+                  checked={option.isCorrect}
                   onChange={(e) =>
-                    handleOptionChange(index, "is_correct", e.target.checked)
+                    handleOptionChange(index, "isCorrect", e.target.checked)
                   }
                   className="h-5 w-5 text-blue-600 border-gray-300 rounded"
                 />
@@ -145,9 +145,9 @@ export default function CreateQuestionModal({
                 <input
                   type="text"
                   placeholder={`Accepted Answer ${index + 1}`}
-                  value={option.option_text}
+                  value={option.optionText}
                   onChange={(e) =>
-                    handleOptionChange(index, "option_text", e.target.value)
+                    handleOptionChange(index, "optionText", e.target.value)
                   }
                   className="p-2 block w-full rounded-md border-1 border-black sm:text-sm text-black"
                   required
@@ -178,11 +178,11 @@ export default function CreateQuestionModal({
               <input
                 type="radio"
                 name="true_false_option"
-                checked={options[0]?.is_correct === true}
+                checked={options[0]?.isCorrect === true}
                 onChange={() =>
                   setOptions([
-                    { option_text: "True", is_correct: true },
-                    { option_text: "False", is_correct: false },
+                    { optionText: "True", isCorrect: true },
+                    { optionText: "False", isCorrect: false },
                   ])
                 }
                 className="h-5 w-5 text-blue-600 border-gray-300 rounded"
@@ -193,11 +193,11 @@ export default function CreateQuestionModal({
               <input
                 type="radio"
                 name="true_false_option"
-                checked={options[1]?.is_correct === true}
+                checked={options[1]?.isCorrect === true}
                 onChange={() =>
                   setOptions([
-                    { option_text: "True", is_correct: false },
-                    { option_text: "False", is_correct: true },
+                    { optionText: "True", isCorrect: false },
+                    { optionText: "False", isCorrect: true },
                   ])
                 }
                 className="h-5 w-5 text-blue-600 border-gray-300 rounded"
@@ -211,14 +211,14 @@ export default function CreateQuestionModal({
 
   const handleOptionChange = (
     index: number,
-    field: "option_text" | "is_correct",
+    field: "optionText" | "isCorrect",
     value: string | boolean,
   ) => {
     const newOptions = [...options];
-    if (field === "option_text" && typeof value === "string") {
-      newOptions[index].option_text = value;
-    } else if (field === "is_correct" && typeof value === "boolean") {
-      newOptions[index].is_correct = value;
+    if (field === "optionText" && typeof value === "string") {
+      newOptions[index].optionText = value;
+    } else if (field === "isCorrect" && typeof value === "boolean") {
+      newOptions[index].isCorrect = value;
     }
     setOptions(newOptions);
   };
@@ -226,8 +226,8 @@ export default function CreateQuestionModal({
   const addOption = () => {
     const newOption =
       questionType === QuestionType.SHORT_ANSWER
-        ? { option_text: "", is_correct: true }
-        : { option_text: "", is_correct: false };
+        ? { optionText: "", isCorrect: true }
+        : { optionText: "", isCorrect: false };
     setOptions([...options, newOption]);
   };
 

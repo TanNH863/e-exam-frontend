@@ -10,7 +10,7 @@ interface InitialState {
   createUser: (
     email: string,
     password: string,
-    full_name: string,
+    fullName: string,
     role: UserRole,
   ) => Promise<{ message: string; user: UserResponse } | undefined>;
   getAllUsers: () => Promise<UserResponse[]>;
@@ -23,7 +23,7 @@ export const useUserStore = create<InitialState>((set, get) => ({
   users: [],
   error: null,
   isLoading: false,
-  createUser: async (email, password, full_name, role) => {
+  createUser: async (email, password, fullName, role) => {
     set({ isLoading: true, error: null });
     try {
       const response = await apiFetch("/user", {
@@ -31,7 +31,7 @@ export const useUserStore = create<InitialState>((set, get) => ({
         body: JSON.stringify({
           email,
           password,
-          full_name,
+          fullName,
           role,
         }),
       });

@@ -8,25 +8,25 @@ export enum UserRole {
 export interface CreateUserDto {
   email: string;
   password: string;
-  full_name: string;
+  fullName: string;
   role: UserRole;
 }
 
 export interface User {
   id: string;
   email: string;
-  password_hash: string;
-  full_name: string;
+  passwordHash: string;
+  fullName: string;
   role: UserRole;
-  created_at: Date;
+  createdAt: Date;
 }
 
 export interface UserResponse {
   id: string;
   email: string;
-  full_name: string;
+  fullName: string;
   role: UserRole;
-  created_at: Date;
+  createdAt: Date;
 }
 
 export interface AuthResponse {

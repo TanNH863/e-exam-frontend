@@ -2,7 +2,6 @@
 
 import { BellIcon, BookOpenIcon, LogoutIcon, UserIcon } from "@/icons/icons";
 import { useAuthStore } from "@/stores/authStore";
-import { useUserStore } from "@/stores/userStore";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -19,8 +18,7 @@ interface TopNavigationBarProps {
 }
 
 export default function TopNavigationBar({ navLinks }: TopNavigationBarProps) {
-  const { logout } = useAuthStore();
-  const { user } = useUserStore();
+  const { user, logout } = useAuthStore();
   const router = useRouter();
   const [hasNotification, setHasNotification] = useState(true);
   const [showProfile, setShowProfile] = useState(false);
@@ -34,11 +32,12 @@ export default function TopNavigationBar({ navLinks }: TopNavigationBarProps) {
   const handleNotificationClick = () => {
     setHasNotification(false);
     setShowNotifications(!showNotifications);
+    setShowProfile(false);
   };
   
   const handleProfileClick = () => {
-    setShowProfile(!showProfile);
     setShowNotifications(false);
+    setShowProfile(!showProfile);
   };
 
   return (

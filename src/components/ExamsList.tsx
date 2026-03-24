@@ -31,7 +31,7 @@ export default function ExamsList({ exams }: ExamsListProps) {
                         ? "bg-yellow-500"
                         : "bg-gray-400"
                   }`}></span>
-                {exam.status}
+                {exam.status + " | " + exam.createdAt}
                 {/* <span className="mx-2">|</span>
                     Submissions: {exam.submissions} / {exam.total} */}
               </p>

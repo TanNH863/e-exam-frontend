@@ -10,10 +10,10 @@ interface InitialState {
   createExam: (
     title: string,
     description: string,
-    start_time: Date,
-    duration_minutes: number,
+    startTime: Date,
+    durationMinutes: number,
     status: ExamStatus,
-    created_by_id: string | undefined,
+    createdById: string | undefined,
   ) => Promise<{ message: string; exam: Exam }>;
   getAllExams: () => Promise<Exam[]>;
   getExamInfo: (id: string) => Promise<ExamInfo>;
@@ -29,10 +29,10 @@ export const useExamStore = create<InitialState>((set) => ({
   createExam: async (
     title,
     description,
-    start_time,
-    duration_minutes,
+    startTime,
+    durationMinutes,
     status,
-    created_by_id,
+    createdById,
   ) => {
     set({ isLoading: true, error: null });
     try {
@@ -41,10 +41,10 @@ export const useExamStore = create<InitialState>((set) => ({
         body: JSON.stringify({
           title,
           description,
-          start_time,
-          duration_minutes,
+          startTime,
+          durationMinutes,
           status,
-          created_by_id,
+          createdById,
         }),
       });
 

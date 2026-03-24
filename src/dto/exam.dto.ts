@@ -4,22 +4,22 @@ export interface Exam {
   id: string;
   title: string;
   description: string;
-  start_time: Date;
-  duration_minutes: number;
+  startTime: Date;
+  durationMinutes: number;
   status: ExamStatus;
-  created_by_id: string;
-  created_at: Date;
+  createdById: string;
+  createdAt: Date;
 }
 
 export interface ExamInfo {
   id: string;
   title: string;
   description: string;
-  start_time: Date;
-  duration_minutes: number;
+  startTime: Date;
+  durationMinutes: number;
   status: ExamStatus;
-  created_by_id: string;
-  created_at: Date;
+  createdById: string;
+  createdAt: Date;
   questions: Question[];
 }
 

@@ -25,13 +25,13 @@ export const QuestionTypeSelect = [
 ];
 
 export interface Option {
-  option_text: string;
-  is_correct: boolean;
+  optionText: string;
+  isCorrect: boolean;
 }
 
 export interface Question {
   id: string;
-  question_text: string;
-  question_type: QuestionType;
+  questionText: string;
+  questionType: QuestionType;
   options?: Option[];
 }

@@ -108,7 +108,7 @@ export const useQuestionStore = create<InitialState>((set, get) => ({
       const formData = new FormData();
       formData.append("file", file);
 
-      const response = await apiFetch("/upload", {
+      const response = await apiFetch("/questions/upload", {
         method: "POST",
         body: formData,
       });

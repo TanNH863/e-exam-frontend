@@ -1,4 +1,5 @@
 import { ExamStatus } from "@/dto/exam.dto";
+import { QuestionType } from "@/dto/question.dto";
 
 export const mockTeacherExams = [
   {
@@ -414,3 +415,49 @@ export const notifications = [
 export const profileItems = [
   { id: 1, text: "My Profile" },
 ];
+
+export const DUMMY_EXAM = {
+  id: "a0799fcf-ac25-4711-98c9-b49be3943212",
+  title: "Sample Exam",
+  description: "This is a sample exam for demonstration purposes.",
+  startTime: new Date("2024-06-15T10:00:00Z"),
+  durationMinutes: 60,
+  status: ExamStatus.PUBLISHED,
+  createdById: "user-teacher-123",
+  createdAt: new Date("2024-06-10T08:00:00Z"),
+  questions: [
+    {
+      id: "62ef48a8-1bf6-4539-ba80-0964b5776d0d",
+      questionText: "What is the capital of France?",
+      questionType: QuestionType.MULTIPLE_CHOICE,
+      options: [
+        { optionText: "Paris", isCorrect: true },
+        { optionText: "London", isCorrect: false },
+        { optionText: "Berlin", isCorrect: false },
+        { optionText: "Madrid", isCorrect: false },
+      ],
+    },
+    {
+      id: "0f3123f3-5aed-4fc2-af6a-54abf8167693",
+      questionText: "What is 2 + 2?",
+      questionType: "MULTIPLE_CHOICE",
+      options: [
+        { optionText: "3", isCorrect: false },
+        { optionText: "4", isCorrect: true },
+        { optionText: "5", isCorrect: false },
+        { optionText: "6", isCorrect: false },
+      ],
+    },
+    {
+      id: "f1445b97-203a-4dca-8220-ae8cc8372884",
+      questionText: "Which planet is known as the Red Planet?",
+      questionType: "MULTIPLE_CHOICE",
+      options: [
+        { optionText: "Earth", isCorrect: false },
+        { optionText: "Mars", isCorrect: true },
+        { optionText: "Jupiter", isCorrect: false },
+        { optionText: "Saturn", isCorrect: false },
+      ],
+    },
+  ],
+};

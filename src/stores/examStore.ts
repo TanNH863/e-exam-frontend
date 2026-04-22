@@ -41,10 +41,10 @@ export const useExamStore = create<InitialState>((set) => ({
         body: JSON.stringify({
           title,
           description,
-          startTime,
-          durationMinutes,
+          start_time: startTime,
+          duration_minutes: durationMinutes,
           status,
-          createdById,
+          created_by_id: createdById,
         }),
       });
 

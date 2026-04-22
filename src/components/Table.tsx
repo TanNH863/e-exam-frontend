@@ -79,7 +79,7 @@ export default function Table<T extends { id: string | number }>({
                 <th
                   key={String(col.key)}
                   scope="col"
-                  className={`px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider ${col.className || ""}`}>
+                  className={`px-6 py-3 text-left text-xs font-medium text-black uppercase tracking-wider ${col.className || ""}`}>
                   {col.label}
                 </th>
               ))}
@@ -92,7 +92,7 @@ export default function Table<T extends { id: string | number }>({
                   {columns.map((col) => (
                     <td
                       key={String(col.key)}
-                      className={`px-6 py-4 whitespace-nowrap text-sm ${col.className || ""}`}>
+                      className={`px-6 py-4 whitespace-nowrap text-sm text-black ${col.className || ""}`}>
                       {col.render
                         ? col.render(row[col.key], row)
                         : String(row[col.key])}
@@ -104,7 +104,7 @@ export default function Table<T extends { id: string | number }>({
               <tr>
                 <td
                   colSpan={columns.length}
-                  className="px-6 py-4 text-center text-sm text-gray-500">
+                  className="px-6 py-4 text-center text-sm text-black">
                   {emptyMessage}
                 </td>
               </tr>

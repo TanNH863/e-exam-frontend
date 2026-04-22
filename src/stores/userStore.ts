@@ -16,6 +16,7 @@ interface InitialState {
   getAllUsers: () => Promise<UserResponse[]>;
   getUserInfo: (id: string) => Promise<UserResponse>;
   deleteUser: (id: string) => Promise<void>;
+  uploadFile: (file: File) => Promise<{ message: string } | undefined>;
 }
 
 export const useUserStore = create<InitialState>((set, get) => ({
@@ -98,6 +99,30 @@ export const useUserStore = create<InitialState>((set, get) => ({
         users: state.users.filter((u) => u.id !== id),
         isLoading: false,
       }));
+    } catch (error: unknown) {
+      const msg = error instanceof Error ? error.message : "An unknown error occurred";
+      set({ error: msg, isLoading: false });
+    }
+  },
+  uploadFile: async (file) => {
+    set({ isLoading: true, error: null });
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+
+      const response = await apiFetch("/users/upload", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Failed to upload file");
+      }
+
+      const result = await response.json();
+      set({ isLoading: false });
+      return result;
     } catch (error: unknown) {
       const msg = error instanceof Error ? error.message : "An unknown error occurred";
       set({ error: msg, isLoading: false });

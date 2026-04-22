@@ -8,7 +8,6 @@ import {
   UploadIcon,
 } from "@/icons/icons";
 import { useQuestionStore } from "@/stores/questionStore";
-import { Question } from "@/dto/question.dto";
 import Toast from "@/components/Toast";
 import CreateQuestionModal from "@/components/CreateQuestionModal";
 import Spinner from "@/components/Spinner";

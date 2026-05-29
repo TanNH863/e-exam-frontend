@@ -11,7 +11,7 @@ import {
 import { useParams } from "next/navigation";
 import { useExamStore } from "@/stores/examStore";
 import { useQuestionStore } from "@/stores/questionStore";
-import { ExamInfo, ExamStatus } from "@/dto/exam.dto";
+import { ExamInfo } from "@/dto/exam.dto";
 import { Question as QuestionDTO } from "@/dto/question.dto";
 import SelectQuestionsModal from "@/components/SelectQuestionsModal";
 import MessageModal from "@/components/MessageModal";
@@ -29,7 +29,7 @@ export default function EditExamPage() {
   const [modalType, setModalType] = useState<"select" | "info">();
   const [toastMessage, setToastMessage] = useState<string | null>(null);
   const [toastType, setToastType] = useState<"success" | "error">("success");
-  const [pendingStatus, setPendingStatus] = useState<ExamStatus | null>(null);
+  const [pendingStatus, setPendingStatus] = useState<number | null>(null);
 
   useEffect(() => {
     fetchExamInfo();
@@ -40,7 +40,7 @@ export default function EditExamPage() {
     try {
       const examInfo = await getExamInfo(params.id);
       setExam(examInfo);
-      setQuestions(examInfo.questions || []);
+      setQuestions(examInfo.examQuestions || []);
       console.log("Fetched exam info:", examInfo);
     } catch (error) {
       console.error("Error fetching exam info:", error);
@@ -82,9 +82,9 @@ export default function EditExamPage() {
     }
   };
 
-  const handleSubmit = async (submitType: ExamStatus) => {
+  const handleSubmit = async (submitType: number) => {
     try {
-      const questionIds = questions.map((q) => q.id);
+      const questionIds = questions.filter((q) => q.id).map((q) => q.id);
       const examInfo = await updateExamQuestions(
         params.id,
         questionIds,
@@ -119,12 +119,12 @@ export default function EditExamPage() {
         isOpen={isOpen && modalType === "info"}
         onClose={() => setIsOpen(false)}
         title={
-          pendingStatus === ExamStatus.DRAFT
+          pendingStatus === 1
             ? "Save as Draft"
             : "Publish Exam"
         }
         message={
-          pendingStatus === ExamStatus.DRAFT
+          pendingStatus === 1
             ? "Are you sure you want to save the exam as draft?"
             : "Are you sure you want to publish the exam?"
         }
@@ -156,7 +156,7 @@ export default function EditExamPage() {
               <button
                 className="mt-4 flex items-center justify-center rounded-lg bg-gray-300 px-5 py-2.5 text-sm font-medium text-gray-800 shadow-md transition-all hover:bg-gray-400 hover:cursor-pointer focus:outline-none focus:ring-4 focus:ring-gray-200 sm:mt-0"
                 onClick={() => {
-                  setPendingStatus(ExamStatus.DRAFT);
+                  setPendingStatus(1);
                   setModalType("info");
                   setIsOpen(true);
                 }}
@@ -166,7 +166,7 @@ export default function EditExamPage() {
               <button
                 className="mt-4 flex items-center justify-center rounded-lg bg-green-600 px-5 py-2.5 text-sm font-medium text-white shadow-md transition-all hover:bg-green-700 hover:cursor-pointer focus:outline-none focus:ring-4 focus:ring-blue-300 sm:mt-0"
                 onClick={() => {
-                  setPendingStatus(ExamStatus.PUBLISHED);
+                  setPendingStatus(2);
                   setModalType("info");
                   setIsOpen(true);
                 }}
@@ -217,7 +217,7 @@ export default function EditExamPage() {
                   </label>
                   <div className="mt-2 flex items-center">
                     <ClockIcon />
-                    <p className="text-black">{exam?.durationMinutes}</p>
+                    <p className="text-black">{exam?.duration}</p>
                   </div>
                 </div>
                 <div>
@@ -247,7 +247,7 @@ export default function EditExamPage() {
                   setModalType("select");
                   setIsOpen(true);
                 }}
-                className="flex items-center justify-center rounded-lg bg-blue-600 px-5 py-2.5 text-sm font-medium text-white shadow-md transition-all hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-green-300"
+                className="flex items-center justify-center rounded-lg bg-blue-600 px-5 py-2.5 text-sm font-medium text-white shadow-md transition-all hover:bg-blue-700 hover:cursor-pointer focus:outline-none focus:ring-4 focus:ring-green-300"
               >
                 <PlusCircleIcon />
                 Add Question
@@ -255,47 +255,44 @@ export default function EditExamPage() {
             </div>
 
             <div className="mt-6 space-y-6">
-              {questions.map((question, index) => (
+              {questions.map((q, index) => (
                 <div
-                  key={question.id}
+                  key={q.id}
                   className="rounded-lg bg-white p-6 shadow-md"
                 >
                   <div className="flex items-start justify-between">
                     <div className="flex">
-                      <p className="mr-2 text-lg font-semibold text-gray-800">{`Q${
-                        index + 1
-                      }:`}</p>
+                      <p className="mr-2 text-lg font-semibold text-gray-800">
+                        {`Q${index + 1}:`}
+                      </p>
                       <p className="text-lg text-gray-700">
-                        {question?.questionText}
+                        {q?.questionText}
                       </p>
                     </div>
                     <button
-                      onClick={() => removeQuestion(question.id)}
-                      className="text-red-500 hover:text-red-700"
+                      onClick={() => removeQuestion(q.id)}
+                      className="text-red-500 hover:text-red-700 hover:cursor-pointer"
                     >
                       <XIcon />
                     </button>
                   </div>
-                  <div className="mt-2 text-sm text-gray-600">
-                    <span className="font-semibold">Type:</span>{" "}
-                    {question.questionType}
-                  </div>
+                  
                   <div className="mt-4">
-                    {question.questionType === "MULTIPLE_CHOICE" ||
-                    question.questionType === "TRUE_FALSE" ? (
+                    {q.questionType === 1 ||
+                    q.questionType === 4 ? (
                       <div className="space-y-2">
-                        {question.options?.map((option, i) => (
+                        {q.options?.map((option, i) => (
                           <div key={i} className="flex items-center">
                             <input
-                              id={`option-${question.id}-${i}`}
-                              name={`question-${question.id}`}
+                              id={`option-${q.id}-${i}`}
+                              name={`question-${q.id}`}
                               type="radio"
                               className="h-4 w-4 border-gray-300 text-blue-600 focus:ring-blue-500"
                               checked={option.isCorrect === true}
                               readOnly
                             />
                             <label
-                              htmlFor={`option-${question.id}-${i}`}
+                              htmlFor={`option-${q.id}-${i}`}
                               className={`ml-3 block text-sm text-gray-700 ${
                                 option.isCorrect === true ? "font-bold" : ""
                               }`}
@@ -305,20 +302,20 @@ export default function EditExamPage() {
                           </div>
                         ))}
                       </div>
-                    ) : question.questionType === "MULTIPLE_ANSWER" ? (
+                    ) : q.questionType === 3 ? (
                       <div className="space-y-2">
-                        {question.options?.map((option, i) => (
+                        {q.options?.map((option, i) => (
                           <div key={i} className="flex items-center">
                             <input
-                              id={`option-${question.id}-${i}`}
-                              name={`question-${question.id}`}
+                              id={`option-${q.id}-${i}`}
+                              name={`question-${q.id}`}
                               type="checkbox"
                               className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
                               checked={option.isCorrect === true}
                               readOnly
                             />
                             <label
-                              htmlFor={`option-${question.id}-${i}`}
+                              htmlFor={`option-${q.id}-${i}`}
                               className={`ml-3 block text-sm text-gray-700 ${
                                 option.isCorrect === true ? "font-bold" : ""
                               }`}
@@ -328,12 +325,12 @@ export default function EditExamPage() {
                           </div>
                         ))}
                       </div>
-                    ) : question.questionType === "SHORT_ANSWER" ? (
+                    ) : q.questionType === 2 ? (
                       <div className="mt-2 text-sm text-gray-600">
                         <span className="font-semibold">
                           Accepted Answers:
                         </span>{" "}
-                        {question.options
+                        {q.options
                           ?.filter((o) => o.isCorrect)
                           .map((o) => o.optionText)
                           .join(", ")}

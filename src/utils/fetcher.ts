@@ -10,7 +10,7 @@ export const apiFetch = async (
   options: RequestInit = {}
 ): Promise<Response> => {
   // 1. Prepend the base URL automatically
-  const baseUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001";
+  const baseUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080/api";
   const url = `${baseUrl}${endpoint}`;
 
   // 2. Normalize headers (handles both Headers objects and plain objects)

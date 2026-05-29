@@ -1,4 +1,4 @@
-import { Exam, ExamInfo, ExamStatus } from "@/dto/exam.dto";
+import { Exam, ExamInfo } from "@/dto/exam.dto";
 import { create } from "zustand";
 import { apiFetch } from "@/utils/fetcher";
 
@@ -11,14 +11,14 @@ interface InitialState {
     title: string,
     description: string,
     startTime: Date,
-    durationMinutes: number,
-    status: ExamStatus,
+    duration: number,
+    status: number,
     createdById: string | undefined,
   ) => Promise<{ message: string; exam: Exam }>;
   getAllExams: () => Promise<Exam[]>;
   getExamInfo: (id: string) => Promise<ExamInfo>;
   deleteExam: (id: string) => Promise<void>;
-  updateExamQuestions: (id: string, question_ids: string[], status: ExamStatus) => Promise<{ message: string }>;
+  updateExamQuestions: (id: string, question_ids: string[], status: number) => Promise<{ message: string }>;
 }
 
 export const useExamStore = create<InitialState>((set) => ({
@@ -30,7 +30,7 @@ export const useExamStore = create<InitialState>((set) => ({
     title,
     description,
     startTime,
-    durationMinutes,
+    duration,
     status,
     createdById,
   ) => {
@@ -42,7 +42,7 @@ export const useExamStore = create<InitialState>((set) => ({
           title,
           description,
           start_time: startTime,
-          duration_minutes: durationMinutes,
+          duration_minutes: duration,
           status,
           created_by_id: createdById,
         }),

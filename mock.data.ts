@@ -1,11 +1,10 @@
-import { ExamStatus } from "@/dto/exam.dto";
 import { QuestionType } from "@/dto/question.dto";
 
 export const mockTeacherExams = [
   {
     id: "86eb987b-96ab-4d51-84bd-be5f6740fa8b",
     title: "Mathematics 101 - Midterm",
-    status: ExamStatus.PUBLISHED,
+    status: 2,
     description:
       "First mid-term exam covering chapters 1-5 of Mathematics 101.",
     start_time: new Date("2025-12-15T09:00:00Z"),
@@ -16,7 +15,7 @@ export const mockTeacherExams = [
   {
     id: "461c95b2-1ad7-4295-b10d-12d2847bc532",
     title: "History of Art - Final Exam",
-    status: ExamStatus.DRAFT,
+    status: 1,
     description:
       "Comprehensive final exam for History of Art, covering all course material.",
     start_time: new Date("2026-01-10T14:00:00Z"),
@@ -27,7 +26,7 @@ export const mockTeacherExams = [
   {
     id: "735b9e2f-837f-4234-a62d-028bbd1742e5",
     title: "Physics 101 - Quiz 1",
-    status: ExamStatus.COMPLETED,
+    status: 3,
     description:
       "First quiz for Physics 101, focused on foundational mechanics.",
     start_time: new Date("2025-11-05T11:00:00Z"),
@@ -421,8 +420,8 @@ export const DUMMY_EXAM = {
   title: "Sample Exam",
   description: "This is a sample exam for demonstration purposes.",
   startTime: new Date("2024-06-15T10:00:00Z"),
-  durationMinutes: 60,
-  status: ExamStatus.PUBLISHED,
+  duration: 60,
+  status: 2,
   createdById: "user-teacher-123",
   createdAt: new Date("2024-06-10T08:00:00Z"),
   questions: [

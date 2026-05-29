@@ -6,7 +6,7 @@ import { ExamInfo } from '@/dto/exam.dto';
 import { DUMMY_EXAM } from '../../../../../../mock.data';
 import Spinner from '@/components/Spinner';
 
-const TakeExamPage = () => {
+export default function TakeExamPage() {
   const { id } = useParams();
   const [exam, setExam] = useState<ExamInfo | null>(null);
   const [answers, setAnswers] = useState<Record<string, string>>({});
@@ -15,7 +15,7 @@ const TakeExamPage = () => {
   useEffect(() => {
     const examData: ExamInfo = DUMMY_EXAM as unknown as ExamInfo;
     setExam(examData);
-    setTimeLeft(examData.durationMinutes * 60);
+    setTimeLeft(examData.duration * 60);
   }, [id]);
 
   useEffect(() => {
@@ -58,7 +58,7 @@ const TakeExamPage = () => {
         Time Left: {formatTime(timeLeft)}
       </div>
       <div>
-        {exam.questions.map((question, index) => (
+        {exam.examQuestions.map((question, index) => (
           <div key={question.id} className="mb-6 p-4 border rounded-lg">
             <h2 className="text-lg text-black font-semibold">{`${index + 1}. ${question.questionText}`}</h2>
             <div className="mt-2">
@@ -88,5 +88,3 @@ const TakeExamPage = () => {
     </div>
   );
 };
-
-export default TakeExamPage;

@@ -19,19 +19,17 @@ export default function Login() {
 
   useEffect(() => {
     if (user) {
-      switch (user.role) {
-        case "STUDENT":
-          router.push("/student/dashboard");
-          break;
-        case "TEACHER":
-          router.push("/teacher/dashboard");
-          break;
-        case "ADMIN":
-          router.push("/admin/dashboard");
-          break;
-        default:
-          router.push("/dashboard");
-          break;
+      if (user.id.startsWith("ST")) {
+        router.push("/student/dashboard");
+      }
+      else if (user.id.startsWith("TC")) {
+        router.push("/teacher/dashboard");
+      }
+      else if (user.id.startsWith("AD")) {
+        router.push("/admin/dashboard");
+      }
+      else {
+        router.push("/dashboard");
       }
     }
   }, [user, router]);

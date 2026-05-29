@@ -4,7 +4,6 @@ import { useState } from "react";
 import { useAuthStore } from "@/stores/authStore";
 import { BookOpenIcon, XIcon } from "@/icons/icons";
 import { useExamStore } from "@/stores/examStore";
-import { ExamStatus } from "@/dto/exam.dto";
 import DateTimePicker from "@/components/DateTimePicker";
 
 interface CreateExamModalProps {
@@ -32,7 +31,7 @@ export default function CreateExamModal({
       description,
       startTime,
       parseInt(duration, 10),
-      ExamStatus.DRAFT,
+      1,
       user?.id,
     );
     if (response) {

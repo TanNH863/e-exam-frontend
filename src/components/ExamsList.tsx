@@ -11,6 +11,41 @@ interface ExamsListProps {
 export default function ExamsList({ exams }: ExamsListProps) {
   const router = useRouter();
 
+  const getStatusText = (status: number) => {
+    switch (status) {
+      case 1:
+        return "Draft";
+      case 2:
+        return "Published";
+      case 3:
+        return "Completed";
+      default:
+        return "Unknown";
+    }
+  };
+
+  const getBgColor = (status: number) => {
+    switch (status) {
+      case 1:
+        return "bg-gray-400";
+      case 2:
+        return "bg-yellow-500";
+      case 3:
+        return "bg-green-500";
+      default:
+        return "bg-white";
+    }
+  }
+
+  const getTimeDisplay = (time: Date) => time.toLocaleString('en-GB', {
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: false
+  }).replace(',', ' -');
+
   return (
     <ul role="list" className="divide-y divide-gray-200">
       {exams.map((exam) => (
@@ -24,14 +59,9 @@ export default function ExamsList({ exams }: ExamsListProps) {
               </p>
               <p className="flex items-center text-sm text-gray-500">
                 <span
-                  className={`mr-2 inline-block h-2 w-2 rounded-full ${
-                    exam.status === "PUBLISHED"
-                      ? "bg-green-500"
-                      : exam.status === "DRAFT"
-                        ? "bg-yellow-500"
-                        : "bg-gray-400"
-                  }`}></span>
-                {exam.status + " | " + exam.createdAt}
+                  className={`mr-2 inline-block h-2 w-2 rounded-full ${getBgColor(exam.status)}`}
+                />
+                {getStatusText(exam.status) + " | " + getTimeDisplay(exam.createdAt)}
                 {/* <span className="mx-2">|</span>
                     Submissions: {exam.submissions} / {exam.total} */}
               </p>

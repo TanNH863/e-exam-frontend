@@ -5,26 +5,13 @@ export interface Exam {
   title: string;
   description: string;
   startTime: Date;
-  durationMinutes: number;
-  status: ExamStatus;
+  duration: number;
+  status: number;
   createdById: string;
   createdAt: Date;
 }
 
-export interface ExamInfo {
-  id: string;
-  title: string;
-  description: string;
-  startTime: Date;
-  durationMinutes: number;
-  status: ExamStatus;
-  createdById: string;
-  createdAt: Date;
-  questions: Question[];
+export interface ExamInfo extends Exam {
+  examQuestions: Question[];
 }
 
-export enum ExamStatus {
-  DRAFT = "DRAFT",
-  PUBLISHED = "PUBLISHED",
-  COMPLETED = "COMPLETED",
-}

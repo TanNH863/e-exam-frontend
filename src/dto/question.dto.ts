@@ -7,19 +7,19 @@ export enum QuestionType {
 
 export const QuestionTypeSelect = [
   {
-    value: QuestionType.MULTIPLE_CHOICE,
+    value: 1,
     label: "Multiple Choice",
   },
   {
-    value: QuestionType.MULTIPLE_ANSWER,
-    label: "Multiple Answer",
-  },
-  {
-    value: QuestionType.SHORT_ANSWER,
+    value: 2,
     label: "Short Answer",
   },
   {
-    value: QuestionType.TRUE_FALSE,
+    value: 3,
+    label: "Multiple Answer",
+  },
+  {
+    value: 4,
     label: "True or False",
   },
 ];
@@ -32,6 +32,6 @@ export interface Option {
 export interface Question {
   id: string;
   questionText: string;
-  questionType: QuestionType;
+  questionType: number;
   options?: Option[];
 }

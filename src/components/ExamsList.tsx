@@ -3,12 +3,12 @@
 import { ChartBarIcon, EditIcon } from "@/icons/icons";
 import { Exam } from "@/dto/exam.dto";
 import { useRouter } from "next/navigation";
-
-interface ExamsListProps {
+import { getTimeDisplay } from "@/utils/date";
+interface Props {
   exams: Exam[];
 }
 
-export default function ExamsList({ exams }: ExamsListProps) {
+export default function ExamsList({ exams }: Props) {
   const router = useRouter();
 
   const getStatusText = (status: number) => {
@@ -35,16 +35,7 @@ export default function ExamsList({ exams }: ExamsListProps) {
       default:
         return "bg-white";
     }
-  }
-
-  const getTimeDisplay = (time: Date) => time.toLocaleString('en-GB', {
-    day: '2-digit',
-    month: '2-digit',
-    year: 'numeric',
-    hour: '2-digit',
-    minute: '2-digit',
-    hour12: false
-  }).replace(',', ' -');
+  };
 
   return (
     <ul role="list" className="divide-y divide-gray-200">
@@ -61,7 +52,7 @@ export default function ExamsList({ exams }: ExamsListProps) {
                 <span
                   className={`mr-2 inline-block h-2 w-2 rounded-full ${getBgColor(exam.status)}`}
                 />
-                {getStatusText(exam.status) + " | " + getTimeDisplay(exam.createdAt)}
+                {getStatusText(exam.status) + " | " + getTimeDisplay(new Date(exam.createdAt))}
                 {/* <span className="mx-2">|</span>
                     Submissions: {exam.submissions} / {exam.total} */}
               </p>

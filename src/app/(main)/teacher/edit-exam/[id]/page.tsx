@@ -1,13 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import {
-  PlusCircleIcon,
-  BookOpenIcon,
-  ClockIcon,
-  CheckCircleIcon,
-  XIcon,
-} from "@/icons/icons";
+import { PlusCircleIcon, CheckCircleIcon } from "@/icons/icons";
 import { useParams } from "next/navigation";
 import { useExamStore } from "@/stores/examStore";
 import { useQuestionStore } from "@/stores/questionStore";
@@ -16,6 +10,8 @@ import { Question as QuestionDTO } from "@/dto/question.dto";
 import SelectQuestionsModal from "@/components/SelectQuestionsModal";
 import MessageModal from "@/components/MessageModal";
 import Toast from "@/components/Toast";
+import ExamDetailsForm from "@/components/ExamDetailsForm";
+import QuestionListItem from "@/components/QuestionListItem";
 
 export default function EditExamPage() {
   const params = useParams<{ id: string }>();
@@ -178,63 +174,7 @@ export default function EditExamPage() {
           </div>
 
           {/* Exam Details Form */}
-          <section className="mt-8">
-            <div className="rounded-lg bg-white p-6 shadow-md">
-              <h2 className="text-xl font-semibold text-gray-800">
-                Exam Details
-              </h2>
-              <div className="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2">
-                <div>
-                  <label
-                    htmlFor="exam-title"
-                    className="block text-sm font-medium text-gray-700"
-                  >
-                    Exam Title
-                  </label>
-                  <div className="mt-2 flex items-center">
-                    <BookOpenIcon />
-                    <p className="text-black">{exam?.title}</p>
-                  </div>
-                </div>
-                <div>
-                  <label
-                    htmlFor="exam-start-time"
-                    className="block text-sm font-medium text-gray-700"
-                  >
-                    Start time
-                  </label>
-                  <div className="mt-2 flex items-center">
-                    <ClockIcon />
-                    <p className="text-black">{exam?.startTime.toString()}</p>
-                  </div>
-                </div>
-                <div>
-                  <label
-                    htmlFor="exam-duration"
-                    className="block text-sm font-medium text-gray-700"
-                  >
-                    Duration (in minutes)
-                  </label>
-                  <div className="mt-2 flex items-center">
-                    <ClockIcon />
-                    <p className="text-black">{exam?.duration}</p>
-                  </div>
-                </div>
-                <div>
-                  <label
-                    htmlFor="exam-description"
-                    className="block text-sm font-medium text-gray-700"
-                  >
-                    Description
-                  </label>
-                  <div className="mt-2 flex items-center">
-                    <BookOpenIcon />
-                    <p className="text-black">{exam?.description}</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </section>
+          <ExamDetailsForm exam={exam} />
 
           {/* Questions Section */}
           <section className="mt-8">
@@ -255,95 +195,7 @@ export default function EditExamPage() {
             </div>
 
             <div className="mt-6 space-y-6">
-              {questions.map((q, index) => (
-                <div
-                  key={q.id}
-                  className="rounded-lg bg-white p-6 shadow-md"
-                >
-                  <div className="flex items-start justify-between">
-                    <div className="flex">
-                      <p className="mr-2 text-lg font-semibold text-gray-800">
-                        {`Q${index + 1}:`}
-                      </p>
-                      <p className="text-lg text-gray-700">
-                        {q?.questionText}
-                      </p>
-                    </div>
-                    <button
-                      onClick={() => removeQuestion(q.id)}
-                      className="text-red-500 hover:text-red-700 hover:cursor-pointer"
-                    >
-                      <XIcon />
-                    </button>
-                  </div>
-                  
-                  <div className="mt-4">
-                    {q.questionType === 1 ||
-                    q.questionType === 4 ? (
-                      <div className="space-y-2">
-                        {q.options?.map((option, i) => (
-                          <div key={i} className="flex items-center">
-                            <input
-                              id={`option-${q.id}-${i}`}
-                              name={`question-${q.id}`}
-                              type="radio"
-                              className="h-4 w-4 border-gray-300 text-blue-600 focus:ring-blue-500"
-                              checked={option.isCorrect === true}
-                              readOnly
-                            />
-                            <label
-                              htmlFor={`option-${q.id}-${i}`}
-                              className={`ml-3 block text-sm text-gray-700 ${
-                                option.isCorrect === true ? "font-bold" : ""
-                              }`}
-                            >
-                              {option.optionText}
-                            </label>
-                          </div>
-                        ))}
-                      </div>
-                    ) : q.questionType === 3 ? (
-                      <div className="space-y-2">
-                        {q.options?.map((option, i) => (
-                          <div key={i} className="flex items-center">
-                            <input
-                              id={`option-${q.id}-${i}`}
-                              name={`question-${q.id}`}
-                              type="checkbox"
-                              className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
-                              checked={option.isCorrect === true}
-                              readOnly
-                            />
-                            <label
-                              htmlFor={`option-${q.id}-${i}`}
-                              className={`ml-3 block text-sm text-gray-700 ${
-                                option.isCorrect === true ? "font-bold" : ""
-                              }`}
-                            >
-                              {option.optionText}
-                            </label>
-                          </div>
-                        ))}
-                      </div>
-                    ) : q.questionType === 2 ? (
-                      <div className="mt-2 text-sm text-gray-600">
-                        <span className="font-semibold">
-                          Accepted Answers:
-                        </span>{" "}
-                        {q.options
-                          ?.filter((o) => o.isCorrect)
-                          .map((o) => o.optionText)
-                          .join(", ")}
-                      </div>
-                    ) : null}
-                  </div>
-                </div>
-              ))}
-              {questions.length === 0 && (
-                <div className="text-center text-gray-500">
-                  <p>No questions added yet.</p>
-                </div>
-              )}
+              <QuestionListItem data={questions} onRemove={removeQuestion}/>
             </div>
           </section>
         </div>

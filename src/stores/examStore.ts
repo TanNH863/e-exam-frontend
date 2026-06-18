@@ -16,6 +16,7 @@ interface InitialState {
     createdById: string | undefined,
   ) => Promise<{ message: string; exam: Exam }>;
   getAllExams: () => Promise<Exam[]>;
+  getUpcomingExams: () => Promise<Exam[]>;
   getExamInfo: (id: string) => Promise<ExamInfo>;
   deleteExam: (id: string) => Promise<void>;
   updateExamQuestions: (id: string, question_ids: string[], status: number) => Promise<{ message: string }>;
@@ -77,6 +78,24 @@ export const useExamStore = create<InitialState>((set) => ({
       set({ exams, isLoading: false });
       return exams;
     } catch (error: unknown) {
+      const msg = error instanceof Error ? error.message : "An unknown error occurred";
+      set({ error: msg, isLoading: false });
+      return [];
+    }
+  },
+  getUpcomingExams: async () => {
+    set({ isLoading: true, error: null });
+    try {
+      const response = await apiFetch("/exams/upcoming");
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Failed to fetch upcoming exams");
+      }
+      const exams = await response.json();
+      set({ exams, isLoading: false });
+      return exams;
+    }
+    catch (error: unknown) {
       const msg = error instanceof Error ? error.message : "An unknown error occurred";
       set({ error: msg, isLoading: false });
       return [];

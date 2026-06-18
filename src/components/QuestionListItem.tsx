@@ -2,10 +2,12 @@ import { Question } from "@/dto/question.dto";
 import { TrashIcon, PencilIcon } from "@/icons/icons";
 
 interface Props {
-  data: Question[]
+  data: Question[];
+  onEdit?: (id: string) => void;
+  onRemove?: (id: string) => void;
 }
 
-export default function QuestionListItem({ data }: Props) {
+export default function QuestionListItem({ data, onEdit, onRemove }: Props) {
   const renderQuestionContent = (question: Question) => {
     switch (question.questionType) {
       case 1:
@@ -96,17 +98,27 @@ export default function QuestionListItem({ data }: Props) {
               {`Q${index + 1}: ${question.questionText}`}
             </p>
             <div className="flex space-x-2">
-              <button className="p-2 bg-blue-500 rounded-lg text-white hover:bg-blue-700 hover:cursor-pointer">
+              <button
+                className="p-2 bg-blue-500 rounded-lg text-white hover:bg-blue-700 hover:cursor-pointer"
+                onClick={() => {
+                  if (onEdit) {
+                    onEdit(question.id)
+                  }
+                }}
+              >
                 <PencilIcon />
               </button>
-              <button className="p-2 bg-red-500 rounded-lg text-white hover:bg-red-700 hover:cursor-pointer">
+              <button
+                className="p-2 bg-red-500 rounded-lg text-white hover:bg-red-700 hover:cursor-pointer"
+                onClick={() => {
+                  if (onRemove) {
+                    onRemove(question.id)
+                  }
+                }}
+              >
                 <TrashIcon />
               </button>
             </div>
-          </div>
-          <div className="mt-2 text-sm text-gray-600">
-            <span className="font-semibold">Type:</span>{" "}
-            {question.questionType}
           </div>
           <div className="mt-4">
             {renderQuestionContent(question)}

@@ -1,39 +1,25 @@
 "use client";
 
-import {
-  CalendarIcon,
-  CheckCircleIcon,
-  ClipboardListIcon,
-  ClockIcon,
-} from "@/icons/icons";
-import { useAuthStore } from "@/stores/authStore";
-import { useRouter } from "next/navigation";
+import { useEffect } from "react";
+import { CheckCircleIcon } from "@/icons/icons";
+import { useExamStore } from "@/stores/examStore";
+import UpcomingExamsSection from "@/components/UpcomingExamsSection";
+// import { useRouter } from "next/navigation";
+// import { useAuthStore } from "@/stores/authStore";
 
 export default function StudentDashboard() {
-  const { logout } = useAuthStore();
-  const router = useRouter();
+  // const { logout } = useAuthStore();
+  // const router = useRouter();
+  const { exams: upcomingExams, getUpcomingExams } = useExamStore();
 
-  const handleLogout = async () => {
-    await logout();
-    router.push("/login");
-  };
+  useEffect(() => {
+    getUpcomingExams();
+  }, [getUpcomingExams]);
 
-  const mockUpcomingExams = [
-    {
-      id: 1,
-      title: "Mathematics 101 - Midterm",
-      description: "Covers chapters 1-5.",
-      date: "November 10, 2025",
-      duration: 60,
-    },
-    {
-      id: 2,
-      title: "History of Art - Final Exam",
-      description: "Cumulative final on all covered periods.",
-      date: "November 12, 2025",
-      duration: 120,
-    },
-  ];
+  // const handleLogout = async () => {
+  //   await logout();
+  //   router.push("/login");
+  // };
 
   const mockCompletedExams = [
     {
@@ -65,42 +51,7 @@ export default function StudentDashboard() {
             <h2 className="text-2xl font-semibold text-gray-900">
               Upcoming Exams
             </h2>
-            <div className="mt-4 grid grid-cols-1 gap-6 md:grid-cols-2">
-              {mockUpcomingExams.map((exam) => (
-                <div
-                  key={exam.id}
-                  className="overflow-hidden rounded-xl bg-white shadow-lg transition-all hover:shadow-xl">
-                  <div className="p-6">
-                    <div className="flex items-start">
-                      <ClipboardListIcon />
-                      <div>
-                        <h3 className="text-lg font-semibold text-gray-900">
-                          {exam.title}
-                        </h3>
-                        <p className="mt-1 text-sm text-gray-600">
-                          {exam.description}
-                        </p>
-                      </div>
-                    </div>
-                    <div className="mt-6 flex items-center justify-between">
-                      <div className="flex space-x-4">
-                        <span className="flex items-center text-sm text-gray-700">
-                          <CalendarIcon />
-                          {exam.date}
-                        </span>
-                        <span className="flex items-center text-sm text-gray-700">
-                          <ClockIcon />
-                          {exam.duration} mins
-                        </span>
-                      </div>
-                      <button className="rounded-lg bg-blue-600 px-5 py-2.5 text-sm font-medium text-white shadow-md transition-all hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-300">
-                        Start Exam
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
+            <UpcomingExamsSection data={upcomingExams} />
           </section>
 
           {/* Completed Exams Section */}

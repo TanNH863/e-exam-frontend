@@ -11,6 +11,20 @@ interface Props {
 }
 
 export default function UpcomingExamsSection({ data }: Props) {
+  const getExamStatus = (startTime: string | Date, duration: number) => {
+    const now = new Date();
+    const start = new Date(startTime);
+    const end = new Date(start.getTime() + duration * 60000);
+
+    if (now < start) {
+      return "Upcoming";
+    } else if (now >= start && now <= end) {
+      return "Ongoing";
+    } else {
+      return "Ended";
+    }
+  };
+
   return (
     <div className="mt-4 grid grid-cols-1 gap-6 md:grid-cols-2">
       {data.map((exam) => (
@@ -39,6 +53,9 @@ export default function UpcomingExamsSection({ data }: Props) {
                 <span className="flex items-center text-sm text-gray-700">
                   <ClockIcon />
                   {exam.duration} mins
+                </span>
+                <span className="flex items-center text-sm text-gray-700">
+                  {getExamStatus(exam.startTime, exam.duration)}
                 </span>
               </div>
               <button className="rounded-lg bg-blue-600 px-5 py-2.5 text-sm font-medium text-white shadow-md transition-all hover:bg-blue-700 hover:cursor-pointer focus:outline-none focus:ring-4 focus:ring-blue-300">

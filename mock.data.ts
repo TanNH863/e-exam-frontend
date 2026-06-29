@@ -1,5 +1,3 @@
-import { QuestionType } from "@/dto/question.dto";
-
 export const mockTeacherExams = [
   {
     id: "86eb987b-96ab-4d51-84bd-be5f6740fa8b",
@@ -428,7 +426,7 @@ export const DUMMY_EXAM = {
     {
       id: "62ef48a8-1bf6-4539-ba80-0964b5776d0d",
       questionText: "What is the capital of France?",
-      questionType: QuestionType.MULTIPLE_CHOICE,
+      questionType: 1,
       options: [
         { optionText: "Paris", isCorrect: true },
         { optionText: "London", isCorrect: false },
@@ -439,7 +437,7 @@ export const DUMMY_EXAM = {
     {
       id: "0f3123f3-5aed-4fc2-af6a-54abf8167693",
       questionText: "What is 2 + 2?",
-      questionType: "MULTIPLE_CHOICE",
+      questionType: 1,
       options: [
         { optionText: "3", isCorrect: false },
         { optionText: "4", isCorrect: true },
@@ -450,7 +448,7 @@ export const DUMMY_EXAM = {
     {
       id: "f1445b97-203a-4dca-8220-ae8cc8372884",
       questionText: "Which planet is known as the Red Planet?",
-      questionType: "MULTIPLE_CHOICE",
+      questionType: 1,
       options: [
         { optionText: "Earth", isCorrect: false },
         { optionText: "Mars", isCorrect: true },

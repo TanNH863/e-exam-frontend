@@ -9,7 +9,7 @@ interface InitialState {
   isLoading: boolean;
   createQuestion: (
     questionText: string,
-    questionType: string,
+    questionType: number,
     options?: Option[],
   ) => Promise<{ message: string; question: Question } | undefined>;
   getAllQuestions: () => Promise<Question[]>;

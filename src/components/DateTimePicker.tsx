@@ -11,8 +11,10 @@ export default function DateTimePicker({
   value,
   onChange,
 }: DateTimePickerProps) {
-  const [date, setDate] = useState(value.toISOString().split("T")[0]);
-  const [time, setTime] = useState(value.toTimeString().slice(0, 5));
+  const validDate = value instanceof Date && !isNaN(value.getTime()) ? value : new Date();
+  
+  const [date, setDate] = useState(validDate.toISOString().split("T")[0]);
+  const [time, setTime] = useState(validDate.toTimeString().slice(0, 5));
 
   useEffect(() => {
     const [year, month, day] = date.split("-").map(Number);

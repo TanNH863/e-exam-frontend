@@ -2,10 +2,10 @@
 
 import { useState, useEffect } from "react";
 import { XIcon } from "@/icons/icons";
-import { QuestionType, QuestionTypeSelect } from "@/dto/question.dto";
+import { QuestionTypeSelect } from "@/dto/question.dto";
 import { useQuestionStore } from "@/stores/questionStore";
 
-interface CreateQuestionModalProps {
+interface Props {
   isOpen: boolean;
   onClose: () => void;
   onSuccess?: (message: string) => void;
@@ -15,12 +15,10 @@ export default function CreateQuestionModal({
   isOpen,
   onClose,
   onSuccess,
-}: CreateQuestionModalProps) {
+}: Props) {
   const { createQuestion } = useQuestionStore();
   const [questionText, setQuestionText] = useState("");
-  const [questionType, setQuestionType] = useState<QuestionType>(
-    QuestionType.MULTIPLE_CHOICE,
-  );
+  const [questionType, setQuestionType] = useState<number>(1);
   const [options, setOptions] = useState([
     { optionText: "", isCorrect: false },
     { optionText: "", isCorrect: false },
@@ -29,26 +27,29 @@ export default function CreateQuestionModal({
   ]);
 
   useEffect(() => {
-    if (questionType === QuestionType.TRUE_FALSE) {
-      setOptions([
-        { optionText: "True", isCorrect: true },
-        { optionText: "False", isCorrect: false },
-      ]);
-    } else if (questionType === QuestionType.SHORT_ANSWER) {
-      setOptions([{ optionText: "", isCorrect: true }]);
-    } else {
-      setOptions([
-        { optionText: "", isCorrect: false },
-        { optionText: "", isCorrect: false },
-        { optionText: "", isCorrect: false },
-        { optionText: "", isCorrect: false },
-      ]);
+    switch (questionType) {
+      case 2:
+        setOptions([{ optionText: "", isCorrect: true }]);
+        break;
+      case 4:
+        setOptions([
+          { optionText: "True", isCorrect: true },
+          { optionText: "False", isCorrect: false },
+        ]);
+        break;
+      default:
+        setOptions([
+          { optionText: "", isCorrect: false },
+          { optionText: "", isCorrect: false },
+          { optionText: "", isCorrect: false },
+          { optionText: "", isCorrect: false },
+        ]);
     }
   }, [questionType]);
 
   const renderOptions = () => {
     switch (questionType) {
-      case QuestionType.MULTIPLE_CHOICE:
+      case 1:
         return (
           <>
             <label className="block text-sm font-medium text-gray-700">
@@ -91,7 +92,7 @@ export default function CreateQuestionModal({
             </button>
           </>
         );
-      case QuestionType.MULTIPLE_ANSWER:
+      case 3:
         return (
           <>
             <label className="block text-sm font-medium text-gray-700">
@@ -134,7 +135,7 @@ export default function CreateQuestionModal({
             </button>
           </>
         );
-      case QuestionType.SHORT_ANSWER:
+      case 2:
         return (
           <>
             <label className="block text-sm font-medium text-gray-700">
@@ -168,7 +169,7 @@ export default function CreateQuestionModal({
             </button>
           </>
         );
-      case QuestionType.TRUE_FALSE:
+      case 4:
         return (
           <>
             <label className="block text-sm font-medium text-gray-700">
@@ -225,7 +226,7 @@ export default function CreateQuestionModal({
 
   const addOption = () => {
     const newOption =
-      questionType === QuestionType.SHORT_ANSWER
+      questionType === 2
         ? { optionText: "", isCorrect: true }
         : { optionText: "", isCorrect: false };
     setOptions([...options, newOption]);
@@ -286,7 +287,7 @@ export default function CreateQuestionModal({
             <select
               id="questionType"
               value={questionType}
-              onChange={(e) => setQuestionType(e.target.value as QuestionType)}
+              onChange={(e) => setQuestionType(parseInt(e.target.value))}
               className="p-2 mt-1 block w-full rounded-md border-1 border-black focus:border-blue-500 focus:ring-blue-500 sm:text-sm text-black">
               {QuestionTypeSelect.map((type) => (
                 <option key={type.value} value={type.value}>

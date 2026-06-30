@@ -59,7 +59,7 @@ export default function TakeExamPage() {
       </div>
       <div>
         {exam.examQuestions.map((question, index) => (
-          <div key={question.id} className="mb-6 p-4 border rounded-lg">
+          <div key={question.id} className="mb-6 p-4 bg-white border rounded-lg">
             <h2 className="text-lg text-black font-semibold">{`${index + 1}. ${question.questionText}`}</h2>
             <div className="mt-2">
               {question.options?.map((option, i) => (
@@ -72,7 +72,9 @@ export default function TakeExamPage() {
                     onChange={() => handleAnswerChange(question.id, option.optionText)}
                     className="mr-2"
                   />
-                  <label htmlFor={`${question.id}-${i}`}>{option.optionText}</label>
+                  <label htmlFor={`${question.id}-${i}`}>
+                    {String.fromCharCode(65 + i)}. {option.optionText}
+                  </label>
                 </div>
               ))}
             </div>

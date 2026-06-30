@@ -422,7 +422,7 @@ export const DUMMY_EXAM = {
   status: 2,
   createdById: "user-teacher-123",
   createdAt: new Date("2024-06-10T08:00:00Z"),
-  questions: [
+  examQuestions: [
     {
       id: "62ef48a8-1bf6-4539-ba80-0964b5776d0d",
       questionText: "What is the capital of France?",

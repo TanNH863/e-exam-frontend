@@ -1,3 +1,7 @@
+"use client";
+
+import React, { useState } from "react";
+import { useRouter } from "next/navigation";
 import {
   CalendarIcon,
   ClipboardListIcon,
@@ -5,12 +9,16 @@ import {
 } from "@/icons/icons";
 import { Exam } from "@/dto/exam.dto";
 import { getTimeDisplay } from "@/utils/date";
+import ConfirmModal from "@/components/ConfirmModal";
 
 interface Props {
   data: Exam[];
 }
 
 export default function UpcomingExamsSection({ data }: Props) {
+  const router = useRouter();
+  const [confirmOpen, setConfirmOpen] = useState(false);
+  const [selectedExam, setSelectedExam] = useState<Exam | null>(null);
   const getExamStatus = (startTime: string | Date, duration: number) => {
     const now = new Date();
     const start = new Date(startTime);
@@ -58,9 +66,34 @@ export default function UpcomingExamsSection({ data }: Props) {
                   {getExamStatus(exam.startTime, exam.duration)}
                 </span>
               </div>
-              <button className="rounded-lg bg-blue-600 px-5 py-2.5 text-sm font-medium text-white shadow-md transition-all hover:bg-blue-700 hover:cursor-pointer focus:outline-none focus:ring-4 focus:ring-blue-300">
-                Start Exam
-              </button>
+              <>
+                <button
+                  onClick={() => {
+                    setSelectedExam(exam);
+                    setConfirmOpen(true);
+                  }}
+                  className="rounded-lg bg-blue-600 px-5 py-2.5 text-sm font-medium text-white shadow-md transition-all hover:bg-blue-700 hover:cursor-pointer focus:outline-none focus:ring-4 focus:ring-blue-300"
+                >
+                  Start Exam
+                </button>
+
+                <ConfirmModal
+                  open={confirmOpen && selectedExam?.id === exam.id}
+                  title={`Start ${exam.title}`}
+                  message={`You are about to start the exam "${exam.title}". Once started, the timer will begin. Do you want to proceed?`}
+                  confirmText="Start"
+                  cancelText="Cancel"
+                  onCancel={() => {
+                    setConfirmOpen(false);
+                    setSelectedExam(null);
+                  }}
+                  onConfirm={() => {
+                    setConfirmOpen(false);
+                    // navigate to take exam page
+                    router.push(`/student/take-exam/${exam.id}`);
+                  }}
+                />
+              </>
             </div>
           </div>
         </div>

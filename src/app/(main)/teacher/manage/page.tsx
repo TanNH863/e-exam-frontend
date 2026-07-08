@@ -29,34 +29,30 @@ export default function ManageExams() {
       {toastMessage && (
         <Toast type={toastType} message={toastMessage} onClose={() => setToastMessage(null)} />
       )}
-      <main className="py-10">
-        <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <section>
-            <div className="flex items-center justify-between">
-              <h2 className="text-2xl font-semibold text-gray-900">My Exams</h2>
-              <button
-                onClick={() => setIsOpen(true)}
-                className="flex items-center rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 hover:cursor-pointer">
-                <PlusCircleIcon />
-                Create Exam
-              </button>
-            </div>
-            {isLoading ? (
-              <div className="mt-4 overflow-hidden rounded-xl bg-white shadow-lg">
-                <Spinner />
-              </div>
-            ) : exams.length !== 0 ? (
-              <div className="mt-4 overflow-hidden rounded-xl bg-white shadow-lg">
-                <ExamsList exams={exams} />
-              </div>
-            ) : (
-              <div className="flex items-center justify-center mt-4 pt-2 pb-2 overflow-hidden rounded-xl bg-white shadow-lg">
-                <p className="text-black">No exams found</p>
-              </div>
-            )}
-          </section>
+      <section>
+        <div className="flex items-center justify-between">
+          <h2 className="text-2xl font-semibold text-gray-900">My Exams</h2>
+          <button
+            onClick={() => setIsOpen(true)}
+            className="flex items-center rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 hover:cursor-pointer">
+            <PlusCircleIcon />
+            Create Exam
+          </button>
         </div>
-      </main>
+        {isLoading ? (
+          <div className="mt-4 overflow-hidden rounded-xl bg-white shadow-lg">
+            <Spinner />
+          </div>
+        ) : exams.length !== 0 ? (
+          <div className="mt-4 overflow-hidden rounded-xl bg-white shadow-lg">
+            <ExamsList exams={exams} />
+          </div>
+        ) : (
+          <div className="flex items-center justify-center mt-4 pt-2 pb-2 overflow-hidden rounded-xl bg-white shadow-lg">
+            <p className="text-black">No exams found</p>
+          </div>
+        )}
+      </section>
       <CreateExamModal
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}

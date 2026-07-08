@@ -140,66 +140,61 @@ export default function EditExamPage() {
           onClose={() => setToastMessage(null)}
         />
       )}
-      {/* Main Content */}
-      <main className="py-10">
-        <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          {/* Page Title & Actions */}
-          <div className="flex flex-col items-start justify-between sm:flex-row sm:items-center">
-            <h1 className="text-3xl font-bold tracking-tight text-gray-900">
-              Exam Editor
-            </h1>
-            <div className="flex space-x-2">
-              <button
-                className="mt-4 flex items-center justify-center rounded-lg bg-gray-300 px-5 py-2.5 text-sm font-medium text-gray-800 shadow-md transition-all hover:bg-gray-400 hover:cursor-pointer focus:outline-none focus:ring-4 focus:ring-gray-200 sm:mt-0"
-                onClick={() => {
-                  setPendingStatus(1);
-                  setModalType("info");
-                  setIsOpen(true);
-                }}
-              >
-                Save as draft
-              </button>
-              <button
-                className="mt-4 flex items-center justify-center rounded-lg bg-green-600 px-5 py-2.5 text-sm font-medium text-white shadow-md transition-all hover:bg-green-700 hover:cursor-pointer focus:outline-none focus:ring-4 focus:ring-blue-300 sm:mt-0"
-                onClick={() => {
-                  setPendingStatus(2);
-                  setModalType("info");
-                  setIsOpen(true);
-                }}
-              >
-                <CheckCircleIcon />
-                Publish
-              </button>
-            </div>
-          </div>
-
-          {/* Exam Details Form */}
-          <ExamDetailsForm exam={exam} />
-
-          {/* Questions Section */}
-          <section className="mt-8">
-            <div className="flex items-center justify-between">
-              <h2 className="text-xl font-semibold text-gray-800">
-                Questions
-              </h2>
-              <button
-                onClick={() => {
-                  setModalType("select");
-                  setIsOpen(true);
-                }}
-                className="flex items-center justify-center rounded-lg bg-blue-600 px-5 py-2.5 text-sm font-medium text-white shadow-md transition-all hover:bg-blue-700 hover:cursor-pointer focus:outline-none focus:ring-4 focus:ring-green-300"
-              >
-                <PlusCircleIcon />
-                Add Question
-              </button>
-            </div>
-
-            <div className="mt-6 space-y-6">
-              <QuestionListItem data={questions} onRemove={removeQuestion}/>
-            </div>
-          </section>
+      {/* Page Title & Actions */}
+      <div className="flex flex-col items-start justify-between sm:flex-row sm:items-center">
+        <h1 className="text-3xl font-bold tracking-tight text-gray-900">
+          Exam Editor
+        </h1>
+        <div className="flex space-x-2">
+          <button
+            className="mt-4 flex items-center justify-center rounded-lg bg-gray-300 px-5 py-2.5 text-sm font-medium text-gray-800 shadow-md transition-all hover:bg-gray-400 hover:cursor-pointer focus:outline-none focus:ring-4 focus:ring-gray-200 sm:mt-0"
+            onClick={() => {
+              setPendingStatus(1);
+              setModalType("info");
+              setIsOpen(true);
+            }}
+          >
+            Save as draft
+          </button>
+          <button
+            className="mt-4 flex items-center justify-center rounded-lg bg-green-600 px-5 py-2.5 text-sm font-medium text-white shadow-md transition-all hover:bg-green-700 hover:cursor-pointer focus:outline-none focus:ring-4 focus:ring-blue-300 sm:mt-0"
+            onClick={() => {
+              setPendingStatus(2);
+              setModalType("info");
+              setIsOpen(true);
+            }}
+          >
+            <CheckCircleIcon />
+            Publish
+          </button>
         </div>
-      </main>
+      </div>
+
+      {/* Exam Details Form */}
+      <ExamDetailsForm exam={exam} />
+
+      {/* Questions Section */}
+      <section className="mt-8">
+        <div className="flex items-center justify-between">
+          <h2 className="text-xl font-semibold text-gray-800">
+            Questions
+          </h2>
+          <button
+            onClick={() => {
+              setModalType("select");
+              setIsOpen(true);
+            }}
+            className="flex items-center justify-center rounded-lg bg-blue-600 px-5 py-2.5 text-sm font-medium text-white shadow-md transition-all hover:bg-blue-700 hover:cursor-pointer focus:outline-none focus:ring-4 focus:ring-green-300"
+          >
+            <PlusCircleIcon />
+            Add Question
+          </button>
+        </div>
+
+        <div className="mt-6 space-y-6">
+          <QuestionListItem data={questions} onRemove={removeQuestion}/>
+        </div>
+      </section>
     </>
   );
 }

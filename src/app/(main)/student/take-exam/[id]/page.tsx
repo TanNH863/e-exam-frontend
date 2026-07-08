@@ -11,6 +11,7 @@ export default function TakeExamPage() {
   const [exam, setExam] = useState<ExamInfo | null>(null);
   const [answers, setAnswers] = useState<Record<string, string>>({});
   const [timeLeft, setTimeLeft] = useState<number>(0);
+  const [marked, setMarked] = useState<Record<string, boolean>>({});
 
   useEffect(() => {
     const examData: ExamInfo = DUMMY_EXAM as unknown as ExamInfo;
@@ -34,6 +35,13 @@ export default function TakeExamPage() {
     }));
   };
 
+  const handleMarkQuestion = (questionId: string) => {
+    setMarked(prevMarked => ({
+      ...prevMarked,
+      [questionId]: !prevMarked[questionId],
+    }));
+  };
+
   const handleSubmit = () => {
     // Mock submitting answers
     console.log('Submitting answers:', answers);
@@ -51,42 +59,86 @@ export default function TakeExamPage() {
   };
 
   return (
-    <div className="container mx-auto p-4">
-      <h1 className="text-2xl text-black font-bold mb-4">{exam.title}</h1>
-      <p className="mb-4 text-black">{exam.description}</p>
-      <div className="text-red-500 font-bold mb-4">
-        Time Left: {formatTime(timeLeft)}
-      </div>
-      <div>
-        {exam.examQuestions.map((question, index) => (
-          <div key={question.id} className="mb-6 p-4 bg-white border rounded-lg">
-            <h2 className="text-lg text-black font-semibold">{`${index + 1}. ${question.questionText}`}</h2>
-            <div className="mt-2">
-              {question.options?.map((option, i) => (
-                <div key={i} className="flex items-center mb-2 text-black">
-                  <input
-                    type="radio"
-                    name={question.id}
-                    id={`${question.id}-${i}`}
-                    value={option.optionText}
-                    onChange={() => handleAnswerChange(question.id, option.optionText)}
-                    className="mr-2"
-                  />
-                  <label htmlFor={`${question.id}-${i}`}>
-                    {String.fromCharCode(65 + i)}. {option.optionText}
+    <div className="relative">
+      <div className="md:flex md:items-start md:gap-6">
+        <div className="md:flex-1">
+          <h1 className="text-2xl text-black font-bold mb-4">{exam.title}</h1>
+          <p className="mb-4 text-black">{exam.description}</p>
+          <div className="text-red-500 font-bold mb-4">Time Left: {formatTime(timeLeft)}</div>
+          <div>
+            {exam.examQuestions.map((question, index) => (
+              <div
+                id={question.id}
+                key={question.id}
+                className={`mb-6 p-4 border bg-white rounded-lg ${marked[question.id] ? 'bg-yellow-100' : ''}`}
+              >
+                <h2 className="text-lg text-black font-semibold">{`${index + 1}. ${question.questionText}`}</h2>
+                <div className="mt-2">
+                  {question.options?.map((option, i) => (
+                    <div key={i} className="flex items-center mb-2 text-black">
+                      <input
+                        type="radio"
+                        name={question.id}
+                        id={`${question.id}-${i}`}
+                        value={option.optionText}
+                        checked={answers[question.id] === option.optionText}
+                        onChange={() => handleAnswerChange(question.id, option.optionText)}
+                        className="mr-2"
+                      />
+                      <label htmlFor={`${question.id}-${i}`}>{option.optionText}</label>
+                    </div>
+                  ))}
+                </div>
+                <div className="mt-4">
+                  <label className="flex items-center text-gray-600">
+                    <input
+                      type="checkbox"
+                      checked={marked[question.id] || false}
+                      onChange={() => handleMarkQuestion(question.id)}
+                      className="mr-2"
+                    />
+                    Mark as not yet completed
                   </label>
                 </div>
-              ))}
+              </div>
+            ))}
+          </div>
+          <button
+            onClick={handleSubmit}
+            className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 hover:cursor-pointer"
+          >
+            Submit Exam
+          </button>
+        </div>
+
+        <aside className="hidden md:block md:w-44">
+          <div className="sticky top-32 border bg-white rounded-xl p-4 shadow-sm">
+            <h3 className="text-sm font-semibold text-gray-700 mb-3">Questions</h3>
+            <div className="flex flex-wrap gap-2">
+              {exam.examQuestions.map((q, idx) => {
+                const answered = !!answers[q.id];
+                const isMarkedQ = !!marked[q.id];
+                const bgClass = answered
+                  ? 'bg-green-500 text-white'
+                  : isMarkedQ
+                  ? 'bg-yellow-300 text-black'
+                  : 'bg-transparent text-black border border-gray-300';
+
+                return (
+                  <button
+                    key={q.id}
+                    onClick={() => document.getElementById(q.id)?.scrollIntoView({ behavior: 'smooth', block: 'center' })}
+                    aria-label={`Go to question ${idx + 1}`}
+                    className={`w-10 h-10 rounded-full flex items-center justify-center hover:cursor-pointer hover:bg-blue-500 hover:text-white ${bgClass}`}
+                  >
+                    {idx + 1}
+                  </button>
+                );
+              })}
             </div>
           </div>
-        ))}
+        </aside>
       </div>
-      <button
-        onClick={handleSubmit}
-        className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 hover:cursor-pointer"
-      >
-        Submit Exam
-      </button>
     </div>
   );
 };

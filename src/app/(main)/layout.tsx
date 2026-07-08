@@ -68,7 +68,13 @@ export default function MainLayout({
   return (
     <div className="min-h-screen bg-gray-100">
       <TopNavigationBar navLinks={getNavLinks()} />
-      <AuthProvider>{children}</AuthProvider>
+      <AuthProvider>
+        <main className="py-10">
+          <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            {children}
+          </div>
+        </main>
+      </AuthProvider>
     </div>
   );
 }

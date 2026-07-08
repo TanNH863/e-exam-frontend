@@ -10,12 +10,12 @@ import UpcomingExamsSection from "@/components/UpcomingExamsSection";
 export default function StudentDashboard() {
   // const { logout } = useAuthStore();
   // const router = useRouter();
-  const { exams: upcomingExams, getUpcomingExams } = useExamStore();
+  const { exams, getAllExams } = useExamStore();
 
   useEffect(() => {
-    getUpcomingExams();
-  }, [getUpcomingExams]);
-
+    getAllExams();
+  }, [getAllExams]);
+  
   // const handleLogout = async () => {
   //   await logout();
   //   router.push("/login");
@@ -38,66 +38,61 @@ export default function StudentDashboard() {
 
   return (
     <>
-      {/* Main Content */}
-      <main className="py-10">
-        <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          {/* Page Title */}
-          <h1 className="text-3xl font-bold tracking-tight text-gray-900">
-            Welcome back, Student!
-          </h1>
+      {/* Page Title */}
+      <h1 className="text-3xl font-bold tracking-tight text-gray-900">
+        Welcome back, Student!
+      </h1>
 
-          {/* Upcoming Exams Section */}
-          <section className="mt-8">
-            <h2 className="text-2xl font-semibold text-gray-900">
-              Upcoming Exams
-            </h2>
-            <UpcomingExamsSection data={upcomingExams} />
-          </section>
+      {/* Upcoming Exams Section */}
+      <section className="mt-8">
+        <h2 className="text-2xl font-semibold text-gray-900">
+          Upcoming Exams
+        </h2>
+        <UpcomingExamsSection data={exams} />
+      </section>
 
-          {/* Completed Exams Section */}
-          <section className="mt-12">
-            <h2 className="text-2xl font-semibold text-gray-900">
-              Completed Exams
-            </h2>
-            <div className="mt-4 overflow-hidden rounded-xl bg-white shadow-lg">
-              <ul role="list" className="divide-y divide-gray-200">
-                {mockCompletedExams.map((exam) => (
-                  <li
-                    key={exam.id}
-                    className="flex flex-col items-start justify-between p-6 sm:flex-row sm:items-center">
-                    <div className="flex min-w-0 flex-1 items-center">
-                      <CheckCircleIcon />
-                      <div className="min-w-0 flex-1 px-4">
-                        <p className="truncate text-base font-medium text-gray-900">
-                          {exam.title}
-                        </p>
-                        <p className="truncate text-sm text-gray-500">
-                          Completed on {exam.date}
-                        </p>
-                      </div>
-                    </div>
-                    <div className="mt-4 flex flex-shrink-0 sm:mt-0 sm:ml-5">
-                      <div className="flex items-baseline space-x-1">
-                        <span className="text-3xl font-bold text-gray-900">
-                          {exam.score}
-                        </span>
-                        <span className="text-lg font-medium text-gray-500">
-                          / 100
-                        </span>
-                      </div>
-                      <a
-                        href="#"
-                        className="ml-6 flex items-center rounded-lg bg-white px-4 py-2 text-sm font-medium text-blue-600 ring-1 ring-inset ring-blue-300 transition-all hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                        Review
-                      </a>
-                    </div>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </section>
+      {/* Completed Exams Section */}
+      <section className="mt-12">
+        <h2 className="text-2xl font-semibold text-gray-900">
+          Completed Exams
+        </h2>
+        <div className="mt-4 overflow-hidden rounded-xl bg-white shadow-lg">
+          <ul role="list" className="divide-y divide-gray-200">
+            {mockCompletedExams.map((exam) => (
+              <li
+                key={exam.id}
+                className="flex flex-col items-start justify-between p-6 sm:flex-row sm:items-center">
+                <div className="flex min-w-0 flex-1 items-center">
+                  <CheckCircleIcon />
+                  <div className="min-w-0 flex-1 px-4">
+                    <p className="truncate text-base font-medium text-gray-900">
+                      {exam.title}
+                    </p>
+                    <p className="truncate text-sm text-gray-500">
+                      Completed on {exam.date}
+                    </p>
+                  </div>
+                </div>
+                <div className="mt-4 flex flex-shrink-0 sm:mt-0 sm:ml-5">
+                  <div className="flex items-baseline space-x-1">
+                    <span className="text-3xl font-bold text-gray-900">
+                      {exam.score}
+                    </span>
+                    <span className="text-lg font-medium text-gray-500">
+                      / 100
+                    </span>
+                  </div>
+                  <a
+                    href="#"
+                    className="ml-6 flex items-center rounded-lg bg-white px-4 py-2 text-sm font-medium text-blue-600 ring-1 ring-inset ring-blue-300 transition-all hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    Review
+                  </a>
+                </div>
+              </li>
+            ))}
+          </ul>
         </div>
-      </main>
+      </section>
     </>
   );
 }

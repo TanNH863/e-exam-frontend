@@ -4,19 +4,14 @@ import { XIcon, SearchIcon } from "@/icons/icons";
 import { useQuestionStore } from "@/stores/questionStore";
 import { Question } from "@/dto/question.dto";
 
-interface SelectQuestionsModalProps {
+interface Props {
   isOpen: boolean;
   onClose: () => void;
   onSelectQuestions: (selectedQuestions: string[]) => void;
   existingQuestionIds?: string[];
 }
 
-export default function SelectQuestionsModal({
-  isOpen,
-  onClose,
-  onSelectQuestions,
-  existingQuestionIds = [],
-}: SelectQuestionsModalProps) {
+export default function SelectQuestionsModal({ isOpen, onClose, onSelectQuestions, existingQuestionIds = [] }: Props) {
   const { getAllQuestions } = useQuestionStore();
   const [questions, setQuestions] = useState<Question[]>([]);
   const [selectedQuestions, setSelectedQuestions] = useState<Set<string>>(
@@ -34,8 +29,8 @@ export default function SelectQuestionsModal({
   const fetchQuestions = async () => {
     setIsLoading(true);
     try {
-      const questionList = await getAllQuestions();
-      setQuestions(questionList);
+      const response = await getAllQuestions(1, 1000);
+      setQuestions(response.questions);
     } catch (error) {
       console.error("Error fetching questions:", error);
     } finally {

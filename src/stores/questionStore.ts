@@ -5,6 +5,8 @@ import { apiFetch } from "@/utils/fetcher";
 interface InitialState {
   question: Question | null;
   questions: Question[];
+  totalItems: number;
+  totalPages: number;
   error: string | null;
   isLoading: boolean;
   createQuestion: (
@@ -12,7 +14,7 @@ interface InitialState {
     questionType: number,
     options?: Option[],
   ) => Promise<{ message: string; question: Question } | undefined>;
-  getAllQuestions: () => Promise<Question[]>;
+  getAllQuestions: (pageNumber: number, pageSize: number) => Promise<{ totalItems: number, totalPages: number, questions: Question[] }>;
   getQuestionInfo: (id: string) => Promise<Question | []>;
   deleteQuestion: (id: string) => Promise<void>;
   uploadFile: (file: File) => Promise<{ message: string } | undefined>;
@@ -21,6 +23,8 @@ interface InitialState {
 export const useQuestionStore = create<InitialState>((set, get) => ({
   question: null,
   questions: [],
+  totalItems: 0,
+  totalPages: 0,
   error: null,
   isLoading: false,
   createQuestion: async (questionText, questionType, options) => {
@@ -41,7 +45,7 @@ export const useQuestionStore = create<InitialState>((set, get) => ({
       }
 
       const newQuestion = await response.json();
-      await get().getAllQuestions();
+      await get().getAllQuestions(1, 10);
       return newQuestion;
     } catch (error: unknown) {
       const msg = error instanceof Error ? error.message : "An unknown error occurred";
@@ -49,21 +53,22 @@ export const useQuestionStore = create<InitialState>((set, get) => ({
       throw error;
     }
   },
-  getAllQuestions: async () => {
+  getAllQuestions: async (pageNumber, pageSize) => {
     set({ isLoading: true, error: null });
     try {
-      const response = await apiFetch("/questions");
+      const response = await apiFetch(`/questions?pageNumber=${pageNumber}&pageSize=${pageSize}`);
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(errorData.message || "Failed to fetch exams");
       }
-      const questionList = await response.json();
-      set({ questions: questionList, isLoading: false });
-      return questionList;
+      // const questionList = await response.json();
+      const result = await response.json();
+      set({ totalItems: result.totalItems, totalPages: result.totalPages, questions: result.questions, isLoading: false });
+      return result;
     } catch (error: unknown) {
       const msg = error instanceof Error ? error.message : "An unknown error occurred";
       set({ error: msg, isLoading: false });
-      return [];
+      return { totalItems: 0, totalPages: 0, questions: [] };
     }
   },
   getQuestionInfo: async (id) => {

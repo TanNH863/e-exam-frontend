@@ -5,21 +5,31 @@ import { useQuestionStore } from "@/stores/questionStore";
 import Toast from "@/components/Toast";
 import CreateQuestionModal from "@/components/CreateQuestionModal";
 import Spinner from "@/components/Spinner";
-import QuestionListItem from '@/components/QuestionListItem';
+import QuestionList from '@/components/QuestionList';
+import Pagination from "@/components/Pagination";
 
 export default function QuestionBankPage() {
-  const { questions, isLoading, getAllQuestions, uploadFile } = useQuestionStore();
+  // missing totalItems state (server-side)
+  const { questions, totalItems, totalPages, isLoading, getAllQuestions, uploadFile } = useQuestionStore();
   const [isOpen, setIsOpen] = useState(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [toastType, setToastType] = useState<"success" | "error">("success");
+
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
+  const pageSizes = [5, 10, 20];
+  
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    getAllQuestions();
-  }, [getAllQuestions]);
+    getAllQuestions(page, pageSize);
+  }, [getAllQuestions, page, pageSize]);
 
+  // Client-side filtering on the currently fetched page
+  // (Eventually, you may want to pass `searchTerm` to `getAllQuestions` for server-side search)
   const filteredQuestions = useMemo(() => {
+    if (!questions) return [];
     if (!searchTerm) return questions;
     return questions.filter((question) =>
       question.questionText.toLowerCase().includes(searchTerm.toLowerCase())
@@ -32,13 +42,12 @@ export default function QuestionBankPage() {
       setToastMessage("No file selected!");
       return;
     }
-
     try {
       const response = await uploadFile(file);
       if (response && response.message) {
         setToastType("success");
         setToastMessage(response.message);
-        getAllQuestions();
+        getAllQuestions(page, pageSize);
       } else {
         throw new Error("Failed to upload file.");
       }
@@ -120,13 +129,36 @@ export default function QuestionBankPage() {
                 placeholder="Search questions..."
                 className="p-2 pl-10 block w-full rounded-md border-black shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm text-black"
                 value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
+                onChange={(e) => {
+                  setSearchTerm(e.target.value);
+                  setPage(1);
+                }}
               />
             </div>
           </div>
-
+          
           <div className="mt-6 space-y-6">
-            <QuestionListItem data={filteredQuestions} />
+            <QuestionList 
+              data={filteredQuestions} 
+              startIndex={(page - 1) * pageSize} 
+            />
+            
+            {totalItems > 0 && (
+              <div className="mt-4">
+                <Pagination
+                  page={page}
+                  pageSize={pageSize}
+                  totalItems={totalItems}
+                  pageSizes={pageSizes}
+                  totalPages={totalPages}
+                  onPageChange={(p) => setPage(p)}
+                  onPageSizeChange={(size) => {
+                    setPageSize(size);
+                    setPage(1);
+                  }}
+                />
+              </div>
+            )}
           </div>
         </div>
       </section>

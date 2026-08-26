@@ -47,335 +47,314 @@ export const mockGradingQueue = [
 
 export const questions = [
   {
-    id: "a81927df-6c1a-4967-9030-7d13bf5fbd8e",
-    question_text: "Which country is NOT a part of UK?",
-    question_type: "MULTIPLE_CHOICE",
-    options: [
+    "id": "06dfd75a-6f30-426f-bd56-8ac2e3838dcb",
+    "questionText": "Which European country is shaped like a boot?",
+    "questionType": 1,
+    "options": [
       {
-        id: "9d53dfc6-d9ac-4660-9659-48436c8e9d6a",
-        question_id: "a81927df-6c1a-4967-9030-7d13bf5fbd8e",
-        option_text: "Ireland",
-        is_correct: true,
+        "id": "70d565a2-d9a0-465b-90fe-851a0e5584d4",
+        "questionId": "06dfd75a-6f30-426f-bd56-8ac2e3838dcb",
+        "optionText": "Portugal",
+        "isCorrect": false
       },
       {
-        id: "20d1e8b9-37c3-4094-ba76-ee4a55de5722",
-        question_id: "a81927df-6c1a-4967-9030-7d13bf5fbd8e",
-        option_text: "Scotland",
-        is_correct: false,
+        "id": "83b98188-01a4-46a7-9858-cc61535c4e8f",
+        "questionId": "06dfd75a-6f30-426f-bd56-8ac2e3838dcb",
+        "optionText": "Italy",
+        "isCorrect": true
       },
       {
-        id: "2d0c4e02-b4c6-429a-9571-6a5028856f97",
-        question_id: "a81927df-6c1a-4967-9030-7d13bf5fbd8e",
-        option_text: "England",
-        is_correct: false,
+        "id": "5991e07c-0216-4a9b-9d03-d4f76d9e576d",
+        "questionId": "06dfd75a-6f30-426f-bd56-8ac2e3838dcb",
+        "optionText": "Greece",
+        "isCorrect": false
       },
       {
-        id: "61958f33-06c0-4300-ba7f-d3af0f9b10d1",
-        question_id: "a81927df-6c1a-4967-9030-7d13bf5fbd8e",
-        option_text: "Wales",
-        is_correct: false,
-      },
-    ],
+        "id": "942e9b37-5c9f-4c0d-9e19-698aa93083d7",
+        "questionId": "06dfd75a-6f30-426f-bd56-8ac2e3838dcb",
+        "optionText": "Spain",
+        "isCorrect": false
+      }
+    ]
   },
   {
-    id: "464741e7-f83d-49c3-b5be-28e905190321",
-    question_text: "Is Northern Ireland a part of UK?",
-    question_type: "TRUE_FALSE",
-    options: [
+    "id": "08494a1d-f6a3-4912-8f7d-5b549c32427a",
+    "questionText": "What is the name of the line of latitude at 0 degrees?",
+    "questionType": 1,
+    "options": [
       {
-        id: "480b51c2-9c2d-49be-8ebd-7f907f8b0d2a",
-        question_id: "464741e7-f83d-49c3-b5be-28e905190321",
-        option_text: "True",
-        is_correct: true,
+        "id": "ec91c690-6646-4ae0-a1c1-41221554bd17",
+        "questionId": "08494a1d-f6a3-4912-8f7d-5b549c32427a",
+        "optionText": "Equator",
+        "isCorrect": true
       },
       {
-        id: "276dd5b8-12b1-4669-bed6-42b72e6f0d83",
-        question_id: "464741e7-f83d-49c3-b5be-28e905190321",
-        option_text: "False",
-        is_correct: false,
+        "id": "e15c1d12-5be5-4ece-8d00-a8aa8d48dd5c",
+        "questionId": "08494a1d-f6a3-4912-8f7d-5b549c32427a",
+        "optionText": "Tropic of Capricorn",
+        "isCorrect": false
       },
-    ],
+      {
+        "id": "ebb4cbdf-8ce6-4420-b1ec-d764cd2a19a4",
+        "questionId": "08494a1d-f6a3-4912-8f7d-5b549c32427a",
+        "optionText": "Tropic of Cancer",
+        "isCorrect": false
+      },
+      {
+        "id": "9433ede4-c0e0-4c14-a3bf-d8cabeb2897b",
+        "questionId": "08494a1d-f6a3-4912-8f7d-5b549c32427a",
+        "optionText": "Prime Meridian",
+        "isCorrect": false
+      }
+    ]
   },
   {
-    id: "ef9e6a58-b4a8-4ae2-8ce8-4b52198fe0b0",
-    question_text: "Short Answer Question",
-    question_type: "SHORT_ANSWER",
-    options: [
+    "id": "0b47422b-5f0f-485f-bfb7-40eee491a623",
+    "questionText": "What is the capital of Germany?",
+    "questionType": 1,
+    "options": [
       {
-        id: "2d14b60b-ff22-4468-8f32-41c728fea5a6",
-        question_id: "ef9e6a58-b4a8-4ae2-8ce8-4b52198fe0b0",
-        option_text: "Short Answer 1",
-        is_correct: true,
+        "id": "c44f0c4e-4dee-4055-ac50-ef8fd322c311",
+        "questionId": "0b47422b-5f0f-485f-bfb7-40eee491a623",
+        "optionText": "Munich",
+        "isCorrect": false
       },
       {
-        id: "2293c402-ec04-47f6-bea2-6cb3853c3502",
-        question_id: "ef9e6a58-b4a8-4ae2-8ce8-4b52198fe0b0",
-        option_text: "Short Answer 2",
-        is_correct: true,
+        "id": "1af22c3e-3d34-48c3-abdc-69cd260cfb49",
+        "questionId": "0b47422b-5f0f-485f-bfb7-40eee491a623",
+        "optionText": "Frankfurt",
+        "isCorrect": false
       },
-    ],
+      {
+        "id": "c850d8c1-f9e9-41d3-8148-72f624d73660",
+        "questionId": "0b47422b-5f0f-485f-bfb7-40eee491a623",
+        "optionText": "Hamburg",
+        "isCorrect": false
+      },
+      {
+        "id": "01786b52-f656-48de-945b-0055f23a9d2f",
+        "questionId": "0b47422b-5f0f-485f-bfb7-40eee491a623",
+        "optionText": "Berlin",
+        "isCorrect": true
+      }
+    ]
   },
   {
-    id: "d1bd1adb-eaed-4b61-be3d-87bcdaa73a99",
-    question_text: "Multiple Answer 1",
-    question_type: "MULTIPLE_ANSWER",
-    options: [
+    "id": "0cdf5319-2521-43c1-be78-d7f1fc2e1965",
+    "questionText": "The Great Barrier Reef is off the coast of which country?",
+    "questionType": 1,
+    "options": [
       {
-        id: "3aeeb13e-8b85-4634-be39-6478b601d3b3",
-        question_id: "d1bd1adb-eaed-4b61-be3d-87bcdaa73a99",
-        option_text: "Option 1",
-        is_correct: false,
+        "id": "000dfb36-72ee-44ff-bbaa-f7e44126c0a6",
+        "questionId": "0cdf5319-2521-43c1-be78-d7f1fc2e1965",
+        "optionText": "South Africa",
+        "isCorrect": false
       },
       {
-        id: "9226b357-b4db-4d90-b83c-cc912c7d710e",
-        question_id: "d1bd1adb-eaed-4b61-be3d-87bcdaa73a99",
-        option_text: "Option 2",
-        is_correct: false,
+        "id": "acc07f47-0c4d-4ccb-a880-3a124f6bf707",
+        "questionId": "0cdf5319-2521-43c1-be78-d7f1fc2e1965",
+        "optionText": "Australia",
+        "isCorrect": true
       },
       {
-        id: "030b59c2-ccf2-406f-9fe3-2372cffbb6cd",
-        question_id: "d1bd1adb-eaed-4b61-be3d-87bcdaa73a99",
-        option_text: "Option 3",
-        is_correct: false,
+        "id": "36bfd705-d3ca-4b8c-9c6f-3f6135a3659d",
+        "questionId": "0cdf5319-2521-43c1-be78-d7f1fc2e1965",
+        "optionText": "Brazil",
+        "isCorrect": false
       },
       {
-        id: "13ecede6-96a2-47db-9335-4af3e06ff497",
-        question_id: "d1bd1adb-eaed-4b61-be3d-87bcdaa73a99",
-        option_text: "Option 4",
-        is_correct: false,
-      },
-    ],
+        "id": "447bda58-f32d-4532-8e24-0f141b4179ea",
+        "questionId": "0cdf5319-2521-43c1-be78-d7f1fc2e1965",
+        "optionText": "Mexico",
+        "isCorrect": false
+      }
+    ]
   },
   {
-    id: "79ea3d73-1f87-479a-945e-0b5e509600e1",
-    question_text: "What is the capital of France?",
-    question_type: "MULTIPLE_CHOICE",
-    options: [
+    "id": "12a0fb3e-c889-4114-a45b-ad4cd03b2b85",
+    "questionText": "What is the largest island in the world?",
+    "questionType": 1,
+    "options": [
       {
-        id: "7c87503d-f678-41e3-a616-31026601da68",
-        question_id: "79ea3d73-1f87-479a-945e-0b5e509600e1",
-        option_text: "Berlin",
-        is_correct: false,
+        "id": "217d7750-2155-4444-a2d3-5b1aba6fbb22",
+        "questionId": "12a0fb3e-c889-4114-a45b-ad4cd03b2b85",
+        "optionText": "Great Britain",
+        "isCorrect": false
       },
       {
-        id: "bf479d24-58a3-41ae-871a-de15e4c4de26",
-        question_id: "79ea3d73-1f87-479a-945e-0b5e509600e1",
-        option_text: "Madrid",
-        is_correct: false,
+        "id": "7e1f6bbf-5c4f-4492-8885-ebaa54c6fe03",
+        "questionId": "12a0fb3e-c889-4114-a45b-ad4cd03b2b85",
+        "optionText": "Madagascar",
+        "isCorrect": false
       },
       {
-        id: "7b509a84-59f7-4088-8715-99c67fc0be5c",
-        question_id: "79ea3d73-1f87-479a-945e-0b5e509600e1",
-        option_text: "Paris",
-        is_correct: true,
+        "id": "de037500-dafe-4e2d-9c1e-cc5c870ed4f4",
+        "questionId": "12a0fb3e-c889-4114-a45b-ad4cd03b2b85",
+        "optionText": "Greenland",
+        "isCorrect": true
       },
       {
-        id: "474692b5-089b-4277-a596-693ad4d8c3a0",
-        question_id: "79ea3d73-1f87-479a-945e-0b5e509600e1",
-        option_text: "Lisbon",
-        is_correct: false,
-      },
-    ],
+        "id": "f6dd7daf-4c49-4c15-8ad6-b37f386746a2",
+        "questionId": "12a0fb3e-c889-4114-a45b-ad4cd03b2b85",
+        "optionText": "New Guinea",
+        "isCorrect": false
+      }
+    ]
   },
   {
-    id: "2decbbb4-19d3-45ef-9e0b-89d736012110",
-    question_text: "Is the Earth flat?",
-    question_type: "TRUE_FALSE",
-    options: [
+    "id": "1c776f74-afff-40dd-8ed7-fbc5a61697aa",
+    "questionText": "Which country has the longest coastline in the world?",
+    "questionType": 1,
+    "options": [
       {
-        id: "93731c93-0e81-49d1-a5ea-a7f825e90247",
-        question_id: "2decbbb4-19d3-45ef-9e0b-89d736012110",
-        option_text: "True",
-        is_correct: false,
+        "id": "d268117b-20da-4672-81e3-583418b6d018",
+        "questionId": "1c776f74-afff-40dd-8ed7-fbc5a61697aa",
+        "optionText": "Australia",
+        "isCorrect": false
       },
       {
-        id: "6a51ecad1-eba6-457f-aa58-af2a1cc3cc79f",
-        question_id: "2decbbb4-19d3-45ef-9e0b-89d736012110",
-        option_text: "False",
-        is_correct: true,
+        "id": "eb640989-89a4-4d5e-88ed-c94b660e9951",
+        "questionId": "1c776f74-afff-40dd-8ed7-fbc5a61697aa",
+        "optionText": "Indonesia",
+        "isCorrect": false
       },
-    ],
+      {
+        "id": "184eede9-ecc3-4182-9baa-6d9f18c291fb",
+        "questionId": "1c776f74-afff-40dd-8ed7-fbc5a61697aa",
+        "optionText": "Russia",
+        "isCorrect": false
+      },
+      {
+        "id": "25603d93-49cb-402f-8b3b-b457d1b75e08",
+        "questionId": "1c776f74-afff-40dd-8ed7-fbc5a61697aa",
+        "optionText": "Canada",
+        "isCorrect": true
+      }
+    ]
   },
   {
-    id: "c17dc810-b809-4612-ad99-004e2a4bec1e",
-    question_text: "What is 2 + 2?",
-    question_type: "SHORT_ANSWER",
-    options: [
+    "id": "1d90dbf4-b4ec-4ac8-b85d-4fcc038f1bf1",
+    "questionText": "Which country has the largest land area?",
+    "questionType": 1,
+    "options": [
       {
-        id: "966ce98e-df1e-43a6-a97a-225eee694489",
-        question_id: "c17dc810-b809-4612-ad99-004e2a4bec1e",
-        option_text: "4",
-        is_correct: true,
+        "id": "a2283341-a475-4e97-9888-89f753e5b7d3",
+        "questionId": "1d90dbf4-b4ec-4ac8-b85d-4fcc038f1bf1",
+        "optionText": "China",
+        "isCorrect": false
       },
       {
-        id: "b994ce1b-012b-4cc1-b6c0-364260700d1f",
-        question_id: "c17dc810-b809-4612-ad99-004e2a4bec1e",
-        option_text: "5",
-        is_correct: false,
+        "id": "58d800f3-5719-4452-8bfc-0e206a5f107c",
+        "questionId": "1d90dbf4-b4ec-4ac8-b85d-4fcc038f1bf1",
+        "optionText": "USA",
+        "isCorrect": false
       },
-    ],
+      {
+        "id": "305faf98-e546-4eed-8cf8-b961a736603b",
+        "questionId": "1d90dbf4-b4ec-4ac8-b85d-4fcc038f1bf1",
+        "optionText": "Canada",
+        "isCorrect": false
+      },
+      {
+        "id": "f9cc10f3-0443-403d-b8a0-49fdd7b638be",
+        "questionId": "1d90dbf4-b4ec-4ac8-b85d-4fcc038f1bf1",
+        "optionText": "Russia",
+        "isCorrect": true
+      }
+    ]
   },
   {
-    id: "4d05fa12-fdc8-44ca-a8cc-eedc8512c106",
-    question_text: "Select all prime numbers.",
-    question_type: "MULTIPLE_ANSWER",
-    options: [
+    "id": "1eff587d-e285-4805-86dd-99b225b31d25",
+    "questionText": "What is the approximate circumference of the Earth at the equator?",
+    "questionType": 1,
+    "options": [
       {
-        id: "848f5af2-050a-408b-9081-c030ce04d277",
-        question_id: "4d05fa12-fdc8-44ca-a8cc-eedc8512c106",
-        option_text: "2",
-        is_correct: true,
+        "id": "4801e265-e1dc-4a94-86b6-0856592b32ec",
+        "questionId": "1eff587d-e285-4805-86dd-99b225b31d25",
+        "optionText": "40075 km",
+        "isCorrect": true
       },
       {
-        id: "d7e36408-7db7-49f9-8359-910dd0eb67f6",
-        question_id: "4d05fa12-fdc8-44ca-a8cc-eedc8512c106",
-        option_text: "4",
-        is_correct: false,
+        "id": "08e448e6-1cd5-4076-bf1d-2a32d6e0e06c",
+        "questionId": "1eff587d-e285-4805-86dd-99b225b31d25",
+        "optionText": "20000 km",
+        "isCorrect": false
       },
       {
-        id: "132bfba0-595f-4991-9fa2-6ae8a263c70a",
-        question_id: "4d05fa12-fdc8-44ca-a8cc-eedc8512c106",
-        option_text: "5",
-        is_correct: true,
+        "id": "7f8957d9-3dcc-49d8-9009-1dd4bc281ea5",
+        "questionId": "1eff587d-e285-4805-86dd-99b225b31d25",
+        "optionText": "60000 km",
+        "isCorrect": false
       },
       {
-        id: "127b72ec5c-1ee2-4384-8fa8-1463484d5ca3l",
-        question_id: "4d05fa12-fdc8-44ca-a8cc-eedc8512c106",
-        option_text: "6",
-        is_correct: false,
-      },
-    ],
+        "id": "140d3460-48e2-42d0-b62c-539f4fa9c400",
+        "questionId": "1eff587d-e285-4805-86dd-99b225b31d25",
+        "optionText": "100000 km",
+        "isCorrect": false
+      }
+    ]
   },
   {
-    id: "f3a2c9d4-7a1b-4c9d-9b3f-2a9a6f8e5d11",
-    question_text: "Which planet is known as the Red Planet?",
-    question_type: "MULTIPLE_CHOICE",
-    options: [
+    "id": "1fcd4a65-6a56-4f79-a20a-6af40ca2c522",
+    "questionText": "Which is the longest river in South America?",
+    "questionType": 1,
+    "options": [
       {
-        id: "a1b2c3d4-e5f6-7890-abcd-1234567890ab",
-        question_id: "f3a2c9d4-7a1b-4c9d-9b3f-2a9a6f8e5d11",
-        option_text: "Mars",
-        is_correct: true,
+        "id": "df31dd37-af09-4ca0-bfb9-69d82272c8ee",
+        "questionId": "1fcd4a65-6a56-4f79-a20a-6af40ca2c522",
+        "optionText": "Parana",
+        "isCorrect": false
       },
       {
-        id: "b2c3d4e5-f6a7-8901-bcde-2345678901bc",
-        question_id: "f3a2c9d4-7a1b-4c9d-9b3f-2a9a6f8e5d11",
-        option_text: "Venus",
-        is_correct: false,
+        "id": "0ab80ae5-2410-4322-9f25-31f4e621a215",
+        "questionId": "1fcd4a65-6a56-4f79-a20a-6af40ca2c522",
+        "optionText": "Orinoco",
+        "isCorrect": false
       },
       {
-        id: "c3d4e5f6-a7b8-9012-cdef-3456789012cd",
-        question_id: "f3a2c9d4-7a1b-4c9d-9b3f-2a9a6f8e5d11",
-        option_text: "Jupiter",
-        is_correct: false,
+        "id": "2dca2d71-8730-4139-8981-283f64af8bbd",
+        "questionId": "1fcd4a65-6a56-4f79-a20a-6af40ca2c522",
+        "optionText": "Amazon",
+        "isCorrect": true
       },
       {
-        id: "d4e5f6a7-b8c9-0123-def0-4567890123de",
-        question_id: "f3a2c9d4-7a1b-4c9d-9b3f-2a9a6f8e5d11",
-        option_text: "Saturn",
-        is_correct: false,
-      },
-    ],
+        "id": "2bd422f1-63cc-4a50-b340-5c65a17273ce",
+        "questionId": "1fcd4a65-6a56-4f79-a20a-6af40ca2c522",
+        "optionText": "Magdalena",
+        "isCorrect": false
+      }
+    ]
   },
   {
-    id: "a9b8c7d6-e5f4-3a2b-1c0d-9e8f7a6b5c44",
-    question_text: "Is water composed of hydrogen and oxygen?",
-    question_type: "TRUE_FALSE",
-    options: [
+    "id": "218f3a11-445c-4961-aa53-62343df01537",
+    "questionText": "What is the capital of India?",
+    "questionType": 1,
+    "options": [
       {
-        id: "e5f6a7b8-c9d0-1234-ef01-5678901234ef",
-        question_id: "a9b8c7d6-e5f4-3a2b-1c0d-9e8f7a6b5c44",
-        option_text: "True",
-        is_correct: true,
+        "id": "70a10beb-e07d-4b5b-944b-d8e0b5ca6dbe",
+        "questionId": "218f3a11-445c-4961-aa53-62343df01537",
+        "optionText": "Kolkata",
+        "isCorrect": false
       },
       {
-        id: "f6a7b8c9-d0e1-2345-f012-6789012345f0",
-        question_id: "a9b8c7d6-e5f4-3a2b-1c0d-9e8f7a6b5c44",
-        option_text: "False",
-        is_correct: false,
-      },
-    ],
-  },
-  {
-    id: "b7c6d5e4-f3a2-1b0c-9d8e-7f6a5b4c3d22",
-    question_text: "What is the square root of 16?",
-    question_type: "SHORT_ANSWER",
-    options: [
-      {
-        id: "g7h8i9j0-k1l2-3456-gh78-90123456gh78",
-        question_id: "b7c6d5e4-f3a2-1b0c-9d8e-7f6a5b4c3d22",
-        option_text: "4",
-        is_correct: true,
+        "id": "acdf2f34-f385-4466-b53d-b0c79ec84268",
+        "questionId": "218f3a11-445c-4961-aa53-62343df01537",
+        "optionText": "Chennai",
+        "isCorrect": false
       },
       {
-        id: "h8i9j0k1-l2m3-4567-hi89-01234567hi89",
-        question_id: "b7c6d5e4-f3a2-1b0c-9d8e-7f6a5b4c3d22",
-        option_text: "5",
-        is_correct: false,
-      },
-    ],
-  },
-  {
-    id: "c5d4e3f2-a1b0-9c8d-7e6f-5a4b3c2d1e33",
-    question_text: "Select all programming languages.",
-    question_type: "MULTIPLE_ANSWER",
-    options: [
-      {
-        id: "i9j0k1l2-m3n4-5678-ij90-12345678ij90",
-        question_id: "c5d4e3f2-a1b0-9c8d-7e6f-5a4b3c2d1e33",
-        option_text: "Python",
-        is_correct: true,
+        "id": "da4097a4-d15a-4c96-a5a2-0acd6a8de6f7",
+        "questionId": "218f3a11-445c-4961-aa53-62343df01537",
+        "optionText": "Mumbai",
+        "isCorrect": false
       },
       {
-        id: "j0k1l2m3-n4o5-6789-jk01-23456789jk01",
-        question_id: "c5d4e3f2-a1b0-9c8d-7e6f-5a4b3c2d1e33",
-        option_text: "HTML",
-        is_correct: false,
-      },
-      {
-        id: "k1l2m3n4-o5p6-7890-kl12-34567890kl12",
-        question_id: "c5d4e3f2-a1b0-9c8d-7e6f-5a4b3c2d1e33",
-        option_text: "Java",
-        is_correct: true,
-      },
-      {
-        id: "l2m3n4o5-p6q7-8901-lm23-45678901lm23",
-        question_id: "c5d4e3f2-a1b0-9c8d-7e6f-5a4b3c2d1e33",
-        option_text: "CSS",
-        is_correct: false,
-      },
-    ],
-  },
-  {
-    id: "d3e2f1a0-b9c8-7d6e-5f4a-3b2c1d0e4f55",
-    question_text: "Which ocean is the largest?",
-    question_type: "MULTIPLE_CHOICE",
-    options: [
-      {
-        id: "m3n4o5p6-q7r8-9012-mn34-56789012mn34",
-        question_id: "d3e2f1a0-b9c8-7d6e-5f4a-3b2c1d0e4f55",
-        option_text: "Atlantic Ocean",
-        is_correct: false,
-      },
-      {
-        id: "n4o5p6q7-r8s9-0123-no45-67890123no45",
-        question_id: "d3e2f1a0-b9c8-7d6e-5f4a-3b2c1d0e4f55",
-        option_text: "Indian Ocean",
-        is_correct: false,
-      },
-      {
-        id: "o5p6q7r8-s9t0-1234-op56-78901234op56",
-        question_id: "d3e2f1a0-b9c8-7d6e-5f4a-3b2c1d0e4f55",
-        option_text: "Pacific Ocean",
-        is_correct: true,
-      },
-      {
-        id: "p6q7r8s9-t0u1-2345-pq67-89012345pq67",
-        question_id: "d3e2f1a0-b9c8-7d6e-5f4a-3b2c1d0e4f55",
-        option_text: "Arctic Ocean",
-        is_correct: false,
-      },
-    ],
+        "id": "29476acf-b954-480b-b1cb-a5d6796bef43",
+        "questionId": "218f3a11-445c-4961-aa53-62343df01537",
+        "optionText": "New Delhi",
+        "isCorrect": true
+      }
+    ]
   },
 ];
 

@@ -11,7 +11,7 @@ import SelectQuestionsModal from "@/components/SelectQuestionsModal";
 import MessageModal from "@/components/MessageModal";
 import Toast from "@/components/Toast";
 import ExamDetailsForm from "@/components/ExamDetailsForm";
-import QuestionListItem from "@/components/QuestionListItem";
+import QuestionListItem from "@/components/QuestionList";
 
 export default function EditExamPage() {
   const params = useParams<{ id: string }>();
@@ -47,8 +47,8 @@ export default function EditExamPage() {
 
   const fetchAllQuestions = async () => {
     try {
-      const allQuestions = await getAllQuestions();
-      setAllQuestions(allQuestions);
+      const response = await getAllQuestions(1, 1000);
+      setAllQuestions(response.questions);
     } catch (error) {
       console.error("Error fetching all questions:", error);
       setToastMessage("Failed to load question bank");

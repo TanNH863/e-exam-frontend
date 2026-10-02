@@ -20,29 +20,29 @@ export default function CreateQuestionModal({
   const [questionText, setQuestionText] = useState("");
   const [questionType, setQuestionType] = useState<number>(1);
   const [options, setOptions] = useState([
-    { optionText: "", isCorrect: false },
-    { optionText: "", isCorrect: false },
-    { optionText: "", isCorrect: false },
-    { optionText: "", isCorrect: false },
+    { id: "", optionText: "", isCorrect: false },
+    { id: "", optionText: "", isCorrect: false },
+    { id: "", optionText: "", isCorrect: false },
+    { id: "", optionText: "", isCorrect: false },
   ]);
 
   useEffect(() => {
     switch (questionType) {
       case 2:
-        setOptions([{ optionText: "", isCorrect: true }]);
+        setOptions([{ id: "", optionText: "", isCorrect: true }]);
         break;
       case 4:
         setOptions([
-          { optionText: "True", isCorrect: true },
-          { optionText: "False", isCorrect: false },
+          { id: "", optionText: "True", isCorrect: true },
+          { id: "", optionText: "False", isCorrect: false },
         ]);
         break;
       default:
         setOptions([
-          { optionText: "", isCorrect: false },
-          { optionText: "", isCorrect: false },
-          { optionText: "", isCorrect: false },
-          { optionText: "", isCorrect: false },
+          { id: "", optionText: "", isCorrect: false },
+          { id: "", optionText: "", isCorrect: false },
+          { id: "", optionText: "", isCorrect: false },
+          { id: "", optionText: "", isCorrect: false },
         ]);
     }
   }, [questionType]);
@@ -182,8 +182,8 @@ export default function CreateQuestionModal({
                 checked={options[0]?.isCorrect === true}
                 onChange={() =>
                   setOptions([
-                    { optionText: "True", isCorrect: true },
-                    { optionText: "False", isCorrect: false },
+                    { id: "", optionText: "True", isCorrect: true },
+                    { id: "", optionText: "False", isCorrect: false },
                   ])
                 }
                 className="h-5 w-5 text-blue-600 border-gray-300 rounded"
@@ -197,8 +197,8 @@ export default function CreateQuestionModal({
                 checked={options[1]?.isCorrect === true}
                 onChange={() =>
                   setOptions([
-                    { optionText: "True", isCorrect: false },
-                    { optionText: "False", isCorrect: true },
+                    { id: "", optionText: "True", isCorrect: false },
+                    { id: "", optionText: "False", isCorrect: true },
                   ])
                 }
                 className="h-5 w-5 text-blue-600 border-gray-300 rounded"
@@ -227,8 +227,8 @@ export default function CreateQuestionModal({
   const addOption = () => {
     const newOption =
       questionType === 2
-        ? { optionText: "", isCorrect: true }
-        : { optionText: "", isCorrect: false };
+        ? { id: "", optionText: "", isCorrect: true }
+        : { id: "", optionText: "", isCorrect: false };
     setOptions([...options, newOption]);
   };
 

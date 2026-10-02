@@ -3,21 +3,54 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import { ExamInfo } from '@/dto/exam.dto';
-import { DUMMY_EXAM } from '../../../../../../mock.data';
+import { useAuthStore } from "@/stores/authStore";
+import { useExamStore } from '@/stores/examStore';
+import { useSubmissionStore } from '@/stores/submissionStore';
 import Spinner from '@/components/Spinner';
+import { Answer, Submission } from '@/dto/submission.dto';
 
 export default function TakeExamPage() {
   const { id } = useParams();
+  const { user } = useAuthStore();
+  const { getExamInfo } = useExamStore();
+  const { submitExam } = useSubmissionStore();
   const [exam, setExam] = useState<ExamInfo | null>(null);
   const [answers, setAnswers] = useState<Record<string, string>>({});
   const [timeLeft, setTimeLeft] = useState<number>(0);
   const [marked, setMarked] = useState<Record<string, boolean>>({});
+  const [submission, setSubmission] = useState({
+    studentId: "",
+    status: 1,
+    answers: [] as Array<Answer>,
+    complete: true,
+  });
 
   useEffect(() => {
-    const examData: ExamInfo = DUMMY_EXAM as unknown as ExamInfo;
-    setExam(examData);
-    setTimeLeft(examData.duration * 60);
-  }, [id]);
+    if (id) {
+      const fetchData = async () => {
+        try {
+          const fetchedExam = await getExamInfo(id as string);
+          setExam(fetchedExam);
+          setTimeLeft(fetchedExam.duration * 60);
+
+          const initialAnswers = fetchedExam.examQuestions.map((question) => ({
+            questionId: question.id,
+            chosenOptionId: "",
+          }));
+
+          setSubmission({
+            studentId: user?.id || "",
+            status: 1,
+            answers: initialAnswers,
+            complete: true,
+          });
+        } catch (err) {
+          console.error('Error fetching exam:', err);
+        }
+      };
+      fetchData();
+    }
+  }, [id, getExamInfo, user?.id]);
 
   useEffect(() => {
     if (timeLeft > 0) {
@@ -28,10 +61,19 @@ export default function TakeExamPage() {
     }
   }, [timeLeft]);
 
-  const handleAnswerChange = (questionId: string, answer: string) => {
+  const handleAnswerChange = (questionId: string, optionId: string) => {
     setAnswers(prevAnswers => ({
       ...prevAnswers,
-      [questionId]: answer,
+      [questionId]: optionId,
+    }));
+
+    setSubmission(prevRequestBody => ({
+      ...prevRequestBody,
+      answers: prevRequestBody.answers.map(answer =>
+        answer.questionId === questionId
+          ? { ...answer, chosenOptionId: optionId }
+          : answer
+      ),
     }));
   };
 
@@ -42,10 +84,25 @@ export default function TakeExamPage() {
     }));
   };
 
-  const handleSubmit = () => {
-    // Mock submitting answers
-    console.log('Submitting answers:', answers);
-    alert('Exam submitted successfully!');
+  const handleSubmit = async () => {
+    try {
+      const examId = Array.isArray(id) ? id[0] : id;
+
+      if (!examId) {
+        return;
+      }
+
+      const payload: Submission = {
+        ...submission,
+        studentId: user?.id || submission.studentId || "",
+      };
+
+      await submitExam(examId, payload);
+      alert("Exam submitted successfully!");
+    } catch (error) {
+      console.error("Submit exam failed:", error);
+      alert("Failed to submit exam. Please try again.");
+    }
   };
 
   if (!exam) {
@@ -80,9 +137,9 @@ export default function TakeExamPage() {
                         type="radio"
                         name={question.id}
                         id={`${question.id}-${i}`}
-                        value={option.optionText}
-                        checked={answers[question.id] === option.optionText}
-                        onChange={() => handleAnswerChange(question.id, option.optionText)}
+                        value={option.id}
+                        checked={answers[question.id] === option.id}
+                        onChange={() => handleAnswerChange(question.id, option.id)}
                         className="mr-2"
                       />
                       <label htmlFor={`${question.id}-${i}`}>{option.optionText}</label>

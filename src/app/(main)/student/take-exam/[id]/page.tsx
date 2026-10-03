@@ -1,20 +1,23 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import { ExamInfo } from '@/dto/exam.dto';
 import { useAuthStore } from "@/stores/authStore";
 import { useExamStore } from '@/stores/examStore';
 import { useSubmissionStore } from '@/stores/submissionStore';
 import Spinner from '@/components/Spinner';
+import MessageModal from '@/components/MessageModal';
 import { Answer, Submission } from '@/dto/submission.dto';
 
 export default function TakeExamPage() {
   const { id } = useParams();
+  const router = useRouter();
   const { user } = useAuthStore();
   const { getExamInfo } = useExamStore();
   const { submitExam } = useSubmissionStore();
   const [exam, setExam] = useState<ExamInfo | null>(null);
+  const [isOpen, setIsOpen] = useState(false);
   const [answers, setAnswers] = useState<Record<string, string>>({});
   const [timeLeft, setTimeLeft] = useState<number>(0);
   const [marked, setMarked] = useState<Record<string, boolean>>({});
@@ -98,7 +101,7 @@ export default function TakeExamPage() {
       };
 
       await submitExam(examId, payload);
-      alert("Exam submitted successfully!");
+      router.push(`/student/exam-result/${examId}`);
     } catch (error) {
       console.error("Submit exam failed:", error);
       alert("Failed to submit exam. Please try again.");
@@ -161,7 +164,7 @@ export default function TakeExamPage() {
             ))}
           </div>
           <button
-            onClick={handleSubmit}
+            onClick={() => setIsOpen(true)}
             className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 hover:cursor-pointer"
           >
             Submit Exam
@@ -196,6 +199,14 @@ export default function TakeExamPage() {
           </div>
         </aside>
       </div>
+
+      <MessageModal
+        isOpen={isOpen}
+        onClose={() => setIsOpen(false)}
+        onOk={handleSubmit}
+        title="Submit exam?"
+        message="Are you sure you want to submit this exam? Once submitted, you cannot change your answers."
+      />
     </div>
   );
-};
+}

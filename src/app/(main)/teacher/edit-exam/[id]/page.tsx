@@ -16,7 +16,7 @@ import QuestionListItem from "@/components/QuestionList";
 export default function EditExamPage() {
   const params = useParams<{ id: string }>();
   const router = useRouter();
-  const { getExamInfo, updateExamQuestions } = useExamStore();
+  const { getExamInfo, updateExamQuestions, updateExamInfo } = useExamStore();
   const { getAllQuestions } = useQuestionStore();
   const [exam, setExam] = useState<ExamInfo>();
   const [questions, setQuestions] = useState<QuestionDTO[]>([]);
@@ -97,6 +97,30 @@ export default function EditExamPage() {
     }
   };
 
+  const handleUpdateExamInfo = async (data: {
+    title?: string;
+    description?: string;
+    startTime?: Date;
+    duration?: number;
+  }) => {
+    try {
+      await updateExamInfo(
+        params.id,
+        data.title,
+        data.description,
+        data.startTime,
+        data.duration,
+      );
+      setToastMessage("Exam information updated");
+      setToastType("success");
+      await fetchExamInfo();
+    } catch (error) {
+      console.error("Error updating exam info:", error);
+      setToastMessage("Failed to update exam information");
+      setToastType("error");
+    }
+  };
+
   const removeQuestion = (questionId: string) => {
     setQuestions(questions.filter((q) => q.id !== questionId));
     setToastMessage("Question removed");
@@ -171,7 +195,7 @@ export default function EditExamPage() {
       </div>
 
       {/* Exam Details Form */}
-      <ExamDetailsForm exam={exam} />
+      <ExamDetailsForm exam={exam} onSave={handleUpdateExamInfo} />
 
       {/* Questions Section */}
       <section className="mt-8">

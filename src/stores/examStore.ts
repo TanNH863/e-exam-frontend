@@ -20,6 +20,13 @@ interface InitialState {
   getExamInfo: (id: string) => Promise<ExamInfo>;
   deleteExam: (id: string) => Promise<void>;
   updateExamQuestions: (id: string, question_ids: string[], status: number) => Promise<{ message: string }>;
+  updateExamInfo: (
+    id: string,
+    title?: string,
+    description?: string,
+    startTime?: Date,
+    duration?: number,
+  ) => Promise<{ message: string; exam: Exam }>;
 }
 
 export const useExamStore = create<InitialState>((set) => ({
@@ -152,6 +159,38 @@ export const useExamStore = create<InitialState>((set) => ({
       
       const result = await response.json();
       set({ isLoading: false });
+      return result;
+    } catch (error: unknown) {
+      const msg = error instanceof Error ? error.message : "An unknown error occurred";
+      set({ error: msg, isLoading: false });
+      throw error;
+    }
+  },
+  updateExamInfo: async (id, title, description, startTime, duration) => {
+    set({ isLoading: true, error: null });
+    try {
+      const response = await apiFetch(`/exam/${id}`, {
+        method: "PUT",
+        body: JSON.stringify({
+          title,
+          description,
+          start_time: startTime,
+          duration_minutes: duration,
+        }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Failed to update exam info");
+      }
+
+      const result = await response.json();
+      set((state) => ({
+        exams: state.exams.map((exam) =>
+          exam.id === id ? { ...exam, ...result.exam } : exam
+        ),
+        isLoading: false,
+      }));
       return result;
     } catch (error: unknown) {
       const msg = error instanceof Error ? error.message : "An unknown error occurred";

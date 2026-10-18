@@ -1,14 +1,11 @@
 "use client";
 
+import { Suspense } from "react";
 import AuthProvider from "@/components/AuthProvider";
 import TopNavigationBar from "@/components/TopNavigationBar";
 import { usePathname } from "next/navigation";
 
-export default function MainLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+function MainNavigation() {
   const pathname = usePathname();
 
   const getNavLinks = () => {
@@ -65,9 +62,19 @@ export default function MainLayout({
     return [];
   };
 
+  return <TopNavigationBar navLinks={getNavLinks()} />;
+}
+
+export default function MainLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <div className="min-h-screen bg-gray-100">
-      <TopNavigationBar navLinks={getNavLinks()} />
+      <Suspense fallback={<TopNavigationBar navLinks={[]} />}>
+        <MainNavigation />
+      </Suspense>
       <AuthProvider>
         <main className="py-10">
           <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">

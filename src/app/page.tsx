@@ -1,7 +1,14 @@
 import { BookOpenIcon } from "@/icons/icons";
 import Link from "next/link";
 
-export default function LandingPage() {
+async function getCurrentYear() {
+  "use cache";
+  return new Date().getFullYear();
+}
+
+export default async function LandingPage() {
+  const currentYear = await getCurrentYear();
+
   return (
     <div className="flex min-h-screen flex-col bg-gray-50">
       {/* Header */}
@@ -55,7 +62,7 @@ export default function LandingPage() {
       <footer className="bg-gray-100 py-8">
         <div className="container mx-auto px-6 text-center text-sm text-gray-500">
           <p>
-            &copy; {new Date().getFullYear()} ExamPlatform. All rights reserved.
+            &copy; {currentYear} ExamPlatform. All rights reserved.
           </p>
         </div>
       </footer>

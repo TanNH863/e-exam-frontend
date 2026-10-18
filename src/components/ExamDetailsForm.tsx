@@ -69,7 +69,7 @@ export default function ExamDetailsForm({ exam, onSave }: Props) {
                   <input
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
-                    className="ml-2 w-full rounded border px-2 py-1"
+                    className="ml-2 w-full rounded border px-2 py-1 text-black"
                     placeholder="Exam title"
                   />
                 </div>
@@ -86,7 +86,7 @@ export default function ExamDetailsForm({ exam, onSave }: Props) {
                   type="datetime-local"
                   value={startTime}
                   onChange={(e) => setStartTime(e.target.value)}
-                  className="ml-2 rounded border px-2 py-1"
+                  className="ml-2 rounded border px-2 py-1 text-black"
                 />
               </div>
             </div>
@@ -102,7 +102,7 @@ export default function ExamDetailsForm({ exam, onSave }: Props) {
                   min={1}
                   value={duration}
                   onChange={(e) => setDuration(e.target.value)}
-                  className="ml-2 w-24 rounded border px-2 py-1"
+                  className="ml-2 w-24 rounded border px-2 py-1 text-black"
                 />
               </div>
             </div>
@@ -116,7 +116,7 @@ export default function ExamDetailsForm({ exam, onSave }: Props) {
                 <textarea
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
-                  className="ml-2 w-full rounded border px-2 py-1"
+                  className="ml-2 w-full rounded border px-2 py-1 text-black"
                   rows={3}
                   placeholder="Description"
                 />

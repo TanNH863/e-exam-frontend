@@ -11,6 +11,8 @@ export default function StudentDashboard() {
   // const { logout } = useAuthStore();
   // const router = useRouter();
   const { exams, getAllExams } = useExamStore();
+  const upcomingExams = exams.filter((exam) => exam.status === 2);
+  const completedExams = exams.filter((exam) => exam.status === 3);
 
   useEffect(() => {
     getAllExams();

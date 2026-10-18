@@ -3,6 +3,9 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Exam } from "@/dto/exam.dto";
+import { useSubmissionStore } from "@/stores/submissionStore";
+import { useUserStore } from "@/stores/userStore";
+import { useAuthStore } from "@/stores/authStore";
 import { CalendarIcon, ClipboardListIcon, ClockIcon } from "@/icons/icons";
 import { getTimeDisplay } from "@/utils/date";
 import ConfirmModal from "@/components/ConfirmModal";
@@ -13,6 +16,10 @@ interface Props {
 
 export default function UpcomingExamCard({ examInfo }: Props) {
 	const router = useRouter();
+	const user = useAuthStore((state) => state.user);
+	const getUserInfo = useUserStore((state) => state.getUserInfo);
+	const { start } = useSubmissionStore();
+	const [studentId, setStudentId] = useState("");
 	const [confirmOpen, setConfirmOpen] = useState(false);
 	const [selectedExam, setSelectedExam] = useState<Exam | null>(null);
 	const [countdown, setCountdown] = useState<string>("");
@@ -47,6 +54,25 @@ export default function UpcomingExamCard({ examInfo }: Props) {
 
 		return () => clearInterval(interval);
 	}, [examInfo.startTime]);
+
+	useEffect(() => {
+		const getStudentId = async () => {
+			if (!user?.id) {
+				setStudentId("");
+				return;
+			}
+
+			try {
+				const student = await getUserInfo(user.id);
+				setStudentId(student.id);
+			} catch (error) {
+				console.error("Failed to fetch student information:", error);
+			}
+		};
+
+		getStudentId();
+	}, [user?.id, getUserInfo]);
+
 	const getExamStatus = (startTime: string | Date, duration: number) => {
 		const now = new Date();
 		const start = new Date(startTime);
@@ -119,6 +145,7 @@ export default function UpcomingExamCard({ examInfo }: Props) {
 													setSelectedExam(examInfo);
 													setConfirmOpen(true);
 												}}
+												disabled={!studentId}
 												className="rounded-lg bg-blue-600 px-5 py-2.5 text-sm font-medium text-white shadow-md transition-all hover:bg-blue-700 hover:cursor-pointer focus:outline-none focus:ring-4 focus:ring-blue-300"
 											>
 												Start Exam
@@ -136,6 +163,7 @@ export default function UpcomingExamCard({ examInfo }: Props) {
 												}}
 												onConfirm={() => {
 													setConfirmOpen(false);
+													start(examInfo.id, studentId);
 													// navigate to take exam page
 													router.push(`/student/take-exam/${examInfo.id}`);
 												}}

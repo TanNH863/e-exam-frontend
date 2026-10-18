@@ -12,6 +12,14 @@ export interface Submission {
 	complete: boolean;
 }
 
+export interface StartExamResponse {
+	submissionId: string;
+	examId: string;
+	studentId: string;
+	startedAt: Date;
+	endsAt: Date;
+}
+
 export interface SubmissionResponse {
 	id: string;
 	examId: string;

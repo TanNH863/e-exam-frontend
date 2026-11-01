@@ -1,12 +1,12 @@
 import { create } from "zustand";
 import { apiFetch } from "@/utils/fetcher";
-import { Submission, SubmissionResponse } from "@/dto/submission.dto";
+import { StartExamResponse, Submission, SubmissionResponse } from "@/dto/submission.dto";
 
 interface InitialState {
 	submissions: SubmissionResponse[];
 	error: string | null;
 	isLoading: boolean;
-	start: (examId: string, studentId: string) => Promise<void>;
+	start: (examId: string, studentId: string) => Promise<StartExamResponse>;
 	submitExam: (examId: string, submission: Submission) => Promise<SubmissionResponse>;
 }
 
@@ -27,11 +27,9 @@ export const useSubmissionStore = create<InitialState>((set) => ({
 				throw new Error(errorData.message || "Failed to start exam");
 			}
 
-			const submissionResponse: SubmissionResponse = await response.json();
-			set((state) => ({
-				submissions: [...state.submissions, submissionResponse],
-				isLoading: false,
-			}));
+			const submissionResponse: StartExamResponse = await response.json();
+			set({ isLoading: false });
+			return submissionResponse;
 		} catch (error: unknown) {
 			const msg = error instanceof Error ? error.message : "An unknown error occurred";
 			set({ error: msg, isLoading: false });

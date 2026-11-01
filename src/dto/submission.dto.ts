@@ -13,11 +13,21 @@ export interface Submission {
 }
 
 export interface StartExamResponse {
-	submissionId: string;
+	id: string;
 	examId: string;
 	studentId: string;
-	startedAt: Date;
-	endsAt: Date;
+	startedAt: string;
+	endsAt: string;
+	serverTime: string;
+	remainingSeconds: number;
+}
+
+export interface TimerSnapshot {
+	submissionId: string;
+	examId: string;
+	endsAt: string;
+	serverTime: string;
+	remainingSeconds: number;
 }
 
 export interface SubmissionResponse {

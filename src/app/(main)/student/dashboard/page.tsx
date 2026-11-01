@@ -1,9 +1,9 @@
 "use client";
 
 import { useEffect } from "react";
-import { CheckCircleIcon } from "@/icons/icons";
 import { useExamStore } from "@/stores/examStore";
 import UpcomingExamsSection from "@/components/UpcomingExamsSection";
+import PastExamsSection from "@/components/PastExamsSection";
 // import { useRouter } from "next/navigation";
 // import { useAuthStore } from "@/stores/authStore";
 
@@ -23,21 +23,6 @@ export default function StudentDashboard() {
   //   router.push("/login");
   // };
 
-  const mockCompletedExams = [
-    {
-      id: 3,
-      title: "Physics 101 - Quiz 1",
-      date: "November 1, 2025",
-      score: 88,
-    },
-    {
-      id: 4,
-      title: "English Literature - Essay",
-      date: "October 28, 2025",
-      score: 92,
-    },
-  ];
-
   return (
     <>
       {/* Page Title */}
@@ -50,7 +35,7 @@ export default function StudentDashboard() {
         <h2 className="text-2xl font-semibold text-gray-900">
           Upcoming Exams
         </h2>
-        <UpcomingExamsSection data={exams} />
+        <UpcomingExamsSection data={upcomingExams} />
       </section>
 
       {/* Completed Exams Section */}
@@ -58,42 +43,7 @@ export default function StudentDashboard() {
         <h2 className="text-2xl font-semibold text-gray-900">
           Completed Exams
         </h2>
-        <div className="mt-4 overflow-hidden rounded-xl bg-white shadow-lg">
-          <ul role="list" className="divide-y divide-gray-200">
-            {mockCompletedExams.map((exam) => (
-              <li
-                key={exam.id}
-                className="flex flex-col items-start justify-between p-6 sm:flex-row sm:items-center">
-                <div className="flex min-w-0 flex-1 items-center">
-                  <CheckCircleIcon />
-                  <div className="min-w-0 flex-1 px-4">
-                    <p className="truncate text-base font-medium text-gray-900">
-                      {exam.title}
-                    </p>
-                    <p className="truncate text-sm text-gray-500">
-                      Completed on {exam.date}
-                    </p>
-                  </div>
-                </div>
-                <div className="mt-4 flex flex-shrink-0 sm:mt-0 sm:ml-5">
-                  <div className="flex items-baseline space-x-1">
-                    <span className="text-3xl font-bold text-gray-900">
-                      {exam.score}
-                    </span>
-                    <span className="text-lg font-medium text-gray-500">
-                      / 100
-                    </span>
-                  </div>
-                  <a
-                    href="#"
-                    className="ml-6 flex items-center rounded-lg bg-white px-4 py-2 text-sm font-medium text-blue-600 ring-1 ring-inset ring-blue-300 transition-all hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                    Review
-                  </a>
-                </div>
-              </li>
-            ))}
-          </ul>
-        </div>
+        <PastExamsSection data={completedExams} />
       </section>
     </>
   );
